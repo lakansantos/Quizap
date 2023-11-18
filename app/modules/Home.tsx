@@ -9,13 +9,25 @@ const Home = (props: Props) => {
   return (
     <div>
       {data.map((item, key) => {
+        const {question, correctAnswer, incorrectAnswers} = item;
+
+        const choices = [correctAnswer, ...incorrectAnswers];
         return (
           <div key={key}>
-            <ul>
-              <li>{item.category}</li>
-              <li>{item.question.text}</li>
-              <li>{item.difficulty}</li>
-            </ul>
+            <div>
+              <h1>
+                {key + 1} {question.text}
+              </h1>
+              <div>
+                {choices.map((choice, key) => {
+                  return (
+                    <p key={key}>{`${String.fromCharCode(
+                      65 + key
+                    )}. ${choice}`}</p>
+                  );
+                })}
+              </div>
+            </div>
           </div>
         );
       })}
