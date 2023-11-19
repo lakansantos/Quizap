@@ -4,17 +4,15 @@ import React, {useEffect, useState} from "react";
 type Props = {
   data: QuestionsData[];
 };
+
 const Home = (props: Props) => {
   const {data} = props;
 
   const [clickedItem, setClickedItem] = useState<string | null>(null);
   const [score, setScore] = useState<number>(0);
   const [getCorrectAnswer, setCorrectAnswer] = useState<string | null>(null);
-
   const [currentItem, setCurrentItem] = useState(0);
-
   const [isSubmitted, setIsSubmitted] = useState(false);
-
   const [isFinished, setIsFinished] = useState(false);
 
   const handleChange = (
@@ -26,26 +24,32 @@ const Home = (props: Props) => {
     setCorrectAnswer(correctAnswer);
   };
 
-  useEffect(() => {
-    if (!!clickedItem && isSubmitted && getCorrectAnswer === clickedItem) {
-      setScore((prevScore) => prevScore + 1);
-    }
-  }, [clickedItem, getCorrectAnswer, isSubmitted]);
-
   const slicedData = [data[currentItem]];
-
-  const lastItem = currentItem === data.length - 1;
 
   const handleSubmit = () => {
     setIsSubmitted(true);
+
     setCurrentItem(currentItem + 1);
-    setClickedItem(null);
+    const lastItem = currentItem === data.length - 1;
 
     if (lastItem) {
       setCurrentItem(currentItem);
       setIsFinished(true);
     }
   };
+
+  useEffect(() => {
+    if (isSubmitted && !!clickedItem && getCorrectAnswer === clickedItem) {
+      setScore((prev) => prev + 1);
+      setClickedItem(null);
+      setIsSubmitted(false);
+      console.log("truer");
+    }
+  }, [isSubmitted, getCorrectAnswer, clickedItem]);
+
+  useEffect(() => {
+    setIsSubmitted(false);
+  }, [currentItem]);
 
   return (
     <React.Fragment>
@@ -56,9 +60,11 @@ const Home = (props: Props) => {
             const {question, correctAnswer, incorrectAnswers} = item;
 
             const choices = [correctAnswer, ...incorrectAnswers];
+
             return (
               <div key={index}>
                 <div>
+                  <p>{correctAnswer}</p>
                   <h1>
                     {currentItem + 1}. {question.text}
                   </h1>
@@ -73,7 +79,9 @@ const Home = (props: Props) => {
                           className={`p-4 h-[100px] bg-red-500 flex items-center hover:cursor-pointer ${
                             clickedItem === choices[key] ? "clicked" : ""
                           }`}
-                        >{`${String.fromCharCode(65 + key)}. ${choice}`}</div>
+                        >
+                          {`${String.fromCharCode(65 + key)}. ${choice}`}
+                        </div>
                       );
                     })}
                   </div>
