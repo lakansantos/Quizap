@@ -43,7 +43,6 @@ const Home = (props: Props) => {
       setScore((prev) => prev + 1);
       setClickedItem(null);
       setIsSubmitted(false);
-      console.log("truer");
     }
   }, [isSubmitted, getCorrectAnswer, clickedItem]);
 
@@ -57,9 +56,7 @@ const Home = (props: Props) => {
         <div>
           <p>score: {score}</p>
           {slicedData.map((item, index) => {
-            const {question, correctAnswer, incorrectAnswers} = item;
-
-            const choices = [correctAnswer, ...incorrectAnswers];
+            const {question, correctAnswer, choices} = item;
 
             return (
               <div key={index}>

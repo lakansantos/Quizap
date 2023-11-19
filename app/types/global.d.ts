@@ -9,4 +9,5 @@ type QuestionsData = {
   correctAnswer: string;
   incorrectAnswers: string[];
   type: string;
+  choices: string[];
 };
