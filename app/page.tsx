@@ -3,8 +3,8 @@ import Home from "./modules/Home";
 
 export default async function Page() {
   const params = {
-    categories: "science",
     difficulties: "easy",
+    categories: "science",
   };
   const data = await useGetRandomQuestions(params);
 
