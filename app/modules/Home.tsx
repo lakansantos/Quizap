@@ -54,14 +54,12 @@ const Home = (props: Props) => {
     <React.Fragment>
       {!isFinished ? (
         <div>
-          <p>score: {score}</p>
           {slicedData.map((item, index) => {
             const {question, correctAnswer, choices} = item;
 
             return (
               <div key={index}>
                 <div>
-                  <p>{correctAnswer}</p>
                   <h1>
                     {currentItem + 1}. {question.text}
                   </h1>
