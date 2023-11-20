@@ -19,6 +19,7 @@ const Quizzes = (props: QuizzesPropsType) => {
   const {actions, states} = props;
   const {handleChange, handleSubmit} = actions;
   const {data, currentItem, clickedItem} = states;
+
   return (
     <div>
       {data.map((item, index) => {

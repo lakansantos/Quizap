@@ -1,7 +1,14 @@
 import React from "react";
 
-const Finish = () => {
-  return <div>Finish</div>;
+const Finish = ({score}: {score: number}) => {
+  return (
+    <div>
+      <h1>Congrats!</h1>
+      <p>{score}</p>
+      <p>Start again? </p>
+      <button onClick={() => window.location.replace("/")}>Play</button>
+    </div>
+  );
 };
 
 export default Finish;

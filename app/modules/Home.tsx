@@ -1,6 +1,8 @@
 "use client";
 import React, {useEffect, useState} from "react";
 import Quizzes from "./Quizzes";
+import Start from "./Start";
+import Finish from "./Finish";
 
 type Props = {
   data: QuestionsData[];
@@ -15,6 +17,8 @@ const Home = (props: Props) => {
   const [currentItem, setCurrentItem] = useState(0);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isFinished, setIsFinished] = useState(false);
+
+  const [started, setStarted] = useState(false);
 
   const handleChange = (
     choices: string[],
@@ -63,13 +67,12 @@ const Home = (props: Props) => {
   };
   return (
     <React.Fragment>
-      {!isFinished ? (
+      {!started ? (
+        <Start setStarted={setStarted} />
+      ) : !isFinished && started ? (
         <Quizzes actions={actions} states={states} />
       ) : (
-        <div>
-          <h1>Congrats!</h1>
-          <p>{score}</p>
-        </div>
+        isFinished && <Finish score={score} />
       )}
     </React.Fragment>
   );
