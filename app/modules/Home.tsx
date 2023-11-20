@@ -1,5 +1,6 @@
 "use client";
 import React, {useEffect, useState} from "react";
+import Quizzes from "./Quizzes";
 
 type Props = {
   data: QuestionsData[];
@@ -50,52 +51,20 @@ const Home = (props: Props) => {
     setIsSubmitted(false);
   }, [currentItem]);
 
+  const actions = {
+    handleChange,
+    handleSubmit,
+  };
+
+  const states = {
+    data: slicedData,
+    currentItem,
+    clickedItem,
+  };
   return (
     <React.Fragment>
       {!isFinished ? (
-        <div>
-          {slicedData.map((item, index) => {
-            const {question, correctAnswer, choices} = item;
-
-            return (
-              <div key={index}>
-                <div>
-                  <h1>
-                    {currentItem + 1}. {question.text}
-                  </h1>
-                  <div className="flex flex-col gap-2">
-                    {choices.map((choice, key) => {
-                      return (
-                        <div
-                          key={key}
-                          onClick={() => {
-                            handleChange(choices, key, correctAnswer);
-                          }}
-                          className={`p-4 h-[100px] bg-red-500 flex items-center hover:cursor-pointer ${
-                            clickedItem === choices[key] ? "clicked" : ""
-                          }`}
-                        >
-                          {`${String.fromCharCode(65 + key)}. ${choice}`}
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-          <div>
-            <button
-              className={`bg-green-400 p-4 font-medium text-white ${
-                !clickedItem ? "disabled-button" : ""
-              }`}
-              disabled={!clickedItem}
-              onClick={handleSubmit}
-            >
-              Submit
-            </button>
-          </div>
-        </div>
+        <Quizzes actions={actions} states={states} />
       ) : (
         <div>
           <h1>Congrats!</h1>
