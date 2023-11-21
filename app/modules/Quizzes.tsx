@@ -13,12 +13,13 @@ type QuizzesPropsType = {
     data: QuestionsData[];
     currentItem: number;
     clickedItem: string | null;
+    playerName: string;
   };
 };
 const Quizzes = (props: QuizzesPropsType) => {
   const {actions, states} = props;
   const {handleChange, handleSubmit} = actions;
-  const {data, currentItem, clickedItem} = states;
+  const {data, currentItem, clickedItem, playerName} = states;
 
   return (
     <div>
@@ -27,6 +28,7 @@ const Quizzes = (props: QuizzesPropsType) => {
 
         return (
           <div key={index}>
+            <div>{playerName}</div>
             <div>
               <h1>
                 {currentItem + 1}. {question.text}

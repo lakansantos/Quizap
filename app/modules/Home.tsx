@@ -19,6 +19,7 @@ const Home = (props: Props) => {
   const [isFinished, setIsFinished] = useState(false);
 
   const [started, setStarted] = useState(false);
+  const [playerName, setPlayerName] = useState("");
 
   const handleChange = (
     choices: string[],
@@ -64,17 +65,22 @@ const Home = (props: Props) => {
     data: slicedData,
     currentItem,
     clickedItem,
+    playerName,
   };
   return (
-    <React.Fragment>
+    <div className="h-[100vh]">
       {!started ? (
-        <Start setStarted={setStarted} />
+        <Start
+          setStarted={setStarted}
+          setPlayerName={setPlayerName}
+          playerName={playerName}
+        />
       ) : !isFinished && started ? (
         <Quizzes actions={actions} states={states} />
       ) : (
         isFinished && <Finish score={score} />
       )}
-    </React.Fragment>
+    </div>
   );
 };
 
