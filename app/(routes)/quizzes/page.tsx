@@ -1,6 +1,6 @@
 import React from "react";
-import Quizzes from "../modules/Quizzes";
-import {useGetRandomQuestions} from "../hooks/useGetRandomQuestions";
+import Quizzes from "../../modules/Quizzes";
+import {useGetRandomQuestions} from "../../hooks/useGetRandomQuestions";
 
 const Page = async ({
   searchParams,

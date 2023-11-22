@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import Finish from "../modules/Finish";
+import Finish from "../../modules/Finish";
 
 const page = ({searchParams}: {searchParams: {score: string}}) => {
   const {score} = searchParams;
