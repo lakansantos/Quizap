@@ -1,35 +1,66 @@
-import React from "react";
+"use client";
+import React, {useEffect, useState} from "react";
 
-type QuizzesPropsType = {
-  actions: {
-    handleChange: (
-      choices: string[],
-      key: number,
-      correctAnswer: string
-    ) => void;
-    handleSubmit: () => void;
-  };
-  states: {
-    data: QuestionsData[];
-    currentItem: number;
-    clickedItem: string | null;
-    playerName: string;
-  };
+import {useRouter} from "next/navigation";
+
+type Props = {
+  data: QuestionsData[];
 };
-const Quizzes = (props: QuizzesPropsType) => {
-  const {actions, states} = props;
-  const {handleChange, handleSubmit} = actions;
-  const {data, currentItem, clickedItem, playerName} = states;
+
+const Home = (props: Props) => {
+  const {data} = props;
+
+  const [clickedItem, setClickedItem] = useState<string | null>(null);
+  const [score, setScore] = useState<number>(0);
+  const [getCorrectAnswer, setCorrectAnswer] = useState<string | null>(null);
+  const [currentItem, setCurrentItem] = useState(0);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const handleChange = (
+    choices: string[],
+    key: number,
+    correctAnswer: string
+  ) => {
+    setClickedItem(choices[key]);
+    setCorrectAnswer(correctAnswer);
+  };
+
+  const slicedData = [data[currentItem]];
+
+  const router = useRouter();
+
+  const handleSubmit = () => {
+    setIsSubmitted(true);
+
+    setCurrentItem(currentItem + 1);
+    const lastItem = currentItem === data.length - 1;
+
+    if (lastItem) {
+      setCurrentItem(currentItem);
+      router.push(`/finished?score=${score}`);
+    }
+  };
+
+  useEffect(() => {
+    if (isSubmitted && !!clickedItem && getCorrectAnswer === clickedItem) {
+      setScore((prev) => prev + 1);
+      setClickedItem(null);
+      setIsSubmitted(false);
+    }
+  }, [isSubmitted, getCorrectAnswer, clickedItem]);
+
+  useEffect(() => {
+    setIsSubmitted(false);
+  }, [currentItem]);
 
   return (
-    <div>
-      {data.map((item, index) => {
+    <div className="h-[100vh]">
+      {slicedData.map((item, index) => {
         const {question, correctAnswer, choices, category} = item;
 
         return (
           <div key={index}>
             {category}
-            <div>{playerName}</div>
             <div>
               <h1>
                 {currentItem + 1}. {question.text}
@@ -70,4 +101,4 @@ const Quizzes = (props: QuizzesPropsType) => {
   );
 };
 
-export default Quizzes;
+export default Home;

@@ -1,16 +1,23 @@
 import Image from "next/image";
-import React from "react";
+import {useRouter} from "next/navigation";
+import React, {SyntheticEvent} from "react";
 const Start = ({
-  setProgress,
   setPlayerName,
   playerName,
 }: {
-  setProgress: (state: number) => void;
   setPlayerName: (state: string) => void;
   playerName: string;
 }) => {
+  const router = useRouter();
+  const handleSubmit = (e: SyntheticEvent) => {
+    e.preventDefault();
+    router.push("/choices");
+  };
   return (
-    <form className="flex w-full h-full justify-center items-center">
+    <form
+      className="flex w-full h-full justify-center items-center"
+      onSubmit={handleSubmit}
+    >
       <div className="flex justify-center items-center flex-col w-3/4 h-1/2 gap-7">
         <p className="text-4xl sm:text-6xl font-marhey font-semibold text-white text-center">
           Howdy, what&apos;s your name?
@@ -24,7 +31,7 @@ const Start = ({
           onChange={(e) => setPlayerName(e.currentTarget.value.trim())}
         />
         <button
-          onClick={() => setProgress(1)}
+          type="submit"
           disabled={!playerName}
           className={`bg-green-400 p-3 font-medium text-white w-full lg:w-1/2 ${
             !playerName ? "disabled-button" : ""
