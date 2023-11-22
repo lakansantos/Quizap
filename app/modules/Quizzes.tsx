@@ -24,10 +24,11 @@ const Quizzes = (props: QuizzesPropsType) => {
   return (
     <div>
       {data.map((item, index) => {
-        const {question, correctAnswer, choices} = item;
+        const {question, correctAnswer, choices, category} = item;
 
         return (
           <div key={index}>
+            {category}
             <div>{playerName}</div>
             <div>
               <h1>

@@ -1,11 +1,11 @@
 import Image from "next/image";
 import React from "react";
 const Start = ({
-  setStarted,
+  setProgress,
   setPlayerName,
   playerName,
 }: {
-  setStarted: (state: boolean) => void;
+  setProgress: (state: number) => void;
   setPlayerName: (state: string) => void;
   playerName: string;
 }) => {
@@ -24,7 +24,7 @@ const Start = ({
           onChange={(e) => setPlayerName(e.currentTarget.value.trim())}
         />
         <button
-          onClick={() => setStarted(true)}
+          onClick={() => setProgress(1)}
           disabled={!playerName}
           className={`bg-green-400 p-3 font-medium text-white w-full lg:w-1/2 ${
             !playerName ? "disabled-button" : ""

@@ -3,6 +3,7 @@ import React, {useEffect, useState} from "react";
 import Quizzes from "./Quizzes";
 import Start from "./Start";
 import Finish from "./Finish";
+import Choices from "./Choices";
 
 type Props = {
   data: QuestionsData[];
@@ -18,8 +19,14 @@ const Home = (props: Props) => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isFinished, setIsFinished] = useState(false);
 
-  const [started, setStarted] = useState(false);
+  const [progress, setProgress] = useState(0);
   const [playerName, setPlayerName] = useState("");
+
+  const params = {
+    categories: "science",
+    difficulty: "easy",
+    limit: 5,
+  };
 
   const handleChange = (
     choices: string[],
@@ -41,6 +48,7 @@ const Home = (props: Props) => {
     if (lastItem) {
       setCurrentItem(currentItem);
       setIsFinished(true);
+      setProgress(3);
     }
   };
 
@@ -69,16 +77,18 @@ const Home = (props: Props) => {
   };
   return (
     <div className="h-[100vh]">
-      {!started ? (
+      {progress === 0 ? (
         <Start
-          setStarted={setStarted}
+          setProgress={setProgress}
           setPlayerName={setPlayerName}
           playerName={playerName}
         />
-      ) : !isFinished && started ? (
+      ) : progress === 1 ? (
+        <Choices setProgress={setProgress} params={params} />
+      ) : progress === 2 ? (
         <Quizzes actions={actions} states={states} />
       ) : (
-        isFinished && <Finish score={score} />
+        progress === 3 && isFinished && <Finish score={score} />
       )}
     </div>
   );
