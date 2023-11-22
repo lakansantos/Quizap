@@ -9,7 +9,7 @@ const marhey = Marhey({
   display: "swap",
 });
 
-export const revalidate = 5;
+export const revalidate = 0;
 export const metadata: Metadata = {
   title: "Quizap",
   description: "A quiz web application",

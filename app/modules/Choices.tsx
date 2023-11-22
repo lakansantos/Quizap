@@ -16,8 +16,8 @@ const Choices = (props: ChoicesPropsType) => {
   const {difficulty, categories, limit} = params;
 
   const router = useRouter();
-  const handleSubmit = async () => {
-    await router.push(
+  const handleSubmit = () => {
+    router.push(
       `/?difficulty=${difficulty}&categories=${categories}&limit=${limit}`
     );
     setProgress(2);
