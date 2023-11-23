@@ -1,7 +1,8 @@
 "use client";
 
 import React from "react";
-import {useRouter} from "next/navigation";
+import {usePathname, useRouter} from "next/navigation";
+import {queryStringify} from "@/app/utils/http";
 
 const Choices = () => {
   const params = {
@@ -9,13 +10,13 @@ const Choices = () => {
     categories: "science",
     limit: 5,
   };
-  const {difficulty, categories, limit} = params;
 
+  const queryParams = queryStringify(params);
+  const pathname = usePathname();
+  console.log(pathname);
   const router = useRouter();
   const handleSubmit = () => {
-    router.push(
-      `/quizzes?difficulty=${difficulty}&categories=${categories}&limit=${limit}`
-    );
+    router.push("quizzes" + "?" + queryParams);
   };
   return (
     <div className="h-[100vh]">

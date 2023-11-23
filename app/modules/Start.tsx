@@ -13,6 +13,7 @@ const Start = ({
     e.preventDefault();
     router.push("/choices");
   };
+
   return (
     <form
       className="flex w-full h-full justify-center items-center"
@@ -22,7 +23,14 @@ const Start = ({
         <p className="text-4xl sm:text-6xl font-marhey font-semibold text-white text-center">
           Howdy, what&apos;s your name?
         </p>
-        <Image src="/welcome-guy.png" alt="guy" width={200} height={200} />
+        <Image
+          src="/welcome-guy.png"
+          alt="guy"
+          width={200}
+          height={200}
+          style={{height: "auto", width: "auto"}} //for console warning
+          priority
+        />
         <input
           type="text"
           id="nameInput"

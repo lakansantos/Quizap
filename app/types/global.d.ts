@@ -1,3 +1,6 @@
+type ParsedUrlQuery = import("querystring").ParsedUrlQuery;
+type ParsedUrlQueryInput = import("querystring").ParsedUrlQueryInput;
+
 type QuestionsData = {
   category: string;
   id: string;
