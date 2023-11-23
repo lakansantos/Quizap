@@ -2,6 +2,8 @@
 import React, {useEffect, useState} from "react";
 
 import {useRouter} from "next/navigation";
+import {queryStringify} from "../utils/http";
+import {ROUTE_PATH} from "../utils/routes";
 
 type Props = {
   data: QuestionsData[];
@@ -35,9 +37,11 @@ const Home = (props: Props) => {
     setCurrentItem(currentItem + 1);
     const lastItem = currentItem === data.length - 1;
 
+    const scoreToParams = queryStringify({score});
+
     if (lastItem) {
       setCurrentItem(currentItem);
-      router.push(`/finished?score=${score}`);
+      router.push(ROUTE_PATH.FINISH.OVERVIEW + "?" + scoreToParams);
     }
   };
 

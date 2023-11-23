@@ -2,25 +2,19 @@
 
 import React from "react";
 import {useRouter} from "next/navigation";
-type ChoicesPropsType = {
-  setProgress: (state: number) => void;
-  params: {
-    categories: string;
-    difficulty: string;
-    limit: number;
-  };
-};
-const Choices = (props: ChoicesPropsType) => {
-  const {setProgress, params} = props;
+import {queryStringify} from "../utils/http";
+import {ROUTE_PATH} from "../utils/routes";
 
-  const {difficulty, categories, limit} = params;
+type ChoicesProps = {
+  params: ParsedUrlQueryInput;
+};
+const Choices = (props: ChoicesProps) => {
+  const {params} = props;
+  const queryParams = queryStringify(params);
 
   const router = useRouter();
   const handleSubmit = () => {
-    router.push(
-      `/?difficulty=${difficulty}&categories=${categories}&limit=${limit}`
-    );
-    setProgress(2);
+    router.push(ROUTE_PATH.QUIZZES.OVERVIEW + "?" + queryParams);
   };
   return (
     <div>
