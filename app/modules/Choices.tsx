@@ -10,6 +10,7 @@ type ChoicesProps = {
 };
 const Choices = (props: ChoicesProps) => {
   const {params} = props;
+
   const queryParams = queryStringify(params);
 
   const router = useRouter();

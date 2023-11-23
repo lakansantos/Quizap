@@ -9,6 +9,7 @@ const Page = () => {
     difficulty: "easy",
     categories: "science",
     limit: 5,
+    test: "",
   };
 
   return (
