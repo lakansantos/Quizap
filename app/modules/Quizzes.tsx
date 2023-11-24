@@ -31,18 +31,12 @@ const Home = (props: Props) => {
 
   const router = useRouter();
 
+  const scoreToParams = queryStringify({score});
+  const finished = currentItem === data.length;
+
   const handleSubmit = () => {
     setIsSubmitted(true);
-
     setCurrentItem(currentItem + 1);
-    const lastItem = currentItem === data.length - 1;
-
-    const scoreToParams = queryStringify({score});
-
-    if (lastItem) {
-      setCurrentItem(currentItem);
-      router.push(ROUTE_PATH.FINISH.OVERVIEW + "?" + scoreToParams);
-    }
   };
 
   useEffect(() => {
@@ -55,53 +49,64 @@ const Home = (props: Props) => {
 
   useEffect(() => {
     setIsSubmitted(false);
+    setClickedItem(null);
   }, [currentItem]);
 
-  return (
-    <div className="h-[100vh]">
-      {slicedData.map((item, index) => {
-        const {question, correctAnswer, choices, category} = item;
+  useEffect(() => {
+    if (finished) {
+      setCurrentItem(currentItem);
 
-        return (
-          <div key={index}>
-            {category}
-            <div>
-              <h1>
-                {currentItem + 1}. {question.text}
-              </h1>
-              <div className="flex flex-col gap-2">
-                {choices.map((choice, key) => {
-                  return (
-                    <div
-                      key={key}
-                      onClick={() => {
-                        handleChange(choices, key, correctAnswer);
-                      }}
-                      className={`p-4 h-[100px] bg-red-500 flex items-center hover:cursor-pointer ${
-                        clickedItem === choices[key] ? "clicked" : ""
-                      }`}
-                    >
-                      {`${String.fromCharCode(65 + key)}. ${choice}`}
-                    </div>
-                  );
-                })}
+      router.push(ROUTE_PATH.FINISH.OVERVIEW + "?" + scoreToParams);
+    }
+  }, [currentItem, finished, router, scoreToParams]);
+
+  return (
+    currentItem < data.length && (
+      <div className="h-[100vh]">
+        {slicedData.map((item, index) => {
+          const {question, correctAnswer, choices, category} = item;
+
+          return (
+            <div key={index}>
+              {category}
+              <div>
+                <h1>
+                  {currentItem + 1}. {question.text}
+                </h1>
+                <div className="flex flex-col gap-2">
+                  {choices.map((choice, key) => {
+                    return (
+                      <div
+                        key={key}
+                        onClick={() => {
+                          handleChange(choices, key, correctAnswer);
+                        }}
+                        className={`p-4 h-[100px] bg-red-500 flex items-center hover:cursor-pointer ${
+                          clickedItem === choices[key] ? "clicked" : ""
+                        }`}
+                      >
+                        {`${String.fromCharCode(65 + key)}. ${choice}`}
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
             </div>
-          </div>
-        );
-      })}
-      <div>
-        <button
-          className={`bg-green-400 p-4 font-medium text-white ${
-            !clickedItem ? "disabled-button" : ""
-          }`}
-          disabled={!clickedItem}
-          onClick={handleSubmit}
-        >
-          Submit
-        </button>
+          );
+        })}
+        <div>
+          <button
+            className={`bg-green-400 p-4 font-medium text-white ${
+              !clickedItem ? "disabled-button" : ""
+            }`}
+            disabled={!clickedItem}
+            onClick={handleSubmit}
+          >
+            Submit
+          </button>
+        </div>
       </div>
-    </div>
+    )
   );
 };
 
