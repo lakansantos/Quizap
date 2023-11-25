@@ -1,14 +1,11 @@
-"use client";
-import React, {useState} from "react";
+import React from "react";
 
 import Start from "./Start/Start";
 
 const Home = () => {
-  const [playerName, setPlayerName] = useState("");
-
   return (
     <div className="h-[100vh]">
-      <Start setPlayerName={setPlayerName} playerName={playerName} />
+      <Start />
     </div>
   );
 };

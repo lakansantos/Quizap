@@ -1,14 +1,12 @@
+"use client";
+
+import {useScoreContext} from "@/app/contexts/ScoreContext";
 import Image from "next/image";
 import {useRouter} from "next/navigation";
 import React, {SyntheticEvent} from "react";
-const Start = ({
-  setPlayerName,
-  playerName,
-}: {
-  setPlayerName: (state: string) => void;
-  playerName: string;
-}) => {
+const Start = () => {
   const router = useRouter();
+  const {playerName, setPlayerName} = useScoreContext();
   const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
     router.push("/choices");
