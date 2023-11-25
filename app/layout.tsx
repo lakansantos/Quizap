@@ -1,6 +1,7 @@
 import type {Metadata} from "next";
 import {Marhey} from "next/font/google";
 import "./globals.css";
+import {ScoreProvider} from "./contexts/ScoreContext";
 
 const marhey = Marhey({
   weight: ["400", "700"],
@@ -18,7 +19,9 @@ export const metadata: Metadata = {
 export default function RootLayout({children}: {children: React.ReactNode}) {
   return (
     <html lang="en">
-      <body className={marhey.className}>{children}</body>
+      <body className={marhey.className}>
+        <ScoreProvider>{children}</ScoreProvider>
+      </body>
     </html>
   );
 }

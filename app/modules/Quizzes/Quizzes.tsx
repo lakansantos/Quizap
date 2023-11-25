@@ -4,6 +4,7 @@ import React, {useEffect, useState} from "react";
 import {useRouter} from "next/navigation";
 import {queryStringify} from "../../utils/http";
 import {ROUTE_PATH} from "../../utils/routes";
+import {useScoreContext} from "@/app/contexts/ScoreContext";
 
 type Props = {
   data: QuestionsData[];
@@ -12,8 +13,10 @@ type Props = {
 const Quizzes = (props: Props) => {
   const {data} = props;
 
+  const {score, setScore} = useScoreContext();
+
   const [clickedItem, setClickedItem] = useState<string | null>(null);
-  const [score, setScore] = useState<number>(0);
+
   const [getCorrectAnswer, setCorrectAnswer] = useState<string | null>(null);
   const [currentItem, setCurrentItem] = useState(0);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -45,7 +48,7 @@ const Quizzes = (props: Props) => {
       setClickedItem(null);
       setIsSubmitted(false);
     }
-  }, [isSubmitted, getCorrectAnswer, clickedItem]);
+  }, [isSubmitted, getCorrectAnswer, clickedItem, setScore]);
 
   useEffect(() => {
     setIsSubmitted(false);
