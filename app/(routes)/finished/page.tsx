@@ -3,11 +3,10 @@
 import React from "react";
 import Finish from "../../modules/Finish/Finish";
 
-const page = ({searchParams}: {searchParams: {score: string}}) => {
-  const {score} = searchParams;
+const page = () => {
   return (
     <div className="h-[100vh]">
-      <Finish score={Number(score)} />
+      <Finish />
     </div>
   );
 };

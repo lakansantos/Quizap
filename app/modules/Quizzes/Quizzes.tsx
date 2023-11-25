@@ -2,7 +2,7 @@
 import React, {useEffect, useState} from "react";
 
 import {useRouter} from "next/navigation";
-import {queryStringify} from "../../utils/http";
+
 import {ROUTE_PATH} from "../../utils/routes";
 import {useScoreContext} from "@/app/contexts/ScoreContext";
 
@@ -13,7 +13,7 @@ type Props = {
 const Quizzes = (props: Props) => {
   const {data} = props;
 
-  const {score, setScore} = useScoreContext();
+  const {setScore} = useScoreContext();
 
   const [clickedItem, setClickedItem] = useState<string | null>(null);
 
@@ -34,7 +34,6 @@ const Quizzes = (props: Props) => {
 
   const router = useRouter();
 
-  const scoreToParams = queryStringify({score});
   const finished = currentItem === data.length;
 
   const handleSubmit = () => {
@@ -59,9 +58,9 @@ const Quizzes = (props: Props) => {
     if (finished) {
       setCurrentItem(currentItem);
 
-      router.push(ROUTE_PATH.FINISH.OVERVIEW + "?" + scoreToParams);
+      router.push(ROUTE_PATH.FINISH.OVERVIEW);
     }
-  }, [currentItem, finished, router, scoreToParams]);
+  }, [currentItem, finished, router]);
 
   return currentItem < data.length ? (
     <div className="h-[100vh]">
@@ -71,6 +70,7 @@ const Quizzes = (props: Props) => {
         return (
           <div key={index}>
             {category}
+            {correctAnswer}
             <div>
               <h1>
                 {currentItem + 1}. {question.text}

@@ -1,6 +1,9 @@
+import {useScoreContext} from "@/app/contexts/ScoreContext";
 import React from "react";
 
-const Finish = ({score}: {score: number}) => {
+const Finish = () => {
+  const {score} = useScoreContext();
+
   return (
     <div>
       <h1>Congrats!</h1>
