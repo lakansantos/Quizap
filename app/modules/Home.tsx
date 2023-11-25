@@ -1,7 +1,7 @@
 "use client";
 import React, {useState} from "react";
 
-import Start from "./Start";
+import Start from "./Start/Start";
 
 const Home = () => {
   const [playerName, setPlayerName] = useState("");

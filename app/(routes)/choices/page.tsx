@@ -2,7 +2,7 @@
 
 import React from "react";
 
-import Choices from "@/app/modules/Choices";
+import Choices from "@/app/modules/Choices/Choices";
 
 const Page = () => {
   const params = {

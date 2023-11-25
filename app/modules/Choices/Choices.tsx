@@ -2,8 +2,8 @@
 
 import React from "react";
 import {useRouter} from "next/navigation";
-import {queryStringify} from "../utils/http";
-import {ROUTE_PATH} from "../utils/routes";
+import {queryStringify} from "../../utils/http";
+import {ROUTE_PATH} from "../../utils/routes";
 
 type ChoicesProps = {
   params: ParsedUrlQueryInput;
