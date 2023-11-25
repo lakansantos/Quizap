@@ -9,7 +9,7 @@ type Props = {
   data: QuestionsData[];
 };
 
-const Home = (props: Props) => {
+const Quizzes = (props: Props) => {
   const {data} = props;
 
   const [clickedItem, setClickedItem] = useState<string | null>(null);
@@ -110,4 +110,4 @@ const Home = (props: Props) => {
   );
 };
 
-export default Home;
+export default Quizzes;
