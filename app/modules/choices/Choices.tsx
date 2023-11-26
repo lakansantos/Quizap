@@ -58,8 +58,6 @@ const Choices = (props: ChoicesProps) => {
       </div>
       <div className="h-1/3">
         <h2>Select number of items</h2>
-      </div>
-      <div>
         <button onClick={handleSubmit}>Submit</button>
       </div>
     </div>

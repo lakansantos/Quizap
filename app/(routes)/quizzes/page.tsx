@@ -14,7 +14,7 @@ const Page = async ({
   const data = await useGetRandomQuestions(searchParams);
 
   return (
-    <div className="h-[100vh]">
+    <div className="h-screen">
       <Quizzes data={data} />
     </div>
   );

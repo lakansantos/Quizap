@@ -63,7 +63,7 @@ const Quizzes = (props: Props) => {
   }, [currentItem, finished, router]);
 
   return currentItem < data.length ? (
-    <div className="h-[100vh]">
+    <div className="h-screen">
       {slicedData.map((item, index) => {
         const {question, correctAnswer, choices, category} = item;
 
@@ -108,7 +108,7 @@ const Quizzes = (props: Props) => {
       </div>
     </div>
   ) : (
-    <div className="h-[100vh]">Loading ...</div>
+    <div className="h-screen">Loading ...</div>
   );
 };
 
