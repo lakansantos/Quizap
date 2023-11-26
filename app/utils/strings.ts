@@ -16,3 +16,56 @@ export const DIFFICULTIES = {
   medium: "Medium",
   hard: "Hard",
 };
+
+export const categoriesItems = [
+  {
+    category: "Music",
+    image_src: "/categories/music-icon.png",
+    alt: "music",
+  },
+  {
+    category: "Sports and Leisure",
+    image_src: "/categories/sports-and-leisure-icon.png",
+    alt: "sports and leisure",
+  },
+  {
+    category: "Film and TV",
+    image_src: "/categories/film-and-tv-icon.png",
+    alt: "Film and TV",
+  },
+  {
+    category: "Arts and Literature",
+    image_src: "/categories/arts-and-literature-icon.png",
+    alt: "arts and literature",
+  },
+  {
+    category: "History",
+    image_src: "/categories/history-icon.png",
+    alt: "history",
+  },
+  {
+    category: "Society and Culture",
+    image_src: "/categories/society-and-culture-icon.png",
+    alt: "society and culture",
+  },
+  {
+    category: "Science",
+    image_src: "/categories/science-icon.png",
+    alt: "science",
+  },
+  {
+    category: "Geography",
+    image_src: "/categories/geography-icon.png",
+    alt: "geography",
+  },
+  {
+    category: "Food and Drink",
+    image_src: "/categories/food-and-drink-icon.png",
+    alt: "food and drink",
+  },
+  {
+    category: "General Knowledge",
+    image_src: "/categories/general-knowledge-icon.png",
+    alt: "general knowledge",
+  },
+];
