@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import Finish from "../../modules/Finish/Finish";
+import Finish from "@/app/modules/finish/Finish";
 
 const page = () => {
   return (
