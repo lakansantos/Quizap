@@ -13,7 +13,7 @@ const Page = () => {
   };
 
   return (
-    <div className="h-fit">
+    <div className="h-fit bg-gradient-to-bl from-[#423755] to-[#804C6F] text-white">
       <Choices params={params} />
     </div>
   );

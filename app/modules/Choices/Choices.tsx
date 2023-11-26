@@ -23,7 +23,7 @@ const Choices = (props: ChoicesProps) => {
 
   return (
     <div className="h-[1400px] max-h-fit flex flex-col">
-      <div className="h-full flex justify-evenly items-center flex-col text-white">
+      <div className="h-full flex justify-evenly items-center flex-col">
         <h1 className="text-5xl">Select Category</h1>
         <div className="w-full flex flex-row items-center justify-center flex-wrap min-h-1/2 h-fit">
           {categoriesItems.map((item, key) => {
