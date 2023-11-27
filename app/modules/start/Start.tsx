@@ -1,12 +1,12 @@
 "use client";
 
-import {useScoreContext} from "@/app/contexts/ScoreContext";
+import {useQuizContext} from "@/app/contexts/QuizContext";
 import Image from "next/image";
 import {useRouter} from "next/navigation";
 import React, {SyntheticEvent} from "react";
 const Start = () => {
   const router = useRouter();
-  const {playerName, setPlayerName} = useScoreContext();
+  const {playerName, setPlayerName} = useQuizContext();
   const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
     router.push("/choices");

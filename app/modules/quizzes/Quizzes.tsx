@@ -4,7 +4,7 @@ import React, {useEffect, useState} from "react";
 import {useRouter} from "next/navigation";
 
 import {ROUTE_PATH} from "../../utils/routes";
-import {useScoreContext} from "@/app/contexts/ScoreContext";
+import {useQuizContext} from "@/app/contexts/QuizContext";
 
 type Props = {
   data: QuestionsData[];
@@ -13,7 +13,7 @@ type Props = {
 const Quizzes = (props: Props) => {
   const {data} = props;
 
-  const {setScore} = useScoreContext();
+  const {setScore} = useQuizContext();
 
   const [clickedItem, setClickedItem] = useState<string | null>(null);
 

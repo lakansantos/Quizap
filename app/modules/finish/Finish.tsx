@@ -1,8 +1,8 @@
-import {useScoreContext} from "@/app/contexts/ScoreContext";
+import {useQuizContext} from "@/app/contexts/QuizContext";
 import React from "react";
 
 const Finish = () => {
-  const {score, playerName} = useScoreContext();
+  const {score, playerName} = useQuizContext();
 
   return (
     <div>

@@ -6,10 +6,14 @@ type ScoreContextType = {
   setScore: (score: (value: number) => number) => void;
   playerName: string;
   setPlayerName: (value: string) => void;
+  selectedCategory: string | null;
+  setSelectedCategory: (value: string) => void;
 };
-const ScoreContext = createContext<ScoreContextType>({
+const QuizContext = createContext<ScoreContextType>({
   score: 0,
   playerName: "",
+  selectedCategory: null,
+  setSelectedCategory: () => {},
   setScore: () => {},
   setPlayerName: () => {},
 });
@@ -21,19 +25,22 @@ export const ScoreProvider = (props: ScoreProps) => {
   const {children} = props;
   const [score, setScore] = useState<number>(0);
   const [playerName, setPlayerName] = useState<string>("");
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
   return (
-    <ScoreContext.Provider
+    <QuizContext.Provider
       value={{
         score: score,
         setScore,
         playerName,
         setPlayerName,
+        selectedCategory,
+        setSelectedCategory,
       }}
     >
       {children}
-    </ScoreContext.Provider>
+    </QuizContext.Provider>
   );
 };
 
-export const useScoreContext = () => useContext(ScoreContext);
+export const useQuizContext = () => useContext(QuizContext);

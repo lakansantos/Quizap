@@ -1,7 +1,7 @@
 import type {Metadata} from "next";
 import {Marhey} from "next/font/google";
 import "./globals.css";
-import {ScoreProvider} from "./contexts/ScoreContext";
+import {ScoreProvider} from "./contexts/QuizContext";
 
 const marhey = Marhey({
   weight: ["400", "700"],
