@@ -32,12 +32,17 @@ const Categories = (props: CategoriesPropsType) => {
               key={key}
               style={{
                 background: `url(${image_src}) center/contain no-repeat ${
-                  _selectedCategory || hoveredImage ? "rgba(0, 0, 0, .5)" : ""
+                  hoveredImage
+                    ? "rgba(0, 0, 0, .5)"
+                    : _selectedCategory
+                    ? "rgb(236, 240, 241)"
+                    : ""
                 }`,
               }}
               onClick={() => {
                 setHoveredCategory(key);
                 setClickedCategory(key);
+                setHoveredCategory(null);
                 setSelectedCategory(name);
               }}
               onMouseEnter={() => setHoveredCategory(key)}
@@ -46,14 +51,14 @@ const Categories = (props: CategoriesPropsType) => {
                   setHoveredCategory(null);
                 }
               }}
-              className={`h-[300px] w-[300px]  min-h-[300px] min-w-[300px] m-5 flex justify-center items-center bg-blend-darken hover:cursor-pointer duration-500 ease-in-out rounded`}
+              className={`h-[300px] w-[300px]  min-h-[300px] min-w-[300px] m-5 flex justify-center items-center bg-blend-darken hover:cursor-pointer duration-500 ease-in-out rounded `}
             >
               <p
                 className={`text-4xl text-center ${
-                  _selectedCategory || hoveredImage ? "animate-bounce" : ""
+                  hoveredImage ? "animate-fall" : ""
                 }`}
               >
-                {_selectedCategory || hoveredImage ? category : ""}
+                {hoveredImage ? category : ""}
               </p>
             </div>
           );
