@@ -29,9 +29,9 @@ const Choices = () => {
 
   return (
     <div className="h-[1400px] max-h-fit flex flex-col">
-      <div className="h-full flex justify-evenly items-center flex-col">
+      <div className=" h-1/2 sm:h-full flex justify-evenly items-center flex-col">
         <h1 className="text-5xl">Select Category</h1>
-        <div className="w-full flex flex-row items-center justify-center flex-wrap min-h-1/2 h-fit">
+        <div className="w-full flex flex-row items-center sm:justify-center flex-no-wrap sm:flex-wrap min-h-1/2 h-fit overflow-x-auto">
           {categoriesItems.map((item, key) => {
             const hoveredImage = hoveredCategory === key;
             const _selectedCategory = clickedCategory === key;
@@ -56,7 +56,7 @@ const Choices = () => {
                     setHoveredCategory(null);
                   }
                 }}
-                className={`h-[300px] w-[300px] m-5 flex justify-center items-center bg-blend-darken hover:cursor-pointer duration-500 ease-in-out rounded`}
+                className={`h-[300px] w-[300px]  min-h-[300px] min-w-[300px] m-5 flex justify-center items-center bg-blend-darken hover:cursor-pointer duration-500 ease-in-out rounded`}
               >
                 <p
                   className={`text-4xl text-center ${
