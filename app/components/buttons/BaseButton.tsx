@@ -11,7 +11,9 @@ const BaseButton = (props: ButtonProps) => {
   return (
     <button
       onClick={onClick}
-      className={active || defaultActive ? "active" : "btn"}
+      className={`${
+        active || defaultActive ? "active" : "btn"
+      } w-[300px] sm:w-[600px]`}
     >
       {label}
     </button>

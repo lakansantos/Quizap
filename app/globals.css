@@ -40,7 +40,6 @@ body {
 .btn,
 .active {
   padding: 10px;
-  width: 500px;
   border: 1px solid white;
   border-radius: 5px;
   background: none;
