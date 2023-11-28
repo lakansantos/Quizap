@@ -7,9 +7,9 @@ type ScoreContextType = {
   playerName: string;
   setPlayerName: (value: string) => void;
   selectedCategory: string | null;
-  setSelectedCategory: (value: string) => void;
+  setSelectedCategory: (value: string | null) => void;
   selectedDifficulty: string | null;
-  setSelectedDifficulty: (value: string) => void;
+  setSelectedDifficulty: (value: string | null) => void;
 };
 const QuizContext = createContext<ScoreContextType>({
   score: 0,
