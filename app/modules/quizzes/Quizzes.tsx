@@ -65,11 +65,10 @@ const Quizzes = (props: Props) => {
   return currentItem < data.length ? (
     <div className="h-screen">
       {slicedData.map((item, index) => {
-        const {question, correctAnswer, choices, category} = item;
+        const {question, correctAnswer, choices} = item;
 
         return (
           <div key={index}>
-            {category}
             <div>
               <h1>
                 {currentItem + 1}. {question.text}

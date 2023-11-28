@@ -36,3 +36,24 @@ body {
   background-color: #c9f6dc;
   color: white;
 }
+
+.btn,
+.active {
+  padding: 10px;
+  width: 500px;
+  border: 1px solid white;
+  border-radius: 5px;
+  background: none;
+  color: white;
+}
+
+.active {
+  background: white;
+  color: black;
+}
+
+.btn:hover {
+  background: white;
+  cursor: pointer;
+  color: black;
+}

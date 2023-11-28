@@ -6,16 +6,22 @@ import {queryStringify} from "../../utils/http";
 import {ROUTE_PATH} from "../../utils/routes";
 import {categoriesItems} from "@/app/utils/strings";
 import {useQuizContext} from "@/app/contexts/QuizContext";
+import Button from "@/app/components/buttons/Button";
 
 const Choices = () => {
   const router = useRouter();
 
   const [hoveredCategory, setHoveredCategory] = useState<number | null>(null);
   const [clickedCategory, setClickedCategory] = useState<number | null>(null);
-  const {selectedCategory, setSelectedCategory} = useQuizContext();
+  const {
+    selectedCategory,
+    selectedDifficulty,
+    setSelectedDifficulty,
+    setSelectedCategory,
+  } = useQuizContext();
 
   const params = {
-    difficulty: "easy",
+    difficulty: selectedDifficulty,
     categories: selectedCategory,
     limit: 5,
     test: "",
@@ -27,10 +33,25 @@ const Choices = () => {
     router.push(ROUTE_PATH.QUIZZES.OVERVIEW + "?" + queryParams);
   };
 
+  const buttonItems = [
+    {
+      label: "Easy",
+      onClick: () => setSelectedDifficulty("easy"),
+    },
+    {
+      label: "Medium",
+      onClick: () => setSelectedDifficulty("medium"),
+    },
+    {
+      label: "Hard",
+      onClick: () => setSelectedDifficulty("hard"),
+    },
+  ].filter((item) => item);
+
   return (
     <div className="h-[1400px] max-h-fit flex flex-col">
       <div className=" h-1/2 sm:h-full flex justify-evenly items-center flex-col">
-        <h1 className="text-5xl">Select Category</h1>
+        <h2 className="text-4xl">Select Category</h2>
         <div className="w-full flex flex-row items-center sm:justify-center flex-no-wrap sm:flex-wrap min-h-1/2 h-fit overflow-x-auto">
           {categoriesItems.map((item, key) => {
             const hoveredImage = hoveredCategory === key;
@@ -71,7 +92,10 @@ const Choices = () => {
         </div>
       </div>
       <div className="h-1/3">
-        <h2>Select Difficulties</h2>
+        <h2 className="text-center text-4xl">Select Difficulties</h2>
+        <div className="flex flex-col gap-5 justify-center items-center">
+          <Button buttonItems={buttonItems} />
+        </div>
       </div>
       <div className="h-1/3">
         <h2>Select number of items</h2>
