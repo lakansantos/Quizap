@@ -10,6 +10,7 @@ const NumberItems = (props: Props) => {
       <h2 className="text-center text-4xl">Number of items</h2>
       <input
         type="number"
+        min={0}
         onChange={(e) => setSelectedNumberItems(Number(e.target.value))}
         className="w-[300px] sm:w-[1000px] p-3 text-black"
         placeholder="Enter number of items"
