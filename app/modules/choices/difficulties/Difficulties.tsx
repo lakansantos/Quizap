@@ -11,7 +11,7 @@ type DifficultiesProps = {
 const Difficulties = (props: DifficultiesProps) => {
   const {buttonItems} = props;
   return (
-    <div className="h-1/3">
+    <div className="h-1/4 flex justify-center items-center flex-col">
       <h2 className="text-center text-4xl">Select Difficulties</h2>
       <div className="flex flex-col gap-5 justify-center items-center">
         <Button buttonItems={buttonItems} />

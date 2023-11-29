@@ -19,7 +19,7 @@ const Categories = (props: CategoriesPropsType) => {
     setSelectedCategory,
   } = props;
   return (
-    <div className=" h-1/2 sm:h-full flex justify-evenly items-center flex-col">
+    <div className=" h-1/2 sm:h-[60%] flex justify-evenly items-center flex-col">
       <h2 className="text-4xl">Select Category</h2>
       <div className="w-full flex flex-row items-center sm:justify-center flex-no-wrap sm:flex-wrap min-h-1/2 h-fit overflow-x-auto">
         {categoriesItems.map((item, key) => {

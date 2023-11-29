@@ -10,6 +10,8 @@ import {categoriesItems} from "@/app/utils/strings";
 import {useQuizContext} from "@/app/contexts/QuizContext";
 import Categories from "./categories/Categories";
 import Difficulties from "./difficulties/Difficulties";
+import NumberItems from "./number_of_items/NumberItems";
+import BaseButton from "@/app/components/buttons/BaseButton";
 
 const Choices = () => {
   const router = useRouter();
@@ -19,14 +21,16 @@ const Choices = () => {
   const {
     selectedCategory,
     selectedDifficulty,
+    selectedNumberItems,
     setSelectedDifficulty,
     setSelectedCategory,
+    setSelectedNumberItems,
   } = useQuizContext();
 
   const params = {
     difficulty: selectedDifficulty,
     categories: selectedCategory,
-    limit: 5,
+    limit: selectedNumberItems,
     test: "",
   };
 
@@ -66,9 +70,14 @@ const Choices = () => {
     <div className="h-[1400px] max-h-fit flex flex-col">
       <Categories {...categoriesStates} {...categoriesActions} />
       <Difficulties buttonItems={buttonItems} />
-      <div className="h-1/3">
-        <h2>Select number of items</h2>
-        <button onClick={handleSubmit}>Submit</button>
+      <NumberItems setSelectedNumberItems={setSelectedNumberItems} />
+      <div className="flex justify-center">
+        <BaseButton
+          onClick={handleSubmit}
+          label="Submit"
+          defaultActive
+          className="hover:bg-gray-200 mb-8"
+        />
       </div>
     </div>
   );

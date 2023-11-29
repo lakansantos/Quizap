@@ -1,5 +1,12 @@
 "use client";
-import {createContext, useContext, useState, ReactNode} from "react";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  ReactNode,
+  Dispatch,
+  SetStateAction,
+} from "react";
 
 type ScoreContextType = {
   score: number;
@@ -10,16 +17,20 @@ type ScoreContextType = {
   setSelectedCategory: (value: string | null) => void;
   selectedDifficulty: string | null;
   setSelectedDifficulty: (value: string | null) => void;
+  selectedNumberItems: number;
+  setSelectedNumberItems: Dispatch<SetStateAction<number>>;
 };
 const QuizContext = createContext<ScoreContextType>({
   score: 0,
   playerName: "",
   selectedCategory: null,
   selectedDifficulty: null,
+  selectedNumberItems: 5,
   setSelectedCategory: () => {},
   setScore: () => {},
   setPlayerName: () => {},
   setSelectedDifficulty: () => {},
+  setSelectedNumberItems: () => {},
 });
 
 type ScoreProps = {
@@ -33,6 +44,7 @@ export const ScoreProvider = (props: ScoreProps) => {
   const [selectedDifficulty, setSelectedDifficulty] = useState<string | null>(
     null
   );
+  const [selectedNumberItems, setSelectedNumberItems] = useState<number>(5);
 
   return (
     <QuizContext.Provider
@@ -45,6 +57,8 @@ export const ScoreProvider = (props: ScoreProps) => {
         setSelectedCategory,
         selectedDifficulty,
         setSelectedDifficulty,
+        selectedNumberItems,
+        setSelectedNumberItems,
       }}
     >
       {children}

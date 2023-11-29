@@ -5,15 +5,16 @@ type ButtonProps = {
   onClick?: () => void;
   active?: boolean;
   defaultActive?: boolean;
+  className?: string;
 };
 const BaseButton = (props: ButtonProps) => {
-  const {label, onClick, active, defaultActive} = props;
+  const {label, onClick, active, defaultActive, className} = props;
   return (
     <button
       onClick={onClick}
-      className={`${
+      className={`${className} ${
         active || defaultActive ? "active" : "btn"
-      } w-[300px] sm:w-[600px]`}
+      } w-[300px] sm:w-[1000px]`}
     >
       {label}
     </button>
