@@ -1,4 +1,5 @@
 import {CategoriesItems} from "@/app/types/categories";
+import Image from "next/image";
 import React, {Dispatch, SetStateAction} from "react";
 
 type CategoriesPropsType = {
@@ -31,13 +32,15 @@ const Categories = (props: CategoriesPropsType) => {
             <div
               key={key}
               style={{
-                background: `url(${image_src}) center/contain no-repeat ${
-                  hoveredImage
-                    ? "rgba(0, 0, 0, .5)"
-                    : _selectedCategory
-                    ? "rgb(236, 240, 241)"
-                    : ""
-                }`,
+                background: _selectedCategory
+                  ? "rgb(236, 240, 241)"
+                  : `url(${image_src}) center/contain no-repeat ${
+                      hoveredImage
+                        ? "rgba(0, 0, 0, .5)"
+                        : _selectedCategory
+                        ? "rgb(236, 240, 241)"
+                        : ""
+                    }`,
               }}
               onClick={() => {
                 setHoveredCategory(key);
@@ -51,15 +54,28 @@ const Categories = (props: CategoriesPropsType) => {
                   setHoveredCategory(null);
                 }
               }}
-              className={`h-[300px] w-[300px]  min-h-[300px] min-w-[300px] m-5 flex justify-center items-center bg-blend-darken hover:cursor-pointer duration-500 ease-in-out rounded `}
+              className={`h-[300px] w-[300px]  min-h-[300px] min-w-[300px] m-5 flex justify-center gap-3 flex-col items-center bg-blend-darken hover:cursor-pointer ${
+                (hoveredCategory || _selectedCategory) && "duration-500"
+              } rounded `}
             >
-              <p
-                className={`text-4xl text-center ${
-                  hoveredImage ? "animate-fall" : ""
-                }`}
-              >
-                {hoveredImage ? category : ""}
+              {_selectedCategory && (
+                <Image
+                  alt={name}
+                  src={image_src}
+                  width={100}
+                  height={100}
+                  style={{
+                    height: "auto",
+                    width: "auto",
+                  }}
+                />
+              )}
+              <p className={`text-4xl text-center`}>
+                {hoveredImage && !_selectedCategory && category}
               </p>
+              {_selectedCategory && category && (
+                <p className={`text-2xl text-center text-black`}>{category}</p>
+              )}
             </div>
           );
         })}
