@@ -13,7 +13,7 @@ type Props = {
 const Quizzes = (props: Props) => {
   const {data} = props;
 
-  const {setScore} = useQuizContext();
+  const {setScore, isFinished, setIsFinished} = useQuizContext();
 
   const [clickedItem, setClickedItem] = useState<string | null>(null);
 
@@ -34,7 +34,7 @@ const Quizzes = (props: Props) => {
 
   const router = useRouter();
 
-  const finished = currentItem === data.length;
+  const lastItemSubmitted = currentItem === data.length;
 
   const handleSubmit = () => {
     setIsSubmitted(true);
@@ -55,12 +55,15 @@ const Quizzes = (props: Props) => {
   }, [currentItem]);
 
   useEffect(() => {
-    if (finished) {
+    if (lastItemSubmitted) {
       setCurrentItem(currentItem);
-
-      router.push(ROUTE_PATH.FINISH.OVERVIEW);
+      setIsFinished(true);
     }
-  }, [currentItem, finished, router]);
+  }, [currentItem, lastItemSubmitted, setIsFinished]);
+
+  useEffect(() => {
+    if (isFinished) router.push(ROUTE_PATH.FINISH.OVERVIEW);
+  }, [isFinished, router]);
 
   return currentItem < data.length ? (
     <div className="h-screen">
@@ -70,6 +73,7 @@ const Quizzes = (props: Props) => {
         return (
           <div key={index}>
             <div>
+              {correctAnswer}
               <h1>
                 {currentItem + 1}. {question.text}
               </h1>

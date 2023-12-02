@@ -19,6 +19,8 @@ type ScoreContextType = {
   setSelectedDifficulty: (value: string | null) => void;
   selectedNumberItems: number;
   setSelectedNumberItems: Dispatch<SetStateAction<number>>;
+  isFinished: boolean;
+  setIsFinished: Dispatch<SetStateAction<boolean>>;
 };
 const QuizContext = createContext<ScoreContextType>({
   score: 0,
@@ -26,11 +28,13 @@ const QuizContext = createContext<ScoreContextType>({
   selectedCategory: null,
   selectedDifficulty: null,
   selectedNumberItems: 5,
+  isFinished: false,
   setSelectedCategory: () => {},
   setScore: () => {},
   setPlayerName: () => {},
   setSelectedDifficulty: () => {},
   setSelectedNumberItems: () => {},
+  setIsFinished: () => {},
 });
 
 type ScoreProps = {
@@ -45,6 +49,7 @@ export const ScoreProvider = (props: ScoreProps) => {
     null
   );
   const [selectedNumberItems, setSelectedNumberItems] = useState<number>(5);
+  const [isFinished, setIsFinished] = useState<boolean>(false);
 
   return (
     <QuizContext.Provider
@@ -59,6 +64,8 @@ export const ScoreProvider = (props: ScoreProps) => {
         setSelectedDifficulty,
         selectedNumberItems,
         setSelectedNumberItems,
+        isFinished,
+        setIsFinished,
       }}
     >
       {children}
