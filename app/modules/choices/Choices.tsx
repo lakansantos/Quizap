@@ -11,13 +11,14 @@ import {useQuizContext} from "@/app/contexts/QuizContext";
 import Categories from "./categories/Categories";
 import Difficulties from "./difficulties/Difficulties";
 import NumberItems from "./number_of_items/NumberItems";
-import BaseButton from "@/app/components/buttons/BaseButton";
 
 const Choices = () => {
   const router = useRouter();
 
   const [hoveredCategory, setHoveredCategory] = useState<number | null>(null);
   const [clickedCategory, setClickedCategory] = useState<number | null>(null);
+  const [selectedChoice, setSelectedChoice] = useState<string>("categories");
+
   const {
     selectedCategory,
     selectedDifficulty,
@@ -44,6 +45,7 @@ const Choices = () => {
     setHoveredCategory,
     setClickedCategory,
     setSelectedCategory,
+    setSelectedChoice,
   };
   const queryParams = queryStringify(params);
 
@@ -67,18 +69,23 @@ const Choices = () => {
   ].filter((item) => item);
 
   return (
-    <div className="h-[1400px] max-h-fit flex flex-col">
-      <Categories {...categoriesStates} {...categoriesActions} />
-      <Difficulties buttonItems={buttonItems} />
-      <NumberItems setSelectedNumberItems={setSelectedNumberItems} />
-      <div className="flex justify-center">
-        <BaseButton
-          onClick={handleSubmit}
-          label="Submit"
-          defaultActive
-          className="hover:bg-gray-200 mb-8"
+    <div className="h-screen flex flex-col">
+      {selectedChoice === "categories" ? (
+        <Categories {...categoriesStates} {...categoriesActions} />
+      ) : selectedChoice === "difficulties" ? (
+        <Difficulties
+          buttonItems={buttonItems}
+          setSelectedChoice={setSelectedChoice}
         />
-      </div>
+      ) : (
+        selectedChoice === "items" && (
+          <NumberItems
+            setSelectedNumberItems={setSelectedNumberItems}
+            handleSubmit={handleSubmit}
+            setSelectedChoice={setSelectedChoice}
+          />
+        )
+      )}
     </div>
   );
 };

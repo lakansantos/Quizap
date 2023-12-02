@@ -9,11 +9,12 @@ type ButtonProps = {
     onClick?: () => void;
     defaultActive?: boolean;
   }[];
+  className?: string;
 };
 
 //this component will be used for multiple inline buttons
 const Button = (props: ButtonProps) => {
-  const {buttonItems} = props;
+  const {buttonItems, className} = props;
   const [activeButtonIndex, setActiveButtonIndex] = useState<number | null>(
     null
   );
@@ -35,6 +36,7 @@ const Button = (props: ButtonProps) => {
         return (
           <BaseButton
             key={key}
+            className={className}
             label={label}
             active={
               activeButtonIndex === key || defaultActive === removeDefaultActive

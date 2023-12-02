@@ -31,6 +31,7 @@ const Start = () => {
         />
         <input
           type="text"
+          value={playerName}
           id="nameInput"
           placeholder="Enter your name"
           className="border border-black w-full py-2 indent-3 lg:w-1/2 "

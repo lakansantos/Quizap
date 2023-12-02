@@ -1,5 +1,7 @@
+import BaseButton from "@/app/components/buttons/BaseButton";
 import {CategoriesItems} from "@/app/types/categories";
 import Image from "next/image";
+import {useRouter} from "next/navigation";
 import React, {Dispatch, SetStateAction} from "react";
 
 type CategoriesPropsType = {
@@ -9,6 +11,7 @@ type CategoriesPropsType = {
   setHoveredCategory: Dispatch<SetStateAction<number | null>>;
   setClickedCategory: Dispatch<SetStateAction<number | null>>;
   setSelectedCategory: (state: string | null) => void;
+  setSelectedChoice: Dispatch<SetStateAction<string>>;
 };
 const Categories = (props: CategoriesPropsType) => {
   const {
@@ -18,11 +21,14 @@ const Categories = (props: CategoriesPropsType) => {
     setHoveredCategory,
     setClickedCategory,
     setSelectedCategory,
+    setSelectedChoice,
   } = props;
+
+  const router = useRouter();
   return (
-    <div className=" h-1/2 sm:h-[60%] flex justify-evenly items-center flex-col">
+    <div className=" h-screen flex justify-evenly items-center flex-col">
       <h2 className="text-4xl">Select Category</h2>
-      <div className="w-full flex flex-row items-center sm:justify-center flex-no-wrap sm:flex-wrap min-h-1/2 h-fit overflow-x-auto">
+      <div className="w-full flex flex-row items-center sm:justify-center flex-no-wrap sm:flex-wrap min-h-1/2 h-fit overflow-x-auto  gap-10">
         {categoriesItems.map((item, key) => {
           const hoveredImage = hoveredCategory === key;
           const _selectedCategory = clickedCategory === key;
@@ -32,15 +38,10 @@ const Categories = (props: CategoriesPropsType) => {
             <div
               key={key}
               style={{
-                background: _selectedCategory
-                  ? "rgb(236, 240, 241)"
-                  : `url(${image_src}) center/contain no-repeat ${
-                      hoveredImage
-                        ? "rgba(0, 0, 0, .5)"
-                        : _selectedCategory
-                        ? "rgb(236, 240, 241)"
-                        : ""
-                    }`,
+                background:
+                  hoveredImage || _selectedCategory
+                    ? "rgb(30, 39, 46)"
+                    : "rgb(236, 240, 241)",
               }}
               onClick={() => {
                 setHoveredCategory(key);
@@ -54,31 +55,53 @@ const Categories = (props: CategoriesPropsType) => {
                   setHoveredCategory(null);
                 }
               }}
-              className={`h-[300px] w-[300px]  min-h-[300px] min-w-[300px] m-5 flex justify-center gap-3 flex-col items-center bg-blend-darken hover:cursor-pointer ${
+              className={`h-[300px] min-h-[300px] min-w-[300px] flex justify-center gap-3 flex-col items-center bg-blend-darken hover:cursor-pointer ${
                 (hoveredCategory || _selectedCategory) && "duration-500"
               } rounded `}
             >
-              <Image
-                alt={name}
-                src={image_src}
-                width={100}
-                height={100}
-                style={{
-                  height: "auto",
-                  display: _selectedCategory ? "" : "none",
-                  width: "auto",
-                }}
-              />
-
+              {
+                <Image
+                  alt={name}
+                  src={image_src}
+                  width={100}
+                  height={100}
+                  style={{
+                    height: "100px",
+                    width: "100px",
+                    objectFit: "contain",
+                  }}
+                />
+              }
+              {/* 
               <p className={`text-4xl text-center`}>
                 {hoveredImage && !_selectedCategory && category}
+              </p> */}
+
+              <p
+                className={`text-2xl text-center ${
+                  hoveredImage || _selectedCategory
+                    ? "text-white"
+                    : "text-black"
+                }`}
+              >
+                {category}
               </p>
-              {_selectedCategory && category && (
-                <p className={`text-2xl text-center text-black`}>{category}</p>
-              )}
             </div>
           );
         })}
+      </div>
+      <div className="flex w-full items-center gap-3 justify-center">
+        <BaseButton
+          onClick={() => router.back()}
+          label="Back"
+          className="hover:bg-gray-200 w-[300px]"
+        />
+        <BaseButton
+          onClick={() => setSelectedChoice("difficulties")}
+          label="Next"
+          defaultActive
+          className="hover:bg-gray-200 w-[300px]"
+        />
       </div>
     </div>
   );
