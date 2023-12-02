@@ -73,7 +73,6 @@ const Quizzes = (props: Props) => {
         return (
           <div key={index}>
             <div>
-              {correctAnswer}
               <h1>
                 {currentItem + 1}. {question.text}
               </h1>

@@ -58,18 +58,18 @@ const Categories = (props: CategoriesPropsType) => {
                 (hoveredCategory || _selectedCategory) && "duration-500"
               } rounded `}
             >
-              {_selectedCategory && (
-                <Image
-                  alt={name}
-                  src={image_src}
-                  width={100}
-                  height={100}
-                  style={{
-                    height: "auto",
-                    width: "auto",
-                  }}
-                />
-              )}
+              <Image
+                alt={name}
+                src={image_src}
+                width={100}
+                height={100}
+                style={{
+                  height: "auto",
+                  display: _selectedCategory ? "" : "none",
+                  width: "auto",
+                }}
+              />
+
               <p className={`text-4xl text-center`}>
                 {hoveredImage && !_selectedCategory && category}
               </p>
