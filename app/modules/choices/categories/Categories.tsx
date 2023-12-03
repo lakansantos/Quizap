@@ -27,7 +27,7 @@ const Categories = (props: CategoriesPropsType) => {
   const router = useRouter();
   return (
     <div className=" h-screen flex justify-evenly items-center flex-col">
-      <h2 className="text-4xl">Select Category</h2>
+      <h2 className="text-4xl sm:text-6xl">Select Category</h2>
       <div className="w-full flex flex-row items-center sm:justify-center flex-no-wrap sm:flex-wrap min-h-1/2 h-fit overflow-x-auto  gap-10">
         {categoriesItems.map((item, key) => {
           const hoveredImage = hoveredCategory === key;

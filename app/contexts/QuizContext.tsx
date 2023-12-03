@@ -10,7 +10,7 @@ import React, {
 
 type ScoreContextType = {
   score: number;
-  setScore: (score: (value: number) => number) => void;
+  setScore: Dispatch<SetStateAction<number>>;
   playerName: string;
   setPlayerName: (value: string) => void;
   selectedCategory: string | null;

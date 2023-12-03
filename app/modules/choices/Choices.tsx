@@ -69,7 +69,7 @@ const Choices = () => {
   ].filter((item) => item);
 
   return (
-    <div className="h-screen flex flex-col">
+    <div className="h-screen flex flex-col justify-center">
       {selectedChoice === "categories" ? (
         <Categories {...categoriesStates} {...categoriesActions} />
       ) : selectedChoice === "difficulties" ? (

@@ -1,5 +1,5 @@
 import BaseButton from "@/app/components/buttons/BaseButton";
-import React, {Dispatch, SetStateAction, useState} from "react";
+import React, {Dispatch, SetStateAction} from "react";
 
 type Props = {
   setSelectedNumberItems: Dispatch<SetStateAction<number>>;
@@ -9,24 +9,13 @@ type Props = {
 const NumberItems = (props: Props) => {
   const {setSelectedNumberItems, handleSubmit, setSelectedChoice} = props;
 
-  const [value, setValue] = useState<number | null>(null);
-
   return (
-    <div className="h-full mb-3 flex flex-col justify-center items-center gap-3">
-      <h2 className="text-center text-4xl">Number of items</h2>
+    <div className="h-1/2 mb-3 flex flex-col justify-center items-center gap-5">
+      <h2 className="text-center text-6xl">Number of items</h2>
       <input
         type="number"
         min={0}
-        value={value !== null || value === 0 ? value : ""}
-        onChange={(e) => {
-          const value = Number(e.target.value);
-          if (!!value && value < 0) {
-            setValue(value * -1);
-          } else {
-            setValue(value);
-          }
-          setSelectedNumberItems(value);
-        }}
+        onChange={(e) => setSelectedNumberItems(Number(e.target.value))}
         className="w-[300px] sm:w-[1000px] p-3 text-black"
         placeholder="Enter number of items"
       />
@@ -35,7 +24,7 @@ const NumberItems = (props: Props) => {
         <BaseButton
           onClick={() => setSelectedChoice("difficulties")}
           label="Back"
-          className="hover:bg-gray-200 mb-8 w-[300px]"
+          className="hover:bg-gray-200 mb-8 w-[300px] hover:bg-white"
         />
         <BaseButton
           onClick={handleSubmit}
