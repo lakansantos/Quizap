@@ -92,8 +92,8 @@ const Categories = (props: CategoriesPropsType) => {
       </div>
       <div className="flex w-full items-center gap-3 justify-center">
         <BaseButton
-          onClick={() => router.back()}
-          label="Back"
+          onClick={() => router.push("/")}
+          label="Change name"
           className="hover:bg-gray-200 w-[300px]"
         />
         <BaseButton

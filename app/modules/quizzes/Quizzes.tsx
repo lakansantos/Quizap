@@ -5,6 +5,7 @@ import {useRouter} from "next/navigation";
 
 import {ROUTE_PATH} from "../../utils/routes";
 import {useQuizContext} from "@/app/contexts/QuizContext";
+import BaseButton from "@/app/components/buttons/BaseButton";
 
 type Props = {
   data: QuestionsData[];
@@ -66,12 +67,12 @@ const Quizzes = (props: Props) => {
   }, [isFinished, router]);
 
   return currentItem < data.length ? (
-    <div className="h-screen">
+    <div className="h-screen flex flex-col justify-center items-center bg-zinc-900 text-white">
       {slicedData.map((item, index) => {
         const {question, correctAnswer, choices} = item;
 
         return (
-          <div key={index}>
+          <div key={index} className="w-full sm:w-1/2 text-center">
             <div>
               <h1>
                 {currentItem + 1}. {question.text}
@@ -84,8 +85,10 @@ const Quizzes = (props: Props) => {
                       onClick={() => {
                         handleChange(choices, key, correctAnswer);
                       }}
-                      className={`p-4 h-[100px] bg-red-500 flex items-center hover:cursor-pointer ${
-                        clickedItem === choices[key] ? "clicked" : ""
+                      className={`p-4 h-[100px] bg-none border border-white flex items-center hover:bg-white hover:text-black hover:cursor-pointer ${
+                        clickedItem === choices[key]
+                          ? "text-black bg-white"
+                          : ""
                       }`}
                     >
                       {`${String.fromCharCode(65 + key)}. ${choice}`}
@@ -97,16 +100,14 @@ const Quizzes = (props: Props) => {
           </div>
         );
       })}
-      <div>
-        <button
-          className={`bg-green-400 p-4 font-medium text-white ${
-            !clickedItem ? "disabled-button" : ""
-          }`}
-          disabled={!clickedItem}
+      <div className="mt-2 w-full sm:w-1/2">
+        <BaseButton
+          label={currentItem === data.length - 1 ? "Submit" : "Next"}
           onClick={handleSubmit}
-        >
-          Submit
-        </button>
+          disabled={!clickedItem}
+          active
+          className="text-red bg-gray-200 w-full hover:bg-gray-200 hover:cursor-pointe disabled:cursor-not-allowed"
+        />
       </div>
     </div>
   ) : (
