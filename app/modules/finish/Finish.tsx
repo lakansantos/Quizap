@@ -4,7 +4,15 @@ import {useQuizContext} from "@/app/contexts/QuizContext";
 import {useRouter} from "next/navigation";
 
 const Finish = () => {
-  const {score, playerName, setScore, setIsFinished} = useQuizContext();
+  const {
+    score,
+    playerName,
+    setScore,
+    setIsFinished,
+    setSelectedCategory,
+    setSelectedDifficulty,
+    setSelectedNumberItems,
+  } = useQuizContext();
 
   const router = useRouter();
 
@@ -16,8 +24,11 @@ const Finish = () => {
       <button
         onClick={() => {
           setIsFinished(false);
-          router.push("/choices");
+          setSelectedCategory(null);
+          setSelectedDifficulty(null);
+          setSelectedNumberItems(5);
           setScore(0);
+          router.push("/choices");
         }}
       >
         Play
