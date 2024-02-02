@@ -2,6 +2,7 @@ import type {Metadata} from "next";
 import {Marhey} from "next/font/google";
 import "./globals.css";
 import {ScoreProvider} from "./contexts/QuizContext";
+import Providers from "./utils/providers";
 
 const marhey = Marhey({
   weight: ["400", "700"],
@@ -20,7 +21,9 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
   return (
     <html lang="en">
       <body className={marhey.className}>
-        <ScoreProvider>{children}</ScoreProvider>
+        <Providers>
+          <ScoreProvider>{children}</ScoreProvider>
+        </Providers>
       </body>
     </html>
   );
