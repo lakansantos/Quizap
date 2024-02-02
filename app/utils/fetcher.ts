@@ -22,6 +22,15 @@ export const fetcher = (
   return axios.request(config).then((res) => res.data);
 };
 
+/**
+ * Use to get the returns of fetches through get method
+ * @param key
+ * @param url
+ * @param params
+ * @param options
+ * @returns data, isLoading, error
+ */
+
 export const useGetFetch = (
   key: QueryKey,
   url: string,
@@ -29,10 +38,8 @@ export const useGetFetch = (
   options?: AxiosRequestConfig
 ) => {
   const fetcherGet = (url: string) => fetcher("GET", url, params, options);
-  const res = useQuery({
-    queryKey: key,
-    queryFn: () => fetcherGet(url),
-  });
+
+  const res = useQuery({queryKey: key, queryFn: () => fetcherGet(url)});
 
   const {data, isLoading, error} = res;
 
