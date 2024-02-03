@@ -41,7 +41,7 @@ export const useGetFetch = (
 
   const res = useQuery({queryKey: key, queryFn: () => fetcherGet(url)});
 
-  const {data, isLoading, error} = res;
+  const {data, isLoading, error, refetch} = res;
 
-  return {data, isLoading, error};
+  return {data, isLoading, error, refetch};
 };
