@@ -1,26 +1,25 @@
-import axios from "axios";
-import {API_URL_QUESTIONS} from "../constants/environment";
+import {getQuestion} from "../fetches/fetches";
 
-export const useGetRandomQuestions = async (params?: {
+type Params = {
   limit: number;
   categories: string;
   difficulty: string;
-}) => {
+};
+
+export const useGetRandomQuestions = async (params: Params) => {
   try {
-    const response = await axios.get(API_URL_QUESTIONS as string, {
-      params: params,
-    });
+    const data = await getQuestion(params);
 
-    const data = response.data;
+    const formattedData =
+      data &&
+      data.map((question: QuestionsData) => {
+        const {correctAnswer, incorrectAnswers} = question;
+        const choices = [correctAnswer, ...incorrectAnswers];
 
-    const formattedData = data.map((question: QuestionsData) => {
-      const {correctAnswer, incorrectAnswers} = question;
-      const choices = [correctAnswer, ...incorrectAnswers];
+        question.choices = choices.sort(() => Math.random() - 0.5);
 
-      question.choices = choices.sort(() => Math.random() - 0.5);
-
-      return question;
-    });
+        return question;
+      });
 
     return formattedData;
   } catch (error) {

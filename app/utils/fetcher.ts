@@ -3,7 +3,7 @@ import {QueryKey, useQuery} from "@tanstack/react-query";
 
 export const fetcher = (
   method: Method,
-  url: string,
+  url?: string,
   params?: object,
   options?: AxiosRequestConfig
 ) => {

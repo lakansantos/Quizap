@@ -8,11 +8,11 @@ import {useQuizContext} from "@/app/contexts/QuizContext";
 import BaseButton from "@/app/components/buttons/BaseButton";
 
 type Props = {
-  data: QuestionsData[];
+  data?: QuestionsData[];
 };
 
 const Quizzes = (props: Props) => {
-  const {data} = props;
+  const {data = []} = props;
 
   const {setScore, isFinished, setIsFinished} = useQuizContext();
 
