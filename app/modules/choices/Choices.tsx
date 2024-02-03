@@ -57,14 +57,17 @@ const Choices = () => {
     {
       label: "Easy",
       onClick: () => setSelectedDifficulty("easy"),
+      active: selectedDifficulty === "easy",
     },
     {
       label: "Medium",
       onClick: () => setSelectedDifficulty("medium"),
+      active: selectedDifficulty === "medium",
     },
     {
       label: "Hard",
       onClick: () => setSelectedDifficulty("hard"),
+      active: selectedDifficulty === "hard",
     },
   ].filter((item) => item);
 

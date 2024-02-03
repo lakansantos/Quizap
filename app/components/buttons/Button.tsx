@@ -8,11 +8,11 @@ type ButtonProps = {
     label: string;
     onClick?: () => void;
     defaultActive?: boolean;
+    active?: boolean;
   }[];
   className?: string;
 };
 
-//this component will be used for multiple inline buttons
 const Button = (props: ButtonProps) => {
   const {buttonItems, className} = props;
   const [activeButtonIndex, setActiveButtonIndex] = useState<number | null>(
@@ -32,14 +32,16 @@ const Button = (props: ButtonProps) => {
   return (
     <React.Fragment>
       {buttonItems.map((item, key) => {
-        const {label, onClick, defaultActive} = item;
+        const {label, onClick, defaultActive, active} = item;
         return (
           <BaseButton
             key={key}
             className={className}
             label={label}
             active={
-              activeButtonIndex === key || defaultActive === removeDefaultActive
+              activeButtonIndex === key ||
+              defaultActive === removeDefaultActive ||
+              active
             }
             onClick={() => {
               handleActiveClick(key, defaultActive);
