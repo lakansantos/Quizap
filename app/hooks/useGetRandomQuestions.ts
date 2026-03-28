@@ -6,7 +6,7 @@ type Params = {
   difficulty: string;
 };
 
-export const useGetRandomQuestions = async (params: Params) => {
+export const getRandomQuestions = async (params: Params) => {
   try {
     const data = await getQuestion(params);
 

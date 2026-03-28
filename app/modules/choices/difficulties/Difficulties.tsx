@@ -1,40 +1,120 @@
-import BaseButton from "@/app/components/buttons/BaseButton";
-import Button from "@/app/components/buttons/Button";
-import React, {Dispatch, SetStateAction} from "react";
+import React from "react";
+import {Zap, Star} from "lucide-react";
 
 type DifficultiesProps = {
-  buttonItems: {
-    label: string;
-    onClick?: () => void;
-    defaultActive?: boolean;
-  }[];
-  setSelectedChoice: Dispatch<SetStateAction<string>>;
+  selectedDifficulty: string | null;
+  setSelectedDifficulty: (value: string | null) => void;
 };
+
+const difficulties = [
+  {
+    key: "easy",
+    label: "Easy",
+    description: "For those just starting their stellar journey.",
+    bolts: 1,
+    xp: "50 XP Per Win",
+    color: "secondary",
+    borderHover: "hover:border-secondary/30",
+    bgIcon: "bg-secondary/10",
+    textColor: "text-secondary",
+  },
+  {
+    key: "medium",
+    label: "Medium",
+    description: "A balanced challenge for true knowledge seekers.",
+    bolts: 2,
+    xp: "150 XP Per Win",
+    color: "primary",
+    borderHover: "hover:border-primary/30",
+    bgIcon: "bg-primary/10",
+    textColor: "text-primary",
+  },
+  {
+    key: "hard",
+    label: "Hard",
+    description: "Only for the masterminds of the galaxy.",
+    bolts: 3,
+    xp: "500 XP Per Win",
+    color: "error",
+    borderHover: "hover:border-error/30",
+    bgIcon: "bg-error/10",
+    textColor: "text-error",
+  },
+];
+
 const Difficulties = (props: DifficultiesProps) => {
-  const {buttonItems, setSelectedChoice} = props;
+  const {selectedDifficulty, setSelectedDifficulty} = props;
+
   return (
-    <div className="flex justify-center items-center flex-col h-1/2">
-      <div className="flex justify-evenly items-center flex-col mb-4 h-full">
-        <h2 className="text-center text-6xl">Difficulties</h2>
-        <div className="flex flex-col gap-5 justify-center items-center">
-          <Button
-            buttonItems={buttonItems}
-            className="w-[300px] sm:w-[1000px]"
-          />
-        </div>
-        <div className="flex justify-center gap-3">
-          <BaseButton
-            onClick={() => setSelectedChoice("categories")}
-            label="Back"
-            className="hover:bg-gray-200 mb-8 w-[300px] sm:w-[300px] hover:bg-white"
-          />
-          <BaseButton
-            onClick={() => setSelectedChoice("items")}
-            label="Next"
-            defaultActive
-            className="hover:bg-gray-200 mb-8 w-[300px] sm:w-[300px]"
-          />
-        </div>
+    <div>
+      <div className="flex items-center gap-3 mb-8">
+        <div className="w-1.5 h-8 bg-gradient-primary rounded-full" />
+        <h2 className="font-headline text-2xl font-bold">Choose Difficulty</h2>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {difficulties.map((diff) => {
+          const isSelected = selectedDifficulty === diff.key;
+          return (
+            <button
+              key={diff.key}
+              onClick={() => setSelectedDifficulty(diff.key)}
+              className={`group relative flex flex-col items-center p-8 rounded-[1rem] border-2
+                transition-all duration-300 cursor-pointer text-center
+                ${
+                  isSelected
+                    ? `bg-surface-container border-${diff.color} shadow-[0_0_30px_rgba(154,77,255,0.15)]`
+                    : `bg-surface-container-low border-transparent ${diff.borderHover}`
+                }`}
+            >
+              {/* Selected badge */}
+              {isSelected && (
+                <div className="absolute -top-3 -right-3 w-10 h-10 bg-gradient-primary rotate-45 flex items-end justify-center pb-1.5 rounded-sm">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="w-4 h-4 text-on-primary-fixed -rotate-45"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="3"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                </div>
+              )}
+
+              <div
+                className={`w-16 h-16 rounded-full ${diff.bgIcon} flex items-center justify-center mb-6
+                ${isSelected ? "ring-4 ring-primary/5" : ""}`}
+              >
+                {Array.from({length: diff.bolts}).map((_, i) => (
+                  <Zap
+                    key={i}
+                    className={`w-8 h-8 ${diff.textColor} ${i > 0 ? "-ml-3" : ""}`}
+                    fill="currentColor"
+                  />
+                ))}
+              </div>
+
+              <h3 className="font-headline text-xl font-bold text-on-surface mb-2">
+                {diff.label}
+              </h3>
+              <p className="text-on-surface-variant text-sm mb-6">
+                {diff.description}
+              </p>
+              <div className="mt-auto flex items-center gap-1">
+                <Star
+                  className={`w-4 h-4 ${diff.textColor}`}
+                  fill="currentColor"
+                />
+                <span className={`text-xs font-bold ${diff.textColor}`}>
+                  {diff.xp}
+                </span>
+              </div>
+            </button>
+          );
+        })}
       </div>
     </div>
   );

@@ -1,8 +1,7 @@
-import BaseButton from "@/app/components/buttons/BaseButton";
 import {CategoriesItems} from "@/app/types/categories";
 import Image from "next/image";
-import {useRouter} from "next/navigation";
 import React, {Dispatch, SetStateAction} from "react";
+import {CheckCircle} from "lucide-react";
 
 type CategoriesPropsType = {
   categoriesItems: CategoriesItems;
@@ -11,8 +10,8 @@ type CategoriesPropsType = {
   setHoveredCategory: Dispatch<SetStateAction<number | null>>;
   setClickedCategory: Dispatch<SetStateAction<number | null>>;
   setSelectedCategory: (state: string | null) => void;
-  setSelectedChoice: Dispatch<SetStateAction<string>>;
 };
+
 const Categories = (props: CategoriesPropsType) => {
   const {
     categoriesItems,
@@ -21,89 +20,63 @@ const Categories = (props: CategoriesPropsType) => {
     setHoveredCategory,
     setClickedCategory,
     setSelectedCategory,
-    setSelectedChoice,
   } = props;
 
-  const router = useRouter();
   return (
-    <div className=" h-screen flex justify-evenly items-center flex-col">
-      <h2 className="text-4xl sm:text-6xl">Select Category</h2>
-      <div className="w-full flex flex-row items-center sm:justify-center flex-no-wrap sm:flex-wrap min-h-1/2 h-fit overflow-x-auto  gap-10">
-        {categoriesItems.map((item, key) => {
-          const hoveredImage = hoveredCategory === key;
-          const _selectedCategory = clickedCategory === key;
+    <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 w-full">
+      {categoriesItems.map((item, key) => {
+        const isHovered = hoveredCategory === key;
+        const isSelected = clickedCategory === key;
+        const {category, name, image_src} = item;
 
-          const {category, name, image_src} = item;
-          return (
+        return (
+          <button
+            key={key}
+            type="button"
+            onClick={() => {
+              setClickedCategory(key);
+              setSelectedCategory(name);
+            }}
+            onMouseEnter={() => setHoveredCategory(key)}
+            onMouseLeave={() => {
+              if (!isSelected) setHoveredCategory(null);
+            }}
+            aria-pressed={isSelected}
+            aria-label={`Select ${category} category`}
+            className={`group relative flex flex-col p-6 rounded-[1rem] cursor-pointer text-left
+              transition-all duration-300 focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none
+              ${
+                isSelected
+                  ? "bg-surface-container-highest ring-2 ring-primary scale-[1.02] shadow-neon-primary"
+                  : "bg-surface-container-low hover:bg-surface-container hover:-translate-y-2"
+              }`}
+          >
+            {/* Selected checkmark */}
+            {isSelected && (
+              <div className="absolute top-4 right-4 text-primary">
+                <CheckCircle className="w-6 h-6" fill="currentColor" />
+              </div>
+            )}
+
+            {/* Category icon */}
             <div
-              key={key}
-              style={{
-                background:
-                  hoveredImage || _selectedCategory
-                    ? "rgb(30, 39, 46)"
-                    : "rgb(236, 240, 241)",
-              }}
-              onClick={() => {
-                setHoveredCategory(key);
-                setClickedCategory(key);
-                setHoveredCategory(null);
-                setSelectedCategory(name);
-              }}
-              onMouseEnter={() => setHoveredCategory(key)}
-              onMouseLeave={() => {
-                if (!_selectedCategory) {
-                  setHoveredCategory(null);
-                }
-              }}
-              className={`h-[300px] min-h-[300px] min-w-[300px] flex justify-center gap-3 flex-col items-center bg-blend-darken hover:cursor-pointer ${
-                (hoveredCategory || _selectedCategory) && "duration-500"
-              } rounded `}
+              className={`w-14 h-14 rounded-xl flex items-center justify-center mb-6 transition-colors
+              ${isSelected || isHovered ? "bg-primary/20" : "bg-surface-container-high"}`}
             >
-              {
-                <Image
-                  alt={name}
-                  src={image_src}
-                  width={100}
-                  height={100}
-                  style={{
-                    height: "100px",
-                    width: "100px",
-                    objectFit: "contain",
-                  }}
-                />
-              }
-              {/* 
-              <p className={`text-4xl text-center`}>
-                {hoveredImage && !_selectedCategory && category}
-              </p> */}
-
-              <p
-                className={`text-2xl text-center ${
-                  hoveredImage || _selectedCategory
-                    ? "text-white"
-                    : "text-black"
-                }`}
-              >
-                {category}
-              </p>
+              <Image
+                alt={category}
+                src={image_src}
+                width={36}
+                height={36}
+                className="object-contain"
+              />
             </div>
-          );
-        })}
-      </div>
-      <div className="flex w-full items-center gap-3 justify-center">
-        <BaseButton
-          onClick={() => router.push("/")}
-          label="Change name"
-          className="hover:bg-gray-200 w-[300px]"
-        />
-        <BaseButton
-          onClick={() => setSelectedChoice("difficulties")}
-          label="Next"
-          defaultActive
-          className="hover:bg-gray-200 w-[300px]"
-        />
-      </div>
-    </div>
+
+            <h3 className="text-xl font-bold font-headline mb-2">{category}</h3>
+          </button>
+        );
+      })}
+    </section>
   );
 };
 

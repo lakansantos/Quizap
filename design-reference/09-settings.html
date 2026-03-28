@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&amp;family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&amp;family=Plus+Jakarta+Sans:wght@700;800&amp;family=Manrope:wght@400;500;600;700&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        body {
+            font-family: 'Manrope', sans-serif;
+            background-color: #0b0b24;
+        }
+        .headline-font { font-family: 'Sora', sans-serif; }
+        .plus-jakarta { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .glass-panel {
+            background: rgba(22, 22, 52, 0.6);
+            backdrop-filter: blur(20px);
+        }
+        .gradient-primary {
+            background: linear-gradient(135deg, #c49aff 0%, #9446f9 100%);
+        }
+        .ghost-border {
+            border: 1px solid rgba(70, 69, 97, 0.15);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              colors: {
+                "surface-bright": "#28284f",
+                "on-secondary-container": "#dbfffb",
+                "primary-fixed": "#b988ff",
+                "surface-container-low": "#10102c",
+                "tertiary-fixed": "#fa8dc9",
+                "surface-dim": "#0b0b24",
+                "surface-container": "#161634",
+                "inverse-surface": "#fcf8ff",
+                "on-tertiary": "#6c164e",
+                "primary-container": "#b988ff",
+                "on-primary-fixed": "#000000",
+                "primary": "#c49aff",
+                "on-secondary": "#005c58",
+                "on-tertiary-fixed-variant": "#6a144d",
+                "tertiary-container": "#fa8dc9",
+                "surface": "#0b0b24",
+                "error-container": "#a70138",
+                "primary-fixed-dim": "#af76ff",
+                "outline-variant": "#464561",
+                "on-surface-variant": "#a9a8c9",
+                "on-secondary-fixed-variant": "#006762",
+                "surface-tint": "#c49aff",
+                "on-primary-fixed-variant": "#3f007d",
+                "on-error": "#490013",
+                "secondary-container": "#006a65",
+                "on-background": "#e5e3ff",
+                "error-dim": "#d73357",
+                "on-surface": "#e5e3ff",
+                "surface-variant": "#222246",
+                "secondary": "#5df9ef",
+                "surface-container-lowest": "#000000",
+                "surface-container-high": "#1c1c3d",
+                "on-error-container": "#ffb2b9",
+                "on-tertiary-fixed": "#360024",
+                "inverse-primary": "#7d28e2",
+                "outline": "#737391",
+                "on-secondary-fixed": "#004844",
+                "inverse-on-surface": "#53526f",
+                "error": "#ff6e84",
+                "tertiary-fixed-dim": "#ea80bb",
+                "background": "#0b0b24",
+                "on-tertiary-container": "#5f0843",
+                "tertiary": "#ffa1d3",
+                "on-primary": "#420083",
+                "primary-dim": "#9446f9",
+                "secondary-dim": "#4aebe1",
+                "surface-container-highest": "#222246",
+                "tertiary-dim": "#ea80bb",
+                "secondary-fixed-dim": "#4aebe1",
+                "secondary-fixed": "#5df9ef",
+                "on-primary-container": "#320067"
+              },
+              fontFamily: {
+                "headline": ["Sora"],
+                "body": ["DM Sans"],
+                "label": ["DM Sans"]
+              },
+              borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+            },
+          },
+        }
+    </script>
+</head>
+<body class="bg-surface text-on-surface min-h-screen selection:bg-primary selection:text-on-primary-container">
+<!-- Header Suppression: The prompt requests a centered card layout for a settings page, typically treated as a task-focused journey. However, for brand integrity, we include a minimal variant or handle the TopAppBar as requested for Quizap. -->
+<header class="bg-[#0b0b24] text-[#c49aff] flex justify-between items-center px-6 h-16 w-full fixed top-0 z-50">
+<div class="flex items-center gap-2">
+<span class="text-2xl font-bold tracking-tighter text-[#c49aff] plus-jakarta">Quizap</span>
+</div>
+<div class="hidden md:flex gap-8 items-center h-full">
+<a class="text-[#e5e3ff] opacity-70 hover:bg-[#161634] transition-all duration-200 px-3 py-2 rounded-lg text-sm font-medium" href="#">Play</a>
+<a class="text-[#e5e3ff] opacity-70 hover:bg-[#161634] transition-all duration-200 px-3 py-2 rounded-lg text-sm font-medium" href="#">Leagues</a>
+<a class="text-[#e5e3ff] opacity-70 hover:bg-[#161634] transition-all duration-200 px-3 py-2 rounded-lg text-sm font-medium" href="#">Store</a>
+<a class="text-[#c49aff] font-bold border-b-2 border-[#c49aff] px-3 py-2 text-sm" href="#">Profile</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-2xl text-[#c49aff] hover:bg-[#161634] p-2 rounded-full transition-all">notifications</button>
+<button class="material-symbols-outlined text-2xl text-[#c49aff] hover:bg-[#161634] p-2 rounded-full transition-all">emoji_events</button>
+<img alt="Player avatar" class="w-8 h-8 rounded-full border-2 border-primary" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBxn-GdN_TLq53ubndW-kMaf9QNppkMNWDXygOOsZENJYu-JEl6kxcfj4pMqTBp_5fCo9KNUmCnICNiNjloLyM6kqby1-lLx5yPhRACh6R08b5ni_DgtEQU9h2PxZsL-24dulFIq5JtKdPCyXMMO9nL-N8XHWohbgPwUJVNV-kdMXRAGldjuhfR9fKLX5fPrek9qwgFcXe8yASb8Sk-ZEvNblEhlTXWMFCwdbfpASWi6EIOQf42dENkdic5LriBO165Sa8TT_vsbqk"/>
+</div>
+</header>
+<main class="pt-24 pb-32 px-4 flex justify-center items-start min-h-screen">
+<div class="w-full max-w-4xl bg-surface-container-low rounded-lg overflow-hidden flex flex-col md:flex-row gap-0 shadow-2xl">
+<!-- Left Navigation Sidebar (Desktop) -->
+<aside class="w-full md:w-64 bg-surface-container p-6 hidden md:block">
+<div class="flex items-center gap-3 mb-8">
+<span class="material-symbols-outlined text-primary text-3xl">settings</span>
+<h1 class="headline-font text-2xl font-bold text-on-surface">Settings</h1>
+</div>
+<nav class="space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl bg-primary text-on-primary-container font-bold transition-all" href="#gameplay">
+<span class="material-symbols-outlined">sports_esports</span> Gameplay
+                    </a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:bg-surface-bright transition-all" href="#appearance">
+<span class="material-symbols-outlined">palette</span> Appearance
+                    </a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:bg-surface-bright transition-all" href="#sound">
+<span class="material-symbols-outlined">volume_up</span> Sound &amp; Effects
+                    </a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:bg-surface-bright transition-all" href="#profile">
+<span class="material-symbols-outlined">account_circle</span> Profile
+                    </a>
+</nav>
+</aside>
+<!-- Main Content Canvas -->
+<div class="flex-1 p-6 md:p-10 space-y-12">
+<!-- Group 1: Gameplay -->
+<section class="space-y-6" id="gameplay">
+<div class="flex items-center gap-3">
+<div class="p-2 rounded-lg bg-primary/10">
+<span class="material-symbols-outlined text-primary">sports_esports</span>
+</div>
+<h2 class="headline-font text-xl font-bold">Gameplay</h2>
+</div>
+<div class="grid gap-4">
+<!-- Toggle Item -->
+<div class="flex items-center justify-between p-4 bg-surface-container rounded-lg ghost-border hover:bg-surface-bright transition-colors">
+<div>
+<p class="font-bold text-on-surface">Timer Toggle</p>
+<p class="text-xs text-on-surface-variant">Enable time limits for questions</p>
+</div>
+<button class="w-12 h-6 rounded-full bg-primary relative transition-all">
+<span class="absolute right-1 top-1 w-4 h-4 rounded-full bg-on-primary-fixed"></span>
+</button>
+</div>
+<!-- Selector Item -->
+<div class="p-4 bg-surface-container rounded-lg ghost-border">
+<p class="font-bold text-on-surface mb-3">Timer Duration</p>
+<div class="flex gap-2">
+<button class="flex-1 py-2 rounded-lg bg-surface-bright text-on-surface-variant text-sm font-bold border border-transparent hover:border-primary/50 transition-all">15s</button>
+<button class="flex-1 py-2 rounded-lg bg-primary text-on-primary-container text-sm font-bold transition-all">25s</button>
+<button class="flex-1 py-2 rounded-lg bg-surface-bright text-on-surface-variant text-sm font-bold border border-transparent hover:border-primary/50 transition-all">30s</button>
+<button class="flex-1 py-2 rounded-lg bg-surface-bright text-on-surface-variant text-sm font-bold border border-transparent hover:border-primary/50 transition-all">45s</button>
+</div>
+</div>
+<div class="flex items-center justify-between p-4 bg-surface-container rounded-lg ghost-border">
+<p class="font-bold text-on-surface">Auto-advance</p>
+<button class="w-12 h-6 rounded-full bg-surface-variant relative transition-all">
+<span class="absolute left-1 top-1 w-4 h-4 rounded-full bg-outline"></span>
+</button>
+</div>
+<div class="flex items-center justify-between p-4 bg-surface-container rounded-lg ghost-border">
+<p class="font-bold text-on-surface">Show correct answer</p>
+<button class="w-12 h-6 rounded-full bg-primary relative transition-all">
+<span class="absolute right-1 top-1 w-4 h-4 rounded-full bg-on-primary-fixed"></span>
+</button>
+</div>
+</div>
+</section>
+<!-- Group 2: Appearance -->
+<section class="space-y-6" id="appearance">
+<div class="flex items-center gap-3">
+<div class="p-2 rounded-lg bg-secondary/10">
+<span class="material-symbols-outlined text-secondary">palette</span>
+</div>
+<h2 class="headline-font text-xl font-bold">Appearance</h2>
+</div>
+<div class="grid gap-4">
+<div class="p-4 bg-surface-container rounded-lg ghost-border">
+<p class="font-bold text-on-surface mb-3">Theme Mode</p>
+<div class="flex bg-surface-container-low p-1 rounded-xl">
+<button class="flex-1 py-2 flex items-center justify-center gap-2 rounded-lg text-xs font-bold text-on-surface-variant">
+<span class="material-symbols-outlined text-sm">light_mode</span> Light
+                                </button>
+<button class="flex-1 py-2 flex items-center justify-center gap-2 rounded-lg bg-surface-bright text-on-surface text-xs font-bold shadow-sm">
+<span class="material-symbols-outlined text-sm" data-weight="fill" style="font-variation-settings: 'FILL' 1;">dark_mode</span> Dark
+                                </button>
+<button class="flex-1 py-2 flex items-center justify-center gap-2 rounded-lg text-xs font-bold text-on-surface-variant">
+<span class="material-symbols-outlined text-sm">settings_brightness</span> System
+                                </button>
+</div>
+</div>
+<div class="p-4 bg-surface-container rounded-lg ghost-border">
+<p class="font-bold text-on-surface mb-3">Color Accent</p>
+<div class="flex gap-4">
+<button class="w-8 h-8 rounded-full bg-[#c49aff] ring-4 ring-primary/30 ring-offset-4 ring-offset-surface-container"></button>
+<button class="w-8 h-8 rounded-full bg-[#5df9ef]"></button>
+<button class="w-8 h-8 rounded-full bg-[#ffa1d3]"></button>
+<button class="w-8 h-8 rounded-full bg-[#4ade80]"></button>
+<button class="w-8 h-8 rounded-full bg-[#fb923c]"></button>
+</div>
+</div>
+</div>
+</section>
+<!-- Group 3: Sound & Effects -->
+<section class="space-y-6" id="sound">
+<div class="flex items-center gap-3">
+<div class="p-2 rounded-lg bg-tertiary/10">
+<span class="material-symbols-outlined text-tertiary">volume_up</span>
+</div>
+<h2 class="headline-font text-xl font-bold">Sound &amp; Effects</h2>
+</div>
+<div class="grid gap-4">
+<div class="flex items-center justify-between p-4 bg-surface-container rounded-lg ghost-border">
+<p class="font-bold text-on-surface">Sound effects</p>
+<button class="w-12 h-6 rounded-full bg-primary relative">
+<span class="absolute right-1 top-1 w-4 h-4 rounded-full bg-on-primary-fixed"></span>
+</button>
+</div>
+<div class="flex items-center justify-between p-4 bg-surface-container rounded-lg ghost-border">
+<p class="font-bold text-on-surface">Confetti animations</p>
+<button class="w-12 h-6 rounded-full bg-primary relative">
+<span class="absolute right-1 top-1 w-4 h-4 rounded-full bg-on-primary-fixed"></span>
+</button>
+</div>
+<div class="flex items-center justify-between p-4 bg-surface-container rounded-lg ghost-border">
+<p class="font-bold text-on-surface">Vibration</p>
+<button class="w-12 h-6 rounded-full bg-surface-variant relative">
+<span class="absolute left-1 top-1 w-4 h-4 rounded-full bg-outline"></span>
+</button>
+</div>
+</div>
+</section>
+<!-- Group 4: Profile -->
+<section class="space-y-6" id="profile">
+<div class="flex items-center gap-3">
+<div class="p-2 rounded-lg bg-primary-fixed/10">
+<span class="material-symbols-outlined text-primary-fixed">account_circle</span>
+</div>
+<h2 class="headline-font text-xl font-bold">Profile</h2>
+</div>
+<div class="grid gap-6">
+<div class="flex items-center gap-6">
+<div class="relative group cursor-pointer">
+<img alt="Player avatar" class="w-24 h-24 rounded-full border-4 border-surface-bright group-hover:opacity-80 transition-opacity" data-alt="vibrant digital 3D avatar of a futuristic gaming character with neon accents and purple glowing eyes" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBlB4HEup6hNLiV178HNtG7iJVJ1jXlgnH-Zfq3HKAwSgHbL9ctsRjAWj9ksnfSQkTl0CX_K-S9lAEsp_n2CYBeLUEg2Cdy-2vfemg_A13wdO6mM7Ko2bVLA5h0CsYyFDGYbswCx7xOVbSVUNZ4mfrSuvZ3ygqFUwB_csHbAtxB-DT4za5RKPtgZs_5OdLfbO-bM9LXQ42L91uKqejyxcMLGZl119Mnt1WUmizUNEYTnTkuVNp6TbQ_M4r4xzFtA6NwuNHFziAkGyY"/>
+<div class="absolute bottom-0 right-0 p-2 bg-primary rounded-full text-on-primary-fixed shadow-lg">
+<span class="material-symbols-outlined text-sm">edit</span>
+</div>
+</div>
+<div class="flex-1">
+<label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-2">Display Name</label>
+<input class="w-full bg-surface-container border-none rounded-lg p-4 text-on-surface font-bold focus:ring-2 focus:ring-primary/50 transition-all" type="text" value="QuizMaster_99"/>
+</div>
+</div>
+<div class="p-6 bg-error-container/10 rounded-lg border border-error-container/20 flex items-center justify-between">
+<div>
+<p class="font-bold text-error">Danger Zone</p>
+<p class="text-xs text-on-surface-variant">Permanently wipe all quiz history and league rankings.</p>
+</div>
+<button class="px-6 py-2 rounded-lg border border-error text-error text-sm font-bold hover:bg-error hover:text-on-error transition-all">Reset scores</button>
+</div>
+</div>
+</section>
+<!-- Action Footer -->
+<footer class="pt-8 border-t border-outline-variant/10 flex flex-col md:flex-row gap-4 justify-end">
+<button class="px-8 py-3 rounded-xl text-on-surface-variant font-bold hover:text-on-surface transition-colors">Reset to Defaults</button>
+<button class="px-10 py-3 rounded-xl gradient-primary text-on-primary-fixed font-bold shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all">Save Changes</button>
+</footer>
+</div>
+</div>
+</main>
+<!-- Bottom Navigation (Mobile Only) -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center h-20 pb-safe px-4 bg-[#0b0b24]/80 backdrop-blur-xl z-50 md:hidden">
+<div class="flex flex-col items-center justify-center text-[#e5e3ff] opacity-60">
+<span class="material-symbols-outlined">videogame_asset</span>
+<span class="text-[11px] font-bold Sora">Play</span>
+</div>
+<div class="flex flex-col items-center justify-center text-[#e5e3ff] opacity-60">
+<span class="material-symbols-outlined">military_tech</span>
+<span class="text-[11px] font-bold Sora">Leagues</span>
+</div>
+<div class="flex flex-col items-center justify-center text-[#e5e3ff] opacity-60">
+<span class="material-symbols-outlined">shopping_bag</span>
+<span class="text-[11px] font-bold Sora">Store</span>
+</div>
+<div class="flex flex-col items-center justify-center bg-[#c49aff] text-[#0b0b24] rounded-full px-5 py-1 mt-1">
+<span class="material-symbols-outlined" data-weight="fill" style="font-variation-settings: 'FILL' 1;">person</span>
+<span class="text-[11px] font-bold Sora">Profile</span>
+</div>
+</nav>
+</body></html>

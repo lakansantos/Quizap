@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Quizap - Leaderboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&amp;family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&amp;family=Plus+Jakarta+Sans:wght@700;800&amp;family=Manrope:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body {
+            font-family: 'Manrope', sans-serif;
+            background-color: #0b0b24;
+            color: #e5e3ff;
+        }
+        .headline-font { font-family: 'Sora', sans-serif; }
+        .brand-font { font-family: 'Plus Jakarta Sans', sans-serif; }
+        .glass-card {
+            background: rgba(22, 22, 52, 0.6);
+            backdrop-filter: blur(20px);
+        }
+        .gradient-primary {
+            background: linear-gradient(135deg, #c49aff 0%, #9446f9 100%);
+        }
+        .gradient-gold {
+            background: linear-gradient(135deg, #FFD700 0%, #B8860B 100%);
+        }
+        .gradient-silver {
+            background: linear-gradient(135deg, #E0E0E0 0%, #757575 100%);
+        }
+        .gradient-bronze {
+            background: linear-gradient(135deg, #CD7F32 0%, #8B4513 100%);
+        }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              colors: {
+                "surface-bright": "#28284f",
+                "on-secondary-container": "#dbfffb",
+                "primary-fixed": "#b988ff",
+                "surface-container-low": "#10102c",
+                "tertiary-fixed": "#fa8dc9",
+                "surface-dim": "#0b0b24",
+                "surface-container": "#161634",
+                "inverse-surface": "#fcf8ff",
+                "on-tertiary": "#6c164e",
+                "primary-container": "#b988ff",
+                "on-primary-fixed": "#000000",
+                "primary": "#c49aff",
+                "on-secondary": "#005c58",
+                "on-tertiary-fixed-variant": "#6a144d",
+                "tertiary-container": "#fa8dc9",
+                "surface": "#0b0b24",
+                "error-container": "#a70138",
+                "primary-fixed-dim": "#af76ff",
+                "outline-variant": "#464561",
+                "on-surface-variant": "#a9a8c9",
+                "on-secondary-fixed-variant": "#006762",
+                "surface-tint": "#c49aff",
+                "on-primary-fixed-variant": "#3f007d",
+                "on-error": "#490013",
+                "secondary-container": "#006a65",
+                "on-background": "#e5e3ff",
+                "error-dim": "#d73357",
+                "on-surface": "#e5e3ff",
+                "surface-variant": "#222246",
+                "secondary": "#5df9ef",
+                "surface-container-lowest": "#000000",
+                "surface-container-high": "#1c1c3d",
+                "on-error-container": "#ffb2b9",
+                "on-tertiary-fixed": "#360024",
+                "inverse-primary": "#7d28e2",
+                "outline": "#737391",
+                "on-secondary-fixed": "#004844",
+                "inverse-on-surface": "#53526f",
+                "error": "#ff6e84",
+                "tertiary-fixed-dim": "#ea80bb",
+                "background": "#0b0b24",
+                "on-tertiary-container": "#5f0843",
+                "tertiary": "#ffa1d3",
+                "on-primary": "#420083",
+                "primary-dim": "#9446f9",
+                "secondary-dim": "#4aebe1",
+                "surface-container-highest": "#222246",
+                "tertiary-dim": "#ea80bb",
+                "secondary-fixed-dim": "#4aebe1",
+                "secondary-fixed": "#5df9ef",
+                "on-primary-container": "#320067"
+              },
+              fontFamily: {
+                "headline": ["Plus Jakarta Sans"],
+                "body": ["Manrope"],
+                "label": ["Manrope"]
+              },
+              borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+            },
+          },
+        }
+      </script>
+</head>
+<body class="bg-surface text-on-surface selection:bg-primary selection:text-on-primary min-h-screen flex flex-col">
+<!-- TopAppBar -->
+<header class="bg-[#0b0b24] text-[#c49aff] flex justify-between items-center px-6 h-16 w-full sticky top-0 z-50">
+<div class="flex items-center gap-4">
+<button class="flex items-center justify-center p-2 rounded-full hover:bg-[#161634] transition-all duration-200">
+<span class="material-symbols-outlined text-2xl" data-icon="arrow_back">arrow_back</span>
+</button>
+<span class="text-2xl font-bold tracking-tighter text-[#c49aff] brand-font">Quizap</span>
+</div>
+<div class="flex items-center gap-6">
+<div class="hidden md:flex gap-8 items-center text-sm font-bold headline-font">
+<a class="text-[#e5e3ff] opacity-70 hover:opacity-100 transition-opacity" href="#">Play</a>
+<a class="text-[#c49aff] border-b-2 border-[#c49aff]" href="#">Leagues</a>
+<a class="text-[#e5e3ff] opacity-70 hover:opacity-100 transition-opacity" href="#">Store</a>
+<a class="text-[#e5e3ff] opacity-70 hover:opacity-100 transition-opacity" href="#">Profile</a>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-[#c49aff]" data-icon="notifications">notifications</span>
+<span class="material-symbols-outlined text-[#c49aff]" data-icon="emoji_events">emoji_events</span>
+<img alt="Avatar" class="w-8 h-8 rounded-full border-2 border-primary-dim" data-alt="profile avatar of a young gamer with purple neon lighting highlights on their face" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAS2gUp_Hs-VDInfeKYG6qRfc93XP489iccGrK6EiESxkIl6iECkhZVmpp8sdgWVTIG8yajch2-DUSq_MJyHR-k39Ovewif2mYKvVXALnkox0HK6WDcAI3ZpZ_2SGxluzOC0GpXAWLlf3LT7UHt8Sl-MLKaz4r0BrxZPODxGeM5QEp32U8574PnHYMm9F0hj5GED7_wrjeUq0kC70fQ1xOReeSY6QVlKk5_Tolzi0x6lj0Ten_mVinwbf-CTxFRG_RAOhfbI1352b0"/>
+</div>
+</div>
+</header>
+<main class="flex-grow max-w-7xl mx-auto w-full px-6 py-8">
+<!-- Title & Tabs Section -->
+<div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
+<div class="flex flex-col">
+<div class="flex items-center gap-3 mb-2">
+<span class="material-symbols-outlined text-4xl text-secondary" data-icon="trophy" data-weight="fill">trophy</span>
+<h1 class="headline-font text-5xl font-extrabold tracking-tight">Leaderboard</h1>
+</div>
+<p class="text-on-surface-variant font-medium">Ranked against the top minds globally.</p>
+</div>
+<div class="bg-surface-container-low p-1.5 rounded-full flex gap-1">
+<button class="px-6 py-2 rounded-full text-sm font-bold transition-all text-on-surface-variant hover:text-on-surface">Today</button>
+<button class="px-6 py-2 rounded-full text-sm font-bold bg-primary text-on-primary-container shadow-lg">This Week</button>
+<button class="px-6 py-2 rounded-full text-sm font-bold transition-all text-on-surface-variant hover:text-on-surface">All Time</button>
+</div>
+</div>
+<!-- Podium Section -->
+<div class="grid grid-cols-1 md:grid-cols-3 items-end gap-4 mb-16 px-4">
+<!-- Rank 2 (Silver) -->
+<div class="order-2 md:order-1 flex flex-col items-center">
+<div class="relative mb-6">
+<div class="w-24 h-24 rounded-full border-4 border-[#C0C0C0] p-1">
+<img alt="Rank 2" class="w-full h-full rounded-full object-cover" data-alt="portrait of a focused female gamer with silver light effects in background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBibOV1wvcSEdB921cWq2av3DVx2NUNZkQydqzb-D8WkPwevKctyUxBkHIOIU8Ky4YD0ziW5O1cIWe3OPpWjkdqiljZAN4lERQHjkCES99oGgu7Qv7Rm9eZHEQTDAeNxeRVuEY0SyIK4II39GdmenSWeHXDOC09ydsMNljjvQPL8ZAUOe9u12HQ72M2vRhF6vrKS0G5-ZgZ12jGpQBELkhKw1mBYA4zQA0RgMbBTr51XKKP7AIMd3-i6PipHtzko0xv9eFUiQeZvTo"/>
+</div>
+<div class="absolute -bottom-2 -right-2 w-8 h-8 gradient-silver rounded-full flex items-center justify-center text-on-primary-fixed text-xs font-black">2</div>
+</div>
+<div class="text-center w-full bg-surface-container-low p-6 rounded-t-3xl border-t-2 border-outline-variant/20">
+<p class="headline-font font-bold text-lg mb-1">Nexus_Knight</p>
+<p class="text-secondary font-bold text-2xl mb-2">24,850 <span class="text-xs uppercase tracking-widest text-on-surface-variant">Pts</span></p>
+<div class="text-xs text-on-surface-variant uppercase font-bold tracking-tighter">78 Quizzes Played</div>
+</div>
+</div>
+<!-- Rank 1 (Gold) -->
+<div class="order-1 md:order-2 flex flex-col items-center transform md:-translate-y-8">
+<div class="relative mb-6">
+<span class="material-symbols-outlined absolute -top-8 left-1/2 -translate-x-1/2 text-4xl text-yellow-400" data-icon="workspace_premium" data-weight="fill">workspace_premium</span>
+<div class="w-32 h-32 rounded-full border-4 border-[#FFD700] p-1 shadow-[0_0_30px_rgba(255,215,0,0.3)]">
+<img alt="Rank 1" class="w-full h-full rounded-full object-cover" data-alt="close up profile of an expert quizzer with golden light halo around their head" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBJVqPu1A5D408nzTEzffDmuWrrnm9ymjUIoTOtjYiJTgUqzOKtA5YvJe4FWAm75hwf-VTbKDwfAIbX-pvRWR3-xPubmtM6zKYygeC1ZiCuZFO6icJprn0zKVbmy_2xTo3WE4OeFfegNaFXgwWI6HDuimtw9Ps-O8PE59tIDyJj0Ne4gCXsK_nkLFBZo7SPFOHY-GaTgD6w0b-MJL_Xbi1GJBwMCgdI3SeA58M2DFJXQDyzxmVR463r1c_EZdCUCQn4x-IHWVhpe4I"/>
+</div>
+<div class="absolute -bottom-2 -right-2 w-10 h-10 gradient-gold rounded-full flex items-center justify-center text-on-primary-fixed text-sm font-black shadow-lg">1</div>
+</div>
+<div class="text-center w-full bg-surface-container-high p-8 rounded-t-3xl border-t-4 border-primary shadow-2xl relative overflow-hidden">
+<div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary to-transparent opacity-50"></div>
+<p class="headline-font font-extrabold text-2xl mb-1 text-on-surface">QuizMaster_X</p>
+<p class="text-primary font-black text-4xl mb-3">31,200 <span class="text-sm uppercase tracking-widest text-on-surface-variant font-bold">Pts</span></p>
+<div class="text-xs text-primary-fixed uppercase font-black tracking-widest bg-primary/10 py-1 px-3 rounded-full inline-block">142 Quizzes Played</div>
+</div>
+</div>
+<!-- Rank 3 (Bronze) -->
+<div class="order-3 flex flex-col items-center">
+<div class="relative mb-6">
+<div class="w-24 h-24 rounded-full border-4 border-[#CD7F32] p-1">
+<img alt="Rank 3" class="w-full h-full rounded-full object-cover" data-alt="smiling teenager with bronze ambient lighting holding a smartphone" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAchDNNzfDG-LpgqbtC6X8iX1AnNprn5EHHnrAde6_5GOHVaVplPjKk-pfJqPVBqtokmKuOaQ9RUUwyoVH-6eUkWkQhp11KMgnphI6FmuGlsefhyOgVfsZLaTBPcBiVJ-gY61purISkSf8H5YEsD0pwAt0ncP6ybgZ9CihXNhmjMkA6pEPgtab1KQj6kejcH9xyzPeYYzSmdgFcPN0jdBQPkW_63kMYX5kT9MEquuNdrTGtFTgiDnVYcBLLItRVhq4KmS3wJBrPj74"/>
+</div>
+<div class="absolute -bottom-2 -right-2 w-8 h-8 gradient-bronze rounded-full flex items-center justify-center text-on-primary-fixed text-xs font-black">3</div>
+</div>
+<div class="text-center w-full bg-surface-container-low p-6 rounded-t-3xl border-t-2 border-outline-variant/20">
+<p class="headline-font font-bold text-lg mb-1">TriviaTitan</p>
+<p class="text-tertiary font-bold text-2xl mb-2">21,400 <span class="text-xs uppercase tracking-widest text-on-surface-variant">Pts</span></p>
+<div class="text-xs text-on-surface-variant uppercase font-bold tracking-tighter">64 Quizzes Played</div>
+</div>
+</div>
+</div>
+<!-- Scrollable Table Section -->
+<div class="bg-surface-container rounded-lg overflow-hidden border border-outline-variant/10 shadow-xl">
+<div class="overflow-x-auto no-scrollbar">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-high text-on-surface-variant uppercase text-[11px] font-black tracking-widest border-b border-outline-variant/20">
+<th class="px-8 py-5">Rank</th>
+<th class="px-6 py-5">Player</th>
+<th class="px-6 py-5">Score</th>
+<th class="px-6 py-5">Played</th>
+<th class="px-6 py-5">Best Category</th>
+<th class="px-6 py-5 text-right">Avg Accuracy</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/5">
+<!-- Row 4 -->
+<tr class="hover:bg-surface-bright transition-colors">
+<td class="px-8 py-4 font-bold text-on-surface-variant">4</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<img alt="Player" class="w-10 h-10 rounded-full" data-alt="avatar of a gamer player in dark mode interface" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDaNSjlKHCjRMQSzmkwjs-i01KvXb5mo4UOy7iw_bPD-gUsCgeu8knlf_AS1e9S4U35GfjffU30q_UkkbuoN5eztWgdO5wpG6o_p0Lup8M1XBx9aEErN33Uu7mjbs3aRvBhYf_1maYp42VimCvg9ZgrQCChq9NUrpp38Js2s_tSJvGAvzGLB7HYRD0NUvK5EZsfh0sU5Yz-ht1NIQ20DTTMbCvisZQPfdX8k7uX3AFaq4pWTjaJ2MI9awiwchi8nfdssp48UgrkOUg"/>
+<span class="font-bold">NeuralLinker</span>
+</div>
+</td>
+<td class="px-6 py-4 font-bold text-primary">19,820</td>
+<td class="px-6 py-4 text-on-surface-variant">52</td>
+<td class="px-6 py-4">
+<span class="bg-surface-container-low px-3 py-1 rounded-full text-xs font-bold border border-outline-variant/20">Astrophysics</span>
+</td>
+<td class="px-6 py-4 text-right text-secondary font-bold">94%</td>
+</tr>
+<!-- Row 5 (YOU HIGHLIGHTED) -->
+<tr class="bg-primary/10 border-l-4 border-primary">
+<td class="px-8 py-4 font-black text-primary">5</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="relative">
+<img alt="You" class="w-10 h-10 rounded-full border-2 border-primary" data-alt="profile image of the current user" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCLdvzKt_nId7UjvCR-5WJMEP3v_WKc-YpYlbjH5BEux4IblDG9B6n2yw4EWt0H1iAGYUfK1q6e_IE7gbST0lDehzEY9LYoM8TCi1Lyj58ZLZar97N2i9fFz401cL3J1I9-b7V1xkK2Gus1rNew8Yv7qjecovzmuD6VU8enyqa1RTn-NYY0-2T-rkj3BEzr-VgR_Uy99587nqEn38YETOoOxWOa5Xg5jBnp6kuNqvzF3TrW6ISbD1QdzPMo74tyfcrbiiMJCsXLDAA"/>
+<span class="absolute -top-1 -right-1 flex h-3 w-3"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span><span class="relative inline-flex rounded-full h-3 w-3 bg-primary"></span></span>
+</div>
+<div class="flex flex-col">
+<span class="font-black text-on-surface">You (User_99)</span>
+<span class="text-[10px] uppercase tracking-tighter text-primary-fixed-dim font-black">Climbing fast!</span>
+</div>
+</div>
+</td>
+<td class="px-6 py-4 font-black text-primary">18,450</td>
+<td class="px-6 py-4 font-bold">48</td>
+<td class="px-6 py-4">
+<span class="bg-primary-container text-on-primary-container px-3 py-1 rounded-full text-xs font-black">Modern History</span>
+</td>
+<td class="px-6 py-4 text-right text-secondary font-black">91%</td>
+</tr>
+<!-- Row 6 -->
+<tr class="hover:bg-surface-bright transition-colors">
+<td class="px-8 py-4 font-bold text-on-surface-variant">6</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<img alt="Player" class="w-10 h-10 rounded-full" data-alt="avatar of a competitor" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCcNp8xIJkbl45BY8ZsIDG1FSJh664R8ebiAjZyhqvgu_zgPfZ6Lqnn10y5xiKx8pnaIqZYdBOXv9yC-WKB4FD_i9S0zs7atJRnX-1pCwzJmZJ8FP0xY__xNp-jCGMso3GhSUwQXW2SguMQpiznnZTxpSoKQenQkTb1izjOMcs5IJMjusKTRcK5TSpuPa0CSN1yKw0ovf3SJ2vxOxsjrK49NALaUaHjRMaguLtcVFenQ7iXs38nVzG0WVp745iMzxEMBFvaN7T01t4"/>
+<span class="font-bold">ByteCrusher</span>
+</div>
+</td>
+<td class="px-6 py-4 font-bold text-primary">17,900</td>
+<td class="px-6 py-4 text-on-surface-variant">91</td>
+<td class="px-6 py-4">
+<span class="bg-surface-container-low px-3 py-1 rounded-full text-xs font-bold border border-outline-variant/20">Computer Science</span>
+</td>
+<td class="px-6 py-4 text-right text-secondary font-bold">88%</td>
+</tr>
+<!-- Row 7 -->
+<tr class="hover:bg-surface-bright transition-colors">
+<td class="px-8 py-4 font-bold text-on-surface-variant">7</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<img alt="Player" class="w-10 h-10 rounded-full" data-alt="avatar of a competitor" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBupW9b4JO5i2RTvR-jBwOO7uNCgdNA9L9I6ikii4w4kGj7VrIYkqn2AbomQWzOZcApem2jxl2jCBrMwP0jPpjI1MP0MDNSR8gH6PxGKMg4KcRIb7qTiiIgzkdfeqHOwtj2_3NWZY2LGS5uG5qXpj0-fRZndt1bbM8ik3iKA_Og33VUhV2K9nqueRqYOeX5u9KdlD0_a9NdibgwwuyQrlmzFj9YwgvdnMf-c2ZjLITxfbHk1pw2XPP_a_xoGqP4zm7nDbMQWk-dZlE"/>
+<span class="font-bold">NovaSpark</span>
+</div>
+</td>
+<td class="px-6 py-4 font-bold text-primary">16,210</td>
+<td class="px-6 py-4 text-on-surface-variant">33</td>
+<td class="px-6 py-4">
+<span class="bg-surface-container-low px-3 py-1 rounded-full text-xs font-bold border border-outline-variant/20">Cinema</span>
+</td>
+<td class="px-6 py-4 text-right text-secondary font-bold">96%</td>
+</tr>
+<!-- Row 8 -->
+<tr class="hover:bg-surface-bright transition-colors">
+<td class="px-8 py-4 font-bold text-on-surface-variant">8</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<img alt="Player" class="w-10 h-10 rounded-full" data-alt="avatar of a competitor" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCLkFf8zwzS-kAA_K9M5nROf5Ig7fu5_e-5iePQRRH0txvbyE8y6DZ0fBGpHZmmoJA3qQTTVaemRwu4YGV8i15vxR2EPIHc5W8HtDCnlYk298UEjCeemGYq3MVE94KFHgC_g8MuDq3hcpMC7XMGCWmcz7LBlopzALboXtfItskPEw_BV7lDTG2hREuX09fteIRjo3EFI2NQHB-YiV0ZL8Dn1lDGFv4OSnlxGbNQRJrGxFU6EShp1klox89pzojJYii_ZuQ15ne6mCc"/>
+<span class="font-bold">ZenithMind</span>
+</div>
+</td>
+<td class="px-6 py-4 font-bold text-primary">15,800</td>
+<td class="px-6 py-4 text-on-surface-variant">41</td>
+<td class="px-6 py-4">
+<span class="bg-surface-container-low px-3 py-1 rounded-full text-xs font-bold border border-outline-variant/20">Biology</span>
+</td>
+<td class="px-6 py-4 text-right text-secondary font-bold">82%</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Footer CTA -->
+<div class="mt-12 mb-24 flex flex-col items-center">
+<div class="glass-card p-8 rounded-3xl w-full max-w-2xl border border-primary/20 flex flex-col md:flex-row items-center justify-between gap-6">
+<div>
+<h3 class="headline-font text-2xl font-bold mb-1">Play to Climb!</h3>
+<p class="text-on-surface-variant">You're only 1,370 points away from Rank 4.</p>
+</div>
+<button class="gradient-primary text-on-primary-fixed px-10 py-4 rounded-xl font-black headline-font text-lg hover:scale-105 active:scale-95 transition-all shadow-xl shadow-primary/20 flex items-center gap-3">
+                    START NEW QUIZ
+                    <span class="material-symbols-outlined" data-icon="bolt">bolt</span>
+</button>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center h-20 pb-safe px-4 bg-[#0b0b24]/80 backdrop-blur-xl z-50 md:hidden">
+<a class="flex flex-col items-center justify-center text-[#e5e3ff] opacity-60 hover:opacity-100 transition-opacity" href="#">
+<span class="material-symbols-outlined" data-icon="videogame_asset">videogame_asset</span>
+<span class="text-[11px] font-bold Sora">Play</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-[#c49aff] text-[#0b0b24] rounded-full px-5 py-1 mt-1 scale-110 duration-200 ease-out" href="#">
+<span class="material-symbols-outlined" data-icon="military_tech" data-weight="fill">military_tech</span>
+<span class="text-[11px] font-bold Sora">Leagues</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#e5e3ff] opacity-60 hover:opacity-100 transition-opacity" href="#">
+<span class="material-symbols-outlined" data-icon="shopping_bag">shopping_bag</span>
+<span class="text-[11px] font-bold Sora">Store</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#e5e3ff] opacity-60 hover:opacity-100 transition-opacity" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="text-[11px] font-bold Sora">Profile</span>
+</a>
+</nav>
+</body></html>

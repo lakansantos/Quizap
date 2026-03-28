@@ -2,61 +2,329 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+/* ===== Theme Variables ===== */
+:root,
+html.dark {
+  color-scheme: dark;
+
+  --color-primary: #c49aff;
+  --color-primary-dim: #9446f9;
+  --color-primary-container: #b988ff;
+  --color-primary-fixed: #b988ff;
+  --color-primary-fixed-dim: #af76ff;
+  --color-on-primary: #420083;
+  --color-on-primary-container: #320067;
+  --color-on-primary-fixed: #000000;
+  --color-on-primary-fixed-variant: #3f007d;
+  --color-inverse-primary: #7d28e2;
+
+  --color-secondary: #5df9ef;
+  --color-secondary-dim: #4aebe1;
+  --color-secondary-container: #006a65;
+  --color-secondary-fixed: #5df9ef;
+  --color-secondary-fixed-dim: #4aebe1;
+  --color-on-secondary: #005c58;
+  --color-on-secondary-container: #dbfffb;
+  --color-on-secondary-fixed: #004844;
+  --color-on-secondary-fixed-variant: #006762;
+
+  --color-tertiary: #ffa1d3;
+  --color-tertiary-dim: #ea80bb;
+  --color-tertiary-container: #fa8dc9;
+  --color-tertiary-fixed: #fa8dc9;
+  --color-tertiary-fixed-dim: #ea80bb;
+  --color-on-tertiary: #6c164e;
+  --color-on-tertiary-container: #5f0843;
+  --color-on-tertiary-fixed: #360024;
+  --color-on-tertiary-fixed-variant: #6a144d;
+
+  --color-surface: #0b0b24;
+  --color-surface-dim: #0b0b24;
+  --color-surface-bright: #28284f;
+  --color-surface-container-lowest: #000000;
+  --color-surface-container-low: #10102c;
+  --color-surface-container: #161634;
+  --color-surface-container-high: #1c1c3d;
+  --color-surface-container-highest: #222246;
+  --color-surface-variant: #222246;
+  --color-surface-tint: #c49aff;
+  --color-background: #0b0b24;
+
+  --color-on-surface: #e5e3ff;
+  --color-on-surface-variant: #a9a8c9;
+  --color-on-background: #e5e3ff;
+  --color-inverse-surface: #fcf8ff;
+  --color-inverse-on-surface: #53526f;
+
+  --color-outline: #737391;
+  --color-outline-variant: #464561;
+
+  --color-error: #ff6e84;
+  --color-error-dim: #d73357;
+  --color-error-container: #a70138;
+  --color-on-error: #490013;
+  --color-on-error-container: #ffb2b9;
+
+  --glass-bg: rgba(34, 34, 70, 0.6);
+  --mesh-bg: #0b0b24;
+  --mesh-g1: hsla(263, 93%, 67%, 0.15);
+  --mesh-g2: hsla(174, 93%, 67%, 0.1);
+  --mesh-g3: hsla(320, 93%, 67%, 0.1);
+  --mesh-g4: hsla(263, 93%, 67%, 0.1);
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background-image: linear-gradient(
-    to right top,
-    #d16ba5,
-    #c777b9,
-    #ba83ca,
-    #aa8fd8,
-    #9a9ae1,
-    #8aa7ec,
-    #79b3f4,
-    #69bff8,
-    #52cffe,
-    #41dfff,
-    #46eefa,
-    #5ffbf1
-  );
+html.light {
+  color-scheme: light;
+
+  --color-primary: #7d28e2;
+  --color-primary-dim: #6318c0;
+  --color-primary-container: #eddcff;
+  --color-primary-fixed: #b988ff;
+  --color-primary-fixed-dim: #9446f9;
+  --color-on-primary: #ffffff;
+  --color-on-primary-container: #2a0060;
+  --color-on-primary-fixed: #000000;
+  --color-on-primary-fixed-variant: #3f007d;
+  --color-inverse-primary: #c49aff;
+
+  --color-secondary: #006a65;
+  --color-secondary-dim: #005c58;
+  --color-secondary-container: #b2f5ef;
+  --color-secondary-fixed: #5df9ef;
+  --color-secondary-fixed-dim: #4aebe1;
+  --color-on-secondary: #ffffff;
+  --color-on-secondary-container: #002220;
+  --color-on-secondary-fixed: #004844;
+  --color-on-secondary-fixed-variant: #006762;
+
+  --color-tertiary: #8e3268;
+  --color-tertiary-dim: #7a2058;
+  --color-tertiary-container: #ffd8ea;
+  --color-tertiary-fixed: #fa8dc9;
+  --color-tertiary-fixed-dim: #ea80bb;
+  --color-on-tertiary: #ffffff;
+  --color-on-tertiary-container: #3b0025;
+  --color-on-tertiary-fixed: #360024;
+  --color-on-tertiary-fixed-variant: #6a144d;
+
+  --color-surface: #fdf8ff;
+  --color-surface-dim: #ddd8e4;
+  --color-surface-bright: #fdf8ff;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-container-low: #f7f2fe;
+  --color-surface-container: #f1ecf8;
+  --color-surface-container-high: #ece7f3;
+  --color-surface-container-highest: #e6e1ed;
+  --color-surface-variant: #e7e0f0;
+  --color-surface-tint: #7d28e2;
+  --color-background: #fdf8ff;
+
+  --color-on-surface: #1c1b2e;
+  --color-on-surface-variant: #49454f;
+  --color-on-background: #1c1b2e;
+  --color-inverse-surface: #313040;
+  --color-inverse-on-surface: #f4eff8;
+
+  --color-outline: #7a7585;
+  --color-outline-variant: #cbc4d1;
+
+  --color-error: #ba1a1a;
+  --color-error-dim: #a00e0e;
+  --color-error-container: #ffdad6;
+  --color-on-error: #ffffff;
+  --color-on-error-container: #410002;
+
+  --glass-bg: rgba(241, 236, 248, 0.7);
+  --mesh-bg: #fdf8ff;
+  --mesh-g1: hsla(263, 93%, 67%, 0.08);
+  --mesh-g2: hsla(174, 93%, 67%, 0.06);
+  --mesh-g3: hsla(320, 93%, 67%, 0.06);
+  --mesh-g4: hsla(263, 93%, 67%, 0.06);
 }
 
+/* ===== Electric Midnight - Base Theme ===== */
+@layer base {
+  body {
+    @apply bg-surface text-on-surface font-body selection:bg-primary selection:text-on-primary-fixed overflow-x-hidden;
+  }
+
+  /* Global focus-visible styles for keyboard navigation */
+  *:focus-visible {
+    @apply outline-2 outline-primary outline-offset-2;
+  }
+
+  /* Screen reader only utility */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+
+  /* Scrollbar styling */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-surface-container-low;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-outline-variant rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-outline;
+  }
+}
+
+/* ===== Reusable Component Classes ===== */
+@layer components {
+  /* Glass Card - Semi-transparent with blur */
+  .glass-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+
+  /* Neon Glow Effects */
+  .neon-glow {
+    @apply shadow-neon-primary;
+  }
+
+  .neon-glow-secondary {
+    @apply shadow-neon-secondary;
+  }
+
+  .neon-glow-tertiary {
+    @apply shadow-neon-tertiary;
+  }
+
+  /* Mesh Background - Multi-gradient ambient glow */
+  .bg-mesh {
+    background-color: var(--mesh-bg);
+    background-image:
+      radial-gradient(at 0% 0%, var(--mesh-g1) 0px, transparent 50%),
+      radial-gradient(at 100% 0%, var(--mesh-g2) 0px, transparent 50%),
+      radial-gradient(at 100% 100%, var(--mesh-g3) 0px, transparent 50%),
+      radial-gradient(at 0% 100%, var(--mesh-g4) 0px, transparent 50%);
+  }
+
+  /* Ghost Border - Subtle outline for accessibility */
+  .ghost-border {
+    border: 1px solid rgba(70, 69, 97, 0.15);
+  }
+
+  /* Primary CTA Button */
+  .btn-primary {
+    @apply px-8 py-4 bg-gradient-primary text-on-primary-fixed font-headline font-bold rounded-DEFAULT
+      hover:scale-[1.02] active:scale-95 transition-all duration-200 ease-out
+      shadow-neon-primary cursor-pointer;
+  }
+
+  /* Secondary/Ghost Button */
+  .btn-secondary {
+    @apply px-8 py-4 border border-outline-variant text-secondary font-headline font-bold rounded-DEFAULT
+      hover:bg-surface-variant active:scale-95 transition-all duration-200 ease-out cursor-pointer;
+  }
+
+  /* Surface Card - Tonal layering */
+  .card {
+    @apply bg-surface-container-low p-8 rounded-DEFAULT
+      transform hover:-translate-y-1 transition-transform duration-300 ease-out;
+  }
+
+  .card-elevated {
+    @apply bg-surface-container-highest p-8 rounded-DEFAULT shadow-ambient;
+  }
+
+  /* Quiz Answer Option */
+  .answer-option {
+    @apply w-full p-4 rounded-DEFAULT bg-surface-container text-on-surface font-body
+      border cursor-pointer
+      hover:bg-surface-bright
+      active:scale-[0.98] transition-all duration-200 ease-out text-left;
+    border-color: color-mix(in srgb, var(--color-outline-variant) 20%, transparent);
+  }
+
+  .answer-option:hover {
+    border-color: color-mix(in srgb, var(--color-primary) 40%, transparent);
+  }
+
+  .answer-option.selected {
+    @apply bg-surface-bright shadow-neon-primary;
+    border-color: color-mix(in srgb, var(--color-primary) 60%, transparent);
+  }
+
+  .answer-option.correct {
+    @apply bg-secondary-container shadow-neon-secondary;
+    border-color: color-mix(in srgb, var(--color-secondary) 60%, transparent);
+  }
+
+  .answer-option.incorrect {
+    @apply bg-error-container;
+    border-color: color-mix(in srgb, var(--color-error) 60%, transparent);
+  }
+
+  /* Input Fields */
+  .input-field {
+    @apply w-full px-6 py-4 rounded-DEFAULT bg-surface-container-low text-on-surface font-body
+      border outline-none
+      focus:bg-surface-bright
+      transition-all duration-200;
+    border-color: color-mix(in srgb, var(--color-outline-variant) 20%, transparent);
+  }
+
+  .input-field:focus {
+    border-color: color-mix(in srgb, var(--color-primary) 40%, transparent);
+  }
+
+  .input-field::placeholder {
+    color: color-mix(in srgb, var(--color-on-surface-variant) 50%, transparent);
+  }
+
+  /* Particle decoration */
+  .particle {
+    @apply absolute bg-on-surface rounded-full opacity-30 pointer-events-none;
+  }
+}
+
+/* ===== Utility Overrides ===== */
+@layer utilities {
+  /* Reduced motion support */
+  @media (prefers-reduced-motion: reduce) {
+    .animate-float-slow,
+    .animate-float-medium,
+    .animate-float-fast,
+    .animate-bounce,
+    .animate-pulse-glow {
+      animation: none !important;
+    }
+
+    * {
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+/* ===== Legacy Support (for existing components during migration) ===== */
 .clicked {
-  background-color: #2ecc71;
-  color: white;
+  @apply bg-secondary text-on-primary-fixed;
 }
 
 .disabled-button {
-  background-color: #c9f6dc;
-  color: white;
+  @apply cursor-not-allowed;
+  background-color: color-mix(in srgb, var(--color-secondary) 30%, transparent);
+  color: color-mix(in srgb, var(--color-on-surface) 50%, transparent);
 }
 
-.btn,
-.active {
-  padding: 10px;
-  border: 1px solid white;
-  border-radius: 5px;
-  background: none;
-  color: white;
-}
-
-.active {
-  background: white;
-  color: black;
-}
-
-.btn:hover {
-  background: white;
-  cursor: pointer;
-  color: black;
-}
-
+/* Remove number input spinners */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;

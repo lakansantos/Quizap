@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Quizap - Answer Feedback</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&amp;family=DM+Sans:ital,wght@0,400;0,500;0,700;1,400&amp;family=Plus+Jakarta+Sans:wght@700;800&amp;family=Manrope:wght@400;500;600;700&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              colors: {
+                "surface-bright": "#28284f",
+                "on-secondary-container": "#dbfffb",
+                "primary-fixed": "#b988ff",
+                "surface-container-low": "#10102c",
+                "tertiary-fixed": "#fa8dc9",
+                "surface-dim": "#0b0b24",
+                "surface-container": "#161634",
+                "inverse-surface": "#fcf8ff",
+                "on-tertiary": "#6c164e",
+                "primary-container": "#b988ff",
+                "on-primary-fixed": "#000000",
+                "primary": "#c49aff",
+                "on-secondary": "#005c58",
+                "on-tertiary-fixed-variant": "#6a144d",
+                "tertiary-container": "#fa8dc9",
+                "surface": "#0b0b24",
+                "error-container": "#a70138",
+                "primary-fixed-dim": "#af76ff",
+                "outline-variant": "#464561",
+                "on-surface-variant": "#a9a8c9",
+                "on-secondary-fixed-variant": "#006762",
+                "surface-tint": "#c49aff",
+                "on-primary-fixed-variant": "#3f007d",
+                "on-error": "#490013",
+                "secondary-container": "#006a65",
+                "on-background": "#e5e3ff",
+                "error-dim": "#d73357",
+                "on-surface": "#e5e3ff",
+                "surface-variant": "#222246",
+                "secondary": "#5df9ef",
+                "surface-container-lowest": "#000000",
+                "surface-container-high": "#1c1c3d",
+                "on-error-container": "#ffb2b9",
+                "on-tertiary-fixed": "#360024",
+                "inverse-primary": "#7d28e2",
+                "outline": "#737391",
+                "on-secondary-fixed": "#004844",
+                "inverse-on-surface": "#53526f",
+                "error": "#ff6e84",
+                "tertiary-fixed-dim": "#ea80bb",
+                "background": "#0b0b24",
+                "on-tertiary-container": "#5f0843",
+                "tertiary": "#ffa1d3",
+                "on-primary": "#420083",
+                "primary-dim": "#9446f9",
+                "secondary-dim": "#4aebe1",
+                "surface-container-highest": "#222246",
+                "tertiary-dim": "#ea80bb",
+                "secondary-fixed-dim": "#4aebe1",
+                "secondary-fixed": "#5df9ef",
+                "on-primary-container": "#320067"
+              },
+              fontFamily: {
+                "headline": ["Plus Jakarta Sans", "Sora"],
+                "body": ["Manrope", "DM Sans"],
+                "label": ["Manrope", "DM Sans"]
+              },
+              borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+            },
+          },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .bg-neon-gradient {
+            background: linear-gradient(135deg, #c49aff 0%, #9446f9 100%);
+        }
+        .glass-panel {
+            background: rgba(34, 34, 70, 0.6);
+            backdrop-filter: blur(20px);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body min-h-screen selection:bg-primary selection:text-on-primary">
+<!-- TopAppBar -->
+<header class="bg-[#0b0b24] dark:bg-[#0b0b24] fixed top-0 left-0 w-full z-50">
+<div class="flex justify-between items-center px-6 h-16 w-full bg-[#10102c]">
+<div class="text-2xl font-bold tracking-tighter text-[#c49aff] dark:text-[#c49aff] font-headline">
+                Quizap
+            </div>
+<div class="flex items-center gap-4">
+<button class="text-[#e5e3ff] opacity-70 hover:bg-[#161634] transition-all duration-200 p-2 rounded-full">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="text-[#e5e3ff] opacity-70 hover:bg-[#161634] transition-all duration-200 p-2 rounded-full">
+<span class="material-symbols-outlined">emoji_events</span>
+</button>
+<div class="w-10 h-10 rounded-full border-2 border-primary overflow-hidden">
+<img alt="Player avatar" class="w-full h-full object-cover" data-alt="Close up high quality 3D rendered avatar of a stylish futuristic gamer with neon purple accents and glowing visor" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCW8jdvGym9zLO9EF-j_-C49TZacZ7F6el7I7G8G7r6qY4Pd40WUObQP1Xirbb4A5gdRfFTzZ8ui9svqOq0vwjqgNTTDVHVJJcAOc2fI8bjqZmZvAyhgPQtyOVyRM4cWNYZ50Oggp8k4F91ZcV-fZnllDvv5ZZMtlvriwvXIJMAK8qtFhkIFhD71f_3kuDAvGPUcJXPoLPiFxxQWniI1SshsBsZ_zDq0RzyofzWK-TW2N94xYUIw1SeyNjM7F1FPvkU9ZOyU2rTshI"/>
+</div>
+</div>
+</div>
+</header>
+<main class="pt-24 pb-32 px-6 max-w-[1440px] mx-auto">
+<!-- Comparison Section -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+<!-- STATE A: CORRECT ANSWER -->
+<section class="space-y-8 relative">
+<div class="flex items-center justify-between mb-2">
+<span class="text-sm font-bold text-secondary uppercase tracking-widest">Feedback Simulation: Success</span>
+<div class="flex items-center gap-2 bg-surface-container-high px-3 py-1 rounded-full">
+<span class="material-symbols-outlined text-secondary scale-75" style="font-variation-settings: 'FILL' 1;">local_fire_department</span>
+<span class="text-xs font-bold text-on-surface">STREAK: 5</span>
+</div>
+</div>
+<!-- Main Quiz Card: Correct State -->
+<div class="relative bg-surface-container-low rounded-lg p-8 overflow-hidden shadow-[0_0_40px_rgba(93,249,239,0.1)]">
+<!-- Confetti Burst Decoration (Abstract) -->
+<div class="absolute -top-10 -right-10 w-40 h-40 bg-secondary/10 rounded-full blur-3xl"></div>
+<div class="absolute top-20 left-0 w-20 h-20 bg-primary/5 rounded-full blur-2xl"></div>
+<!-- Question Header -->
+<div class="mb-8">
+<div class="flex justify-between items-center mb-4">
+<span class="text-on-surface-variant text-sm font-semibold tracking-wide">QUESTION 14 OF 20</span>
+<span class="text-secondary font-bold font-headline">+1,250 PTS</span>
+</div>
+<h2 class="text-3xl font-bold font-headline leading-tight text-on-surface">Which planet is known as the 'Red Planet' due to its iron oxide surface?</h2>
+</div>
+<!-- Answers Grid -->
+<div class="grid grid-cols-1 gap-4 mb-8">
+<div class="flex items-center justify-between p-6 bg-surface-container rounded-lg opacity-40 cursor-not-allowed">
+<span class="text-lg font-medium text-on-surface">Venus</span>
+<span class="text-on-surface-variant opacity-20">A</span>
+</div>
+<!-- The Correct Answer (Selected) -->
+<div class="flex items-center justify-between p-6 bg-secondary-container border-2 border-secondary rounded-lg shadow-[0_0_20px_rgba(93,249,239,0.2)] transform scale-[1.02] transition-all">
+<div class="flex items-center gap-4">
+<div class="w-8 h-8 rounded-full bg-secondary text-on-secondary flex items-center justify-center">
+<span class="material-symbols-outlined font-black">check</span>
+</div>
+<span class="text-xl font-bold text-on-secondary-container">Mars</span>
+</div>
+<span class="text-on-secondary-container font-bold">B</span>
+</div>
+<div class="flex items-center justify-between p-6 bg-surface-container rounded-lg opacity-40 cursor-not-allowed">
+<span class="text-lg font-medium text-on-surface">Jupiter</span>
+<span class="text-on-surface-variant opacity-20">C</span>
+</div>
+</div>
+<!-- Feedback Overlay -->
+<div class="glass-panel rounded-lg p-6 border-t-4 border-secondary flex items-center justify-between">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-secondary/20 rounded-full flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-3xl" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+</div>
+<div>
+<h4 class="text-xl font-bold font-headline text-secondary">You're on fire! 🔥</h4>
+<p class="text-sm text-on-surface-variant">5 Correct answers in a row!</p>
+</div>
+</div>
+<button class="bg-neon-gradient text-on-primary-fixed px-8 py-4 rounded-full font-bold text-lg hover:scale-105 transition-transform shadow-lg shadow-primary/20">
+                            Next Question
+                        </button>
+</div>
+</div>
+</section>
+<!-- STATE B: WRONG ANSWER -->
+<section class="space-y-8 relative">
+<div class="flex items-center justify-between mb-2">
+<span class="text-sm font-bold text-error-dim uppercase tracking-widest">Feedback Simulation: Failure</span>
+<div class="flex items-center gap-2 bg-surface-container-high px-3 py-1 rounded-full">
+<span class="material-symbols-outlined text-outline-variant scale-75">heart_broken</span>
+<span class="text-xs font-bold text-on-surface">LIVES: 2</span>
+</div>
+</div>
+<!-- Main Quiz Card: Wrong State -->
+<div class="relative bg-surface-container-low rounded-lg p-8 overflow-hidden shadow-[0_0_40px_rgba(215,51,87,0.05)]">
+<!-- Question Header -->
+<div class="mb-8">
+<div class="flex justify-between items-center mb-4">
+<span class="text-on-surface-variant text-sm font-semibold tracking-wide">QUESTION 14 OF 20</span>
+<span class="text-error-dim font-bold font-headline">+0 PTS</span>
+</div>
+<h2 class="text-3xl font-bold font-headline leading-tight text-on-surface">Which planet is known as the 'Red Planet' due to its iron oxide surface?</h2>
+</div>
+<!-- Answers Grid -->
+<div class="grid grid-cols-1 gap-4 mb-8">
+<!-- Wrongly Selected Answer -->
+<div class="flex items-center justify-between p-6 bg-error-container/40 border-2 border-error-dim rounded-lg transition-all">
+<div class="flex items-center gap-4">
+<div class="w-8 h-8 rounded-full bg-error-dim text-on-error flex items-center justify-center">
+<span class="material-symbols-outlined font-black">close</span>
+</div>
+<span class="text-xl font-bold text-on-error-container">Venus</span>
+</div>
+<span class="text-on-error-container font-bold">A</span>
+</div>
+<!-- The Correct Answer (Highlighted) -->
+<div class="flex items-center justify-between p-6 bg-secondary/10 border-2 border-secondary/50 border-dashed rounded-lg transition-all">
+<div class="flex items-center gap-4">
+<div class="w-8 h-8 rounded-full border-2 border-secondary text-secondary flex items-center justify-center">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+<span class="text-xl font-bold text-secondary">Mars</span>
+</div>
+<span class="text-secondary opacity-50 font-bold">B</span>
+</div>
+<div class="flex items-center justify-between p-6 bg-surface-container rounded-lg opacity-40 cursor-not-allowed">
+<span class="text-lg font-medium text-on-surface">Jupiter</span>
+<span class="text-on-surface-variant opacity-20">C</span>
+</div>
+</div>
+<!-- Feedback Overlay -->
+<div class="glass-panel rounded-lg p-6 border-t-4 border-error-dim flex items-center justify-between">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-error-dim/20 rounded-full flex items-center justify-center text-error-dim">
+<span class="material-symbols-outlined text-3xl">sentiment_dissatisfied</span>
+</div>
+<div>
+<h4 class="text-xl font-bold font-headline text-error-dim">Almost!</h4>
+<p class="text-sm text-on-surface-variant">The answer was <span class="text-secondary font-bold">Mars</span></p>
+</div>
+</div>
+<button class="bg-surface-bright text-on-surface px-8 py-4 rounded-full font-bold text-lg hover:bg-surface-variant transition-colors border border-outline-variant/30">
+                            Try Again
+                        </button>
+</div>
+</div>
+</section>
+</div>
+<!-- Detailed Stats (Bento Grid Style) -->
+<div class="mt-20">
+<h3 class="text-2xl font-bold font-headline mb-8 text-on-surface px-2 border-l-4 border-primary ml-1">Session Performance</h3>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+<div class="bg-surface-container-low p-6 rounded-lg flex flex-col justify-between h-40">
+<span class="text-on-surface-variant text-sm font-bold uppercase">Accuracy</span>
+<div>
+<div class="text-4xl font-extrabold font-headline text-secondary">92%</div>
+<div class="w-full bg-surface-variant h-1.5 mt-2 rounded-full overflow-hidden">
+<div class="bg-secondary h-full" style="width: 92%"></div>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-low p-6 rounded-lg flex flex-col justify-between h-40">
+<span class="text-on-surface-variant text-sm font-bold uppercase">Avg. Time</span>
+<div>
+<div class="text-4xl font-extrabold font-headline text-primary">4.2s</div>
+<p class="text-xs text-on-surface-variant mt-1">Faster than 85% of players</p>
+</div>
+</div>
+<div class="bg-surface-container-low p-6 rounded-lg flex flex-col justify-between h-40">
+<span class="text-on-surface-variant text-sm font-bold uppercase">Points Earned</span>
+<div>
+<div class="text-4xl font-extrabold font-headline text-tertiary">14,820</div>
+<p class="text-xs text-on-surface-variant mt-1">+2,400 streak bonus</p>
+</div>
+</div>
+<div class="bg-surface-container-low p-6 rounded-lg flex flex-col justify-between h-40">
+<span class="text-on-surface-variant text-sm font-bold uppercase">Rank Up</span>
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 rounded-full bg-surface-bright flex items-center justify-center">
+<span class="material-symbols-outlined text-tertiary">diamond</span>
+</div>
+<div>
+<div class="text-lg font-bold font-headline text-on-surface">Diamond III</div>
+<div class="text-xs text-on-surface-variant">250 pts to Diamond IV</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center h-20 pb-safe px-4 bg-[#0b0b24]/80 backdrop-blur-xl z-50 shadow-[0_-4px_20px_rgba(154,77,255,0.1)]">
+<div class="flex flex-col items-center justify-center bg-[#c49aff] text-[#0b0b24] rounded-full px-5 py-1 mt-1 scale-110 duration-200 ease-out cursor-pointer">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">videogame_asset</span>
+<span class="text-[11px] font-bold Sora">Play</span>
+</div>
+<div class="flex flex-col items-center justify-center text-[#e5e3ff] opacity-60 hover:opacity-100 transition-opacity cursor-pointer">
+<span class="material-symbols-outlined">military_tech</span>
+<span class="text-[11px] font-bold Sora">Leagues</span>
+</div>
+<div class="flex flex-col items-center justify-center text-[#e5e3ff] opacity-60 hover:opacity-100 transition-opacity cursor-pointer">
+<span class="material-symbols-outlined">shopping_bag</span>
+<span class="text-[11px] font-bold Sora">Store</span>
+</div>
+<div class="flex flex-col items-center justify-center text-[#e5e3ff] opacity-60 hover:opacity-100 transition-opacity cursor-pointer">
+<span class="material-symbols-outlined">person</span>
+<span class="text-[11px] font-bold Sora">Profile</span>
+</div>
+</nav>
+</body></html>

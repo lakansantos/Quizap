@@ -52,7 +52,7 @@ export const categoriesItems = [
     category: "Society and Culture",
     image_src: "/categories/society-and-culture-icon.png",
     alt: "society and culture",
-    name: "arts_and_literature",
+    name: "society_and_culture",
   },
   {
     category: "Science",

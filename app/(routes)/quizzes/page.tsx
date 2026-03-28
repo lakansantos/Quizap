@@ -1,17 +1,18 @@
 import React from "react";
 import Quizzes from "@/app/modules/quizzes/Quizzes";
-import {useGetRandomQuestions} from "../../hooks/useGetRandomQuestions";
+import {getRandomQuestions} from "../../hooks/useGetRandomQuestions";
 
 const Page = async ({
   searchParams,
 }: {
-  searchParams: {
+  searchParams: Promise<{
     limit: number;
     categories: string;
     difficulty: string;
-  };
+  }>;
 }) => {
-  const data = await useGetRandomQuestions(searchParams);
+  const resolvedParams = await searchParams;
+  const data = await getRandomQuestions(resolvedParams);
 
   return (
     <div className="h-screen">
