@@ -1,5 +1,5 @@
 "use client";
-import React, {useEffect, useState, useCallback} from "react";
+import React, {useEffect, useState, useCallback, useRef} from "react";
 import {useRouter} from "next/navigation";
 import {
   Trophy,
@@ -55,13 +55,14 @@ const Quizzes = (props: Props) => {
   );
   const [streak, setStreak] = useState(() => quizProgress?.streak ?? 0);
   const [showQuitModal, setShowQuitModal] = useState(false);
+  const hasQuit = useRef(false);
 
   const {isPlaying, toggle: toggleMusic} = useMusic();
   const router = useRouter();
 
   // Save progress to context whenever it changes (so it survives navigation)
   useEffect(() => {
-    if (data.length && !isFinished) {
+    if (data.length && !isFinished && !hasQuit.current) {
       setQuizProgress({
         data,
         currentItem,
@@ -522,6 +523,7 @@ const Quizzes = (props: Props) => {
               </button>
               <button
                 onClick={() => {
+                  hasQuit.current = true;
                   setQuizProgress(null);
                   setScore(0);
                   router.push("/");
