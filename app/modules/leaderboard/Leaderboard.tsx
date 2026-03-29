@@ -223,9 +223,12 @@ const Leaderboard = () => {
           >
             <ChevronLeft className="w-6 h-6" />
           </button>
-          <span className="text-2xl font-bold tracking-tighter text-primary font-headline">
+          <button
+            onClick={() => router.push("/")}
+            className="text-2xl font-bold tracking-tighter text-primary font-headline hover:opacity-80 transition-opacity cursor-pointer"
+          >
             Quizap
-          </span>
+          </button>
         </div>
         <button
           onClick={() => router.push("/settings")}

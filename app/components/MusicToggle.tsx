@@ -3,9 +3,14 @@
 import React from "react";
 import {Volume2, VolumeX} from "lucide-react";
 import {useMusic} from "@/app/contexts/MusicContext";
+import {usePathname} from "next/navigation";
 
 const MusicToggle = () => {
   const {isPlaying, toggle} = useMusic();
+  const pathname = usePathname();
+
+  // Hide on quiz page — it's rendered inline in the quiz header instead
+  if (pathname === "/quizzes") return null;
 
   return (
     <button

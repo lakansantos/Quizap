@@ -19,6 +19,17 @@ export type QuizResult = {
   date: string;
 };
 
+export type QuizProgress = {
+  data: QuestionsData[];
+  currentItem: number;
+  correctCount: number;
+  streak: number;
+  score: number;
+  showFeedback: boolean;
+  isCorrect: boolean;
+  clickedItem: string | null;
+};
+
 const POINTS_MULTIPLIER: Record<string, number> = {
   easy: 50,
   medium: 150,
@@ -45,6 +56,8 @@ type ScoreContextType = {
   getTotalPlayed: () => number;
   saveQuizResult: (result: QuizResult) => Promise<void>;
   isAuthReady: boolean;
+  quizProgress: QuizProgress | null;
+  setQuizProgress: (progress: QuizProgress | null) => void;
 };
 
 const QuizContext = createContext<ScoreContextType>({
@@ -57,6 +70,8 @@ const QuizContext = createContext<ScoreContextType>({
   isFinished: false,
   quizHistory: [],
   isAuthReady: false,
+  quizProgress: null,
+  setQuizProgress: () => {},
   setSelectedCategory: () => {},
   setScore: () => {},
   setPlayerName: () => {},
@@ -85,6 +100,7 @@ export const ScoreProvider = (props: ScoreProps) => {
   const [isFinished, setIsFinished] = useState<boolean>(false);
   const [quizHistory, setQuizHistory] = useState<QuizResult[]>([]);
   const [isAuthReady, setIsAuthReady] = useState(false);
+  const [quizProgress, setQuizProgress] = useState<QuizProgress | null>(null);
 
   // Anonymous auth on mount
   useEffect(() => {
@@ -175,6 +191,8 @@ export const ScoreProvider = (props: ScoreProps) => {
         getTotalPlayed,
         saveQuizResult,
         isAuthReady,
+        quizProgress,
+        setQuizProgress,
       }}
     >
       {children}

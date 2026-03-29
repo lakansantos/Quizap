@@ -74,9 +74,12 @@ const Finish = () => {
     <div className="min-h-screen bg-surface text-on-surface font-body">
       {/* Header */}
       <header className="flex justify-between items-center px-6 h-16 w-full fixed top-0 z-50 bg-surface">
-        <span className="text-2xl font-bold tracking-tighter text-primary font-headline">
+        <button
+          onClick={() => router.push("/")}
+          className="text-2xl font-bold tracking-tighter text-primary font-headline hover:opacity-80 transition-opacity cursor-pointer"
+        >
           Quizap
-        </span>
+        </button>
         <button
           onClick={() => router.push("/settings")}
           className="p-2 rounded-full hover:bg-surface-container transition-all cursor-pointer text-on-surface-variant hover:text-on-surface"

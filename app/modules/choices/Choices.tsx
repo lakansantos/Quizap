@@ -1,6 +1,6 @@
 "use client";
 
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useRef} from "react";
 import {useRouter} from "next/navigation";
 
 import {queryStringify} from "../../utils/http";
@@ -31,6 +31,8 @@ const Choices = () => {
     setSelectedCategory,
     setSelectedNumberItems,
   } = useQuizContext();
+
+  const numberItemsRef = useRef<HTMLDivElement>(null);
 
   // Redirect to home if no player name
   useEffect(() => {
@@ -63,9 +65,12 @@ const Choices = () => {
 
       {/* Header */}
       <header className="flex justify-between items-center px-6 h-16 w-full">
-        <span className="text-2xl font-bold tracking-tighter text-primary font-headline">
+        <button
+          onClick={() => router.push("/")}
+          className="text-2xl font-bold tracking-tighter text-primary font-headline hover:opacity-80 transition-opacity cursor-pointer"
+        >
           Quizap
-        </span>
+        </button>
       </header>
 
       {/* Main Content */}
@@ -114,12 +119,20 @@ const Choices = () => {
           <div className="w-full space-y-12">
             <Difficulties
               selectedDifficulty={selectedDifficulty}
-              setSelectedDifficulty={setSelectedDifficulty}
+              setSelectedDifficulty={(value) => {
+                setSelectedDifficulty(value);
+                // Scroll to "How Many Questions" section after picking difficulty on mobile
+                setTimeout(() => {
+                  numberItemsRef.current?.scrollIntoView({behavior: "smooth"});
+                }, 100);
+              }}
             />
-            <NumberItems
-              selectedNumberItems={selectedNumberItems}
-              setSelectedNumberItems={setSelectedNumberItems}
-            />
+            <div ref={numberItemsRef}>
+              <NumberItems
+                selectedNumberItems={selectedNumberItems}
+                setSelectedNumberItems={setSelectedNumberItems}
+              />
+            </div>
           </div>
         )}
       </main>
@@ -132,6 +145,7 @@ const Choices = () => {
               if (currentStep === "categories") {
                 router.push("/");
               } else {
+                window.scrollTo(0, 0);
                 setCurrentStep("categories");
               }
             }}
@@ -157,7 +171,10 @@ const Choices = () => {
           <button
             onClick={() => {
               if (currentStep === "categories") {
-                if (selectedCategory) setCurrentStep("settings");
+                if (selectedCategory) {
+                  window.scrollTo(0, 0);
+                  setCurrentStep("settings");
+                }
               } else {
                 handleSubmit();
               }

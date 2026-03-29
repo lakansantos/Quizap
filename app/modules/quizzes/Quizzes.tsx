@@ -1,17 +1,27 @@
 "use client";
 import React, {useEffect, useState, useCallback} from "react";
 import {useRouter} from "next/navigation";
-import {Trophy, Flame, Check, X, Sparkles, ChevronRight} from "lucide-react";
+import {
+  Trophy,
+  Flame,
+  Check,
+  X,
+  Sparkles,
+  ChevronRight,
+  AlertTriangle,
+} from "lucide-react";
 
+import {Volume2, VolumeX} from "lucide-react";
 import {ROUTE_PATH} from "../../utils/routes";
 import {useQuizContext} from "@/app/contexts/QuizContext";
+import {useMusic} from "@/app/contexts/MusicContext";
 
 type Props = {
   data?: QuestionsData[];
 };
 
 const Quizzes = (props: Props) => {
-  const {data = []} = props;
+  const {data: serverData = []} = props;
   const {
     setScore,
     isFinished,
@@ -20,16 +30,60 @@ const Quizzes = (props: Props) => {
     selectedDifficulty,
     addQuizResult,
     saveQuizResult,
+    quizProgress,
+    setQuizProgress,
   } = useQuizContext();
 
-  const [clickedItem, setClickedItem] = useState<string | null>(null);
-  const [currentItem, setCurrentItem] = useState(0);
-  const [showFeedback, setShowFeedback] = useState(false);
-  const [isCorrect, setIsCorrect] = useState(false);
-  const [correctCount, setCorrectCount] = useState(0);
-  const [streak, setStreak] = useState(0);
+  // Use saved quiz data if resuming, otherwise use server-fetched data
+  const data = quizProgress?.data?.length ? quizProgress.data : serverData;
 
+  // Restore from saved progress or start fresh
+  const [clickedItem, setClickedItem] = useState<string | null>(
+    () => quizProgress?.clickedItem ?? null
+  );
+  const [currentItem, setCurrentItem] = useState(
+    () => quizProgress?.currentItem ?? 0
+  );
+  const [showFeedback, setShowFeedback] = useState(
+    () => quizProgress?.showFeedback ?? false
+  );
+  const [isCorrect, setIsCorrect] = useState(
+    () => quizProgress?.isCorrect ?? false
+  );
+  const [correctCount, setCorrectCount] = useState(
+    () => quizProgress?.correctCount ?? 0
+  );
+  const [streak, setStreak] = useState(() => quizProgress?.streak ?? 0);
+  const [showQuitModal, setShowQuitModal] = useState(false);
+
+  const {isPlaying, toggle: toggleMusic} = useMusic();
   const router = useRouter();
+
+  // Save progress to context whenever it changes (so it survives navigation)
+  useEffect(() => {
+    if (data.length && !isFinished) {
+      setQuizProgress({
+        data,
+        currentItem,
+        correctCount,
+        streak,
+        score: correctCount,
+        showFeedback,
+        isCorrect,
+        clickedItem,
+      });
+    }
+  }, [
+    currentItem,
+    correctCount,
+    streak,
+    data,
+    isFinished,
+    setQuizProgress,
+    showFeedback,
+    isCorrect,
+    clickedItem,
+  ]);
 
   const handleSelectAnswer = (choice: string) => {
     if (showFeedback) return;
@@ -66,6 +120,7 @@ const Quizzes = (props: Props) => {
       };
       addQuizResult(result);
       saveQuizResult(result);
+      setQuizProgress(null);
       setIsFinished(true);
     } else {
       setCurrentItem(nextIndex);
@@ -79,6 +134,7 @@ const Quizzes = (props: Props) => {
     setIsFinished,
     addQuizResult,
     saveQuizResult,
+    setQuizProgress,
     correctCount,
     selectedCategory,
     selectedDifficulty,
@@ -118,9 +174,12 @@ const Quizzes = (props: Props) => {
       <header className="w-full bg-surface-container-low sticky top-0 z-50">
         <div className="max-w-[1440px] mx-auto flex justify-between items-center px-6 h-16">
           <div className="flex items-center gap-4">
-            <span className="text-2xl font-bold tracking-tighter text-primary font-headline">
+            <button
+              onClick={() => router.push("/")}
+              className="text-2xl font-bold tracking-tighter text-primary font-headline hover:opacity-80 transition-opacity cursor-pointer"
+            >
               Quizap
-            </span>
+            </button>
             {selectedCategory && (
               <div className="hidden md:flex items-center gap-2 px-3 py-1 bg-surface-container rounded-full">
                 <span className="text-xs font-bold font-headline text-secondary uppercase tracking-wider">
@@ -147,6 +206,21 @@ const Quizzes = (props: Props) => {
                 </span>
               </div>
             )}
+            <button
+              onClick={toggleMusic}
+              aria-label={isPlaying ? "Mute music" : "Play music"}
+              className={`w-9 h-9 rounded-full flex items-center justify-center transition-all cursor-pointer ${
+                isPlaying
+                  ? "bg-primary/20 text-primary"
+                  : "bg-surface-container text-on-surface-variant hover:text-on-surface"
+              }`}
+            >
+              {isPlaying ? (
+                <Volume2 className="w-4 h-4" />
+              ) : (
+                <VolumeX className="w-4 h-4" />
+              )}
+            </button>
           </div>
         </div>
       </header>
@@ -378,16 +452,21 @@ const Quizzes = (props: Props) => {
           </div>
         )}
 
-        {/* Footer Actions (only when NOT showing feedback) */}
-        {!showFeedback && (
-          <div className="w-full max-w-4xl mt-16 flex justify-between items-center">
+        {/* Spacer to prevent content from being hidden behind sticky footer */}
+        {!showFeedback && <div className="h-24 md:h-0" />}
+      </main>
+
+      {/* Sticky Footer Actions (only when NOT showing feedback) */}
+      {!showFeedback && (
+        <div className="sticky bottom-0 z-40 bg-surface-container-low/90 backdrop-blur-md border-t border-outline-variant/20">
+          <div className="max-w-4xl mx-auto px-4 py-3 md:py-4 flex justify-between items-center">
             <button
-              onClick={() => router.push("/choices")}
-              className="flex items-center gap-2 px-6 py-3 rounded-full text-on-surface-variant font-bold hover:text-on-surface transition-colors group cursor-pointer"
+              onClick={() => setShowQuitModal(true)}
+              className="flex items-center gap-1 md:gap-2 px-3 md:px-6 py-2 md:py-3 rounded-full text-on-surface-variant font-bold hover:text-on-surface transition-colors group cursor-pointer text-sm md:text-base"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="w-5 h-5 group-hover:-translate-x-1 transition-transform"
+                className="w-4 h-4 md:w-5 md:h-5 group-hover:-translate-x-1 transition-transform"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -403,16 +482,51 @@ const Quizzes = (props: Props) => {
             <button
               onClick={handleSubmit}
               disabled={!clickedItem}
-              className="btn-primary px-12 py-4 text-lg
+              className="btn-primary px-8 md:px-12 py-3 md:py-4 text-base md:text-lg
                 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100"
             >
               Submit Answer
             </button>
-
-            <div className="w-[120px]" />
           </div>
-        )}
-      </main>
+        </div>
+      )}
+
+      {/* Quit Confirmation Modal */}
+      {showQuitModal && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm px-4">
+          <div className="glass-card rounded-[1rem] p-8 max-w-md w-full text-center space-y-6">
+            <div className="w-16 h-16 rounded-full bg-error-dim/20 flex items-center justify-center mx-auto">
+              <AlertTriangle className="w-8 h-8 text-error-dim" />
+            </div>
+            <div>
+              <h3 className="text-2xl font-bold font-headline text-on-surface mb-2">
+                Quit Quiz?
+              </h3>
+              <p className="text-on-surface-variant">
+                Your progress will be lost and this quiz will reset.
+              </p>
+            </div>
+            <div className="flex gap-4">
+              <button
+                onClick={() => setShowQuitModal(false)}
+                className="flex-1 px-6 py-3 rounded-[1rem] border border-outline-variant/30 text-on-surface font-bold hover:bg-surface-container transition-all cursor-pointer"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => {
+                  setQuizProgress(null);
+                  setScore(0);
+                  router.push("/");
+                }}
+                className="flex-1 px-6 py-3 rounded-[1rem] bg-error-dim text-on-error font-bold hover:opacity-90 transition-all cursor-pointer"
+              >
+                Quit
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

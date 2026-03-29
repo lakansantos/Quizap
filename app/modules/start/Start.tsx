@@ -2,12 +2,10 @@
 
 import {useQuizContext} from "@/app/contexts/QuizContext";
 import {supabase} from "@/app/utils/supabase";
-import {useRouter} from "next/navigation";
 import React, {useState, SyntheticEvent} from "react";
 import {Play, Sparkles, HelpCircle, Lightbulb, Star} from "lucide-react";
 
 const Start = () => {
-  const router = useRouter();
   const {playerId, setPlayerName} = useQuizContext();
   const [nameInput, setNameInput] = useState("");
 
@@ -19,7 +17,8 @@ const Start = () => {
     if (playerId) {
       await supabase.from("players").upsert({id: playerId, name: trimmed});
     }
-    router.push("/choices");
+    // Scroll to top so user sees the "Play Now" button on the homepage
+    window.scrollTo({top: 0, behavior: "smooth"});
   };
 
   return (

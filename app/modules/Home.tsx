@@ -3,11 +3,19 @@
 import React, {useRef} from "react";
 import {useQuizContext} from "@/app/contexts/QuizContext";
 import {useRouter} from "next/navigation";
-import {Zap, LayoutGrid, BarChart3, Trophy, Settings} from "lucide-react";
+import {Zap, LayoutGrid, BarChart3, Trophy, Settings, Play} from "lucide-react";
+import {queryStringify} from "@/app/utils/http";
 import Start from "./start/Start";
 
 const Home = () => {
-  const {playerName, isAuthReady} = useQuizContext();
+  const {
+    playerName,
+    isAuthReady,
+    quizProgress,
+    selectedCategory,
+    selectedDifficulty,
+    selectedNumberItems,
+  } = useQuizContext();
   const router = useRouter();
   const entryRef = useRef<HTMLDivElement>(null);
 
@@ -22,7 +30,7 @@ const Home = () => {
   return (
     <div className="min-h-screen">
       {/* ===== Hero / Splash Section ===== */}
-      <main className="relative min-h-screen flex flex-col items-center justify-center px-6 bg-mesh overflow-hidden">
+      <main className="relative min-h-screen flex flex-col items-center justify-center px-6 py-24 bg-mesh overflow-hidden">
         {/* Settings Button */}
         <button
           onClick={() => router.push("/settings")}
@@ -60,7 +68,7 @@ const Home = () => {
           </div>
 
           {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row items-center gap-6 mb-20">
+          <div className="flex flex-col sm:flex-row items-center gap-6 mb-8">
             <button
               onClick={handleGetStarted}
               className="btn-primary text-xl px-12 py-5"
@@ -75,8 +83,34 @@ const Home = () => {
             </button>
           </div>
 
+          {/* Resume Quiz Button */}
+          {quizProgress && (
+            <button
+              onClick={() => {
+                const params = queryStringify({
+                  difficulty: selectedDifficulty,
+                  categories: selectedCategory,
+                  limit: selectedNumberItems,
+                  test: "",
+                });
+                router.push("/quizzes?" + params);
+              }}
+              className="flex items-center gap-3 px-8 py-4 mb-8 rounded-[1rem] bg-secondary/10 border border-secondary/30 hover:bg-secondary/20 transition-all cursor-pointer group"
+            >
+              <Play className="w-5 h-5 text-secondary" fill="currentColor" />
+              <span className="font-headline font-bold text-secondary">
+                Resume Quiz
+              </span>
+              <span className="text-on-surface-variant text-sm">
+                ({quizProgress.currentItem + 1}/{quizProgress.data.length})
+              </span>
+            </button>
+          )}
+
+          <div className="mb-8 md:mb-12" />
+
           {/* Feature Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full max-w-5xl">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 w-full max-w-5xl px-2">
             <div className="card flex flex-col items-center text-center">
               <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-6">
                 <LayoutGrid className="w-8 h-8 text-primary" />
@@ -132,7 +166,7 @@ const Home = () => {
 
       {/* Footer */}
       <footer className="py-8 text-center text-on-surface-variant/40 text-sm font-label tracking-widest uppercase bg-surface">
-        &copy; 2024 Quizap Gaming Inc.
+        &copy; 2024 Lakan Santos
       </footer>
     </div>
   );
