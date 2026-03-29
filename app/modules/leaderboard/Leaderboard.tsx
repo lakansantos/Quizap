@@ -326,67 +326,126 @@ const Leaderboard = () => {
           <>
             {/* Podium (only on first page with 3+ entries) */}
             {showPodium && (
-              <div className="grid grid-cols-1 md:grid-cols-3 items-end gap-4 mb-16 px-4">
-                {podiumOrder.map((player, idx) => {
-                  const rank = (idx === 0 ? 2 : idx === 1 ? 1 : 3) as 1 | 2 | 3;
-                  const colors = PODIUM_COLORS[rank];
-                  const isFirst = rank === 1;
-                  const isMe = player.player_id === playerId;
+              <>
+                {/* Desktop Podium */}
+                <div className="hidden md:grid grid-cols-3 items-end gap-4 mb-16 px-4">
+                  {podiumOrder.map((player, idx) => {
+                    const rank = (idx === 0 ? 2 : idx === 1 ? 1 : 3) as
+                      | 1
+                      | 2
+                      | 3;
+                    const colors = PODIUM_COLORS[rank];
+                    const isFirst = rank === 1;
+                    const isMe = player.player_id === playerId;
 
-                  return (
-                    <div
-                      key={player.player_id}
-                      className={`flex flex-col items-center ${
-                        isFirst
-                          ? "order-1 md:order-2 md:-translate-y-8"
-                          : rank === 2
-                            ? "order-2 md:order-1"
-                            : "order-3"
-                      }`}
-                    >
-                      <div className="relative mb-6">
-                        {isFirst && (
-                          <Trophy className="absolute -top-8 left-1/2 -translate-x-1/2 w-8 h-8 text-yellow-400" />
-                        )}
-                        <div
-                          className={`${isFirst ? "w-32 h-32" : "w-24 h-24"} rounded-full ${colors.border} border-4 p-1 ${colors.shadow}
-                            bg-surface-container flex items-center justify-center ${isMe ? "ring-4 ring-primary/40" : ""}`}
-                        >
-                          <span className="font-headline font-extrabold text-2xl text-on-surface-variant">
-                            {player.name.charAt(0)}
-                          </span>
+                    return (
+                      <div
+                        key={player.player_id}
+                        className={`flex flex-col items-center ${
+                          isFirst
+                            ? "order-2 -translate-y-8"
+                            : rank === 2
+                              ? "order-1"
+                              : "order-3"
+                        }`}
+                      >
+                        <div className="relative mb-6">
+                          {isFirst && (
+                            <Trophy className="absolute -top-8 left-1/2 -translate-x-1/2 w-8 h-8 text-yellow-400" />
+                          )}
+                          <div
+                            className={`${isFirst ? "w-32 h-32" : "w-24 h-24"} rounded-full ${colors.border} border-4 p-1 ${colors.shadow}
+                              bg-surface-container flex items-center justify-center ${isMe ? "ring-4 ring-primary/40" : ""}`}
+                          >
+                            <span className="font-headline font-extrabold text-2xl text-on-surface-variant">
+                              {player.name.charAt(0)}
+                            </span>
+                          </div>
+                          <div
+                            className={`absolute -bottom-2 -right-2 ${isFirst ? "w-10 h-10 text-sm" : "w-8 h-8 text-xs"}
+                              ${colors.badge} rounded-full flex items-center justify-center text-on-primary-fixed font-black shadow-lg`}
+                          >
+                            {rank}
+                          </div>
                         </div>
                         <div
-                          className={`absolute -bottom-2 -right-2 ${isFirst ? "w-10 h-10 text-sm" : "w-8 h-8 text-xs"}
-                            ${colors.badge} rounded-full flex items-center justify-center text-on-primary-fixed font-black shadow-lg`}
+                          className={`text-center w-full ${colors.bg} ${isFirst ? "p-8 border-t-4 border-primary shadow-2xl" : "p-6 border-t-2 border-outline-variant/20"} rounded-t-3xl`}
+                        >
+                          <p
+                            className={`font-headline ${isFirst ? "font-extrabold text-2xl" : "font-bold text-lg"} mb-1`}
+                          >
+                            {isMe ? `You (${player.name})` : player.name}
+                          </p>
+                          <p
+                            className={`${colors.text} ${isFirst ? "font-black text-4xl" : "font-bold text-2xl"} mb-2`}
+                          >
+                            {player.total_points.toLocaleString()}{" "}
+                            <span className="text-xs uppercase tracking-widest text-on-surface-variant font-bold">
+                              Pts
+                            </span>
+                          </p>
+                          <div className="text-xs text-on-surface-variant uppercase font-bold tracking-tighter">
+                            {player.games_played} Quizzes Played
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+
+                {/* Mobile Podium — compact list style */}
+                <div className="md:hidden flex flex-col gap-3 mb-10">
+                  {podiumPlayers.map((player) => {
+                    const rank = player.rank as 1 | 2 | 3;
+                    const colors = PODIUM_COLORS[rank];
+                    const isMe = player.player_id === playerId;
+
+                    return (
+                      <div
+                        key={player.player_id}
+                        className={`flex items-center gap-4 rounded-[1rem] p-4 ${
+                          rank === 1
+                            ? `${colors.bg} border-2 ${colors.border} ${colors.shadow}`
+                            : "bg-surface-container border border-outline-variant/10"
+                        } ${isMe ? "ring-2 ring-primary/40" : ""}`}
+                      >
+                        <div
+                          className={`w-10 h-10 ${colors.badge} rounded-full flex items-center justify-center text-on-primary-fixed font-black text-sm shrink-0`}
                         >
                           {rank}
                         </div>
-                      </div>
-                      <div
-                        className={`text-center w-full ${colors.bg} ${isFirst ? "p-8 border-t-4 border-primary shadow-2xl" : "p-6 border-t-2 border-outline-variant/20"} rounded-t-3xl`}
-                      >
-                        <p
-                          className={`font-headline ${isFirst ? "font-extrabold text-2xl" : "font-bold text-lg"} mb-1`}
+                        <div
+                          className={`w-11 h-11 rounded-full ${colors.border} border-2 bg-surface-container flex items-center justify-center shrink-0`}
                         >
-                          {isMe ? `You (${player.name})` : player.name}
-                        </p>
-                        <p
-                          className={`${colors.text} ${isFirst ? "font-black text-4xl" : "font-bold text-2xl"} mb-2`}
-                        >
-                          {player.total_points.toLocaleString()}{" "}
-                          <span className="text-xs uppercase tracking-widest text-on-surface-variant font-bold">
-                            Pts
+                          <span className="font-headline font-bold text-lg text-on-surface-variant">
+                            {player.name.charAt(0)}
                           </span>
-                        </p>
-                        <div className="text-xs text-on-surface-variant uppercase font-bold tracking-tighter">
-                          {player.games_played} Quizzes Played
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p
+                            className={`font-bold truncate ${isMe ? "text-primary" : ""}`}
+                          >
+                            {isMe ? `You (${player.name})` : player.name}
+                          </p>
+                          <p className="text-xs text-on-surface-variant">
+                            {player.games_played} quizzes
+                          </p>
+                        </div>
+                        <div className="text-right shrink-0">
+                          <p
+                            className={`${colors.text} font-black text-lg tabular-nums`}
+                          >
+                            {player.total_points.toLocaleString()}
+                          </p>
+                          <p className="text-[10px] text-on-surface-variant uppercase tracking-wider font-bold">
+                            pts
+                          </p>
                         </div>
                       </div>
-                    </div>
-                  );
-                })}
-              </div>
+                    );
+                  })}
+                </div>
+              </>
             )}
 
             {/* Table (desktop) */}
