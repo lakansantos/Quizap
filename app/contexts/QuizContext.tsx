@@ -91,16 +91,96 @@ export const ScoreProvider = (props: ScoreProps) => {
   const {children} = props;
   const [score, setScore] = useState<number>(0);
   const [playerId, setPlayerId] = useState<string | null>(null);
-  const [playerName, setPlayerName] = useState<string>("");
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const [selectedDifficulty, setSelectedDifficulty] = useState<string | null>(
+  const [playerName, setPlayerNameRaw] = useState<string>("");
+
+  // Wrap setPlayerName to also persist to localStorage
+  const setPlayerName = useCallback((name: string) => {
+    setPlayerNameRaw(name);
+    try {
+      if (name) {
+        localStorage.setItem("quizap_player_name", name);
+      } else {
+        localStorage.removeItem("quizap_player_name");
+      }
+    } catch {}
+  }, []);
+  const [selectedCategory, setSelectedCategoryRaw] = useState<string | null>(
     null
   );
-  const [selectedNumberItems, setSelectedNumberItems] = useState<number>(5);
+  const setSelectedCategory = useCallback((value: string | null) => {
+    setSelectedCategoryRaw(value);
+    try {
+      if (value) {
+        localStorage.setItem("quizap_category", value);
+      } else {
+        localStorage.removeItem("quizap_category");
+      }
+    } catch {}
+  }, []);
+
+  const [selectedDifficulty, setSelectedDifficultyRaw] = useState<
+    string | null
+  >(null);
+  const setSelectedDifficulty = useCallback((value: string | null) => {
+    setSelectedDifficultyRaw(value);
+    try {
+      if (value) {
+        localStorage.setItem("quizap_difficulty", value);
+      } else {
+        localStorage.removeItem("quizap_difficulty");
+      }
+    } catch {}
+  }, []);
+
+  const [selectedNumberItems, setSelectedNumberItemsRaw] = useState<number>(5);
+  const setSelectedNumberItems: React.Dispatch<React.SetStateAction<number>> =
+    useCallback((value: React.SetStateAction<number>) => {
+      setSelectedNumberItemsRaw((prev) => {
+        const next = typeof value === "function" ? value(prev) : value;
+        try {
+          localStorage.setItem("quizap_number_items", String(next));
+        } catch {}
+        return next;
+      });
+    }, []);
   const [isFinished, setIsFinished] = useState<boolean>(false);
   const [quizHistory, setQuizHistory] = useState<QuizResult[]>([]);
   const [isAuthReady, setIsAuthReady] = useState(false);
-  const [quizProgress, setQuizProgress] = useState<QuizProgress | null>(null);
+  const [quizProgress, setQuizProgressRaw] = useState<QuizProgress | null>(
+    null
+  );
+
+  // Wrap setQuizProgress to persist to localStorage
+  const setQuizProgress = useCallback((progress: QuizProgress | null) => {
+    setQuizProgressRaw(progress);
+    try {
+      if (progress) {
+        localStorage.setItem("quizap_quiz_progress", JSON.stringify(progress));
+      } else {
+        localStorage.removeItem("quizap_quiz_progress");
+      }
+    } catch {}
+  }, []);
+
+  // Restore quiz progress and selections from localStorage on mount
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem("quizap_quiz_progress");
+      if (saved) {
+        const parsed = JSON.parse(saved) as QuizProgress;
+        if (parsed?.data?.length) {
+          setQuizProgressRaw(parsed);
+          setScore(parsed.score);
+        }
+      }
+      const cat = localStorage.getItem("quizap_category");
+      if (cat) setSelectedCategoryRaw(cat);
+      const diff = localStorage.getItem("quizap_difficulty");
+      if (diff) setSelectedDifficultyRaw(diff);
+      const num = localStorage.getItem("quizap_number_items");
+      if (num) setSelectedNumberItemsRaw(Number(num));
+    } catch {}
+  }, []);
 
   // Anonymous auth on mount
   useEffect(() => {
@@ -111,18 +191,30 @@ export const ScoreProvider = (props: ScoreProps) => {
 
       if (session?.user) {
         setPlayerId(session.user.id);
-        // Load player name from DB
+        // Load player name from DB first, then fall back to localStorage
         const {data} = await supabase
           .from("players")
           .select("name")
           .eq("id", session.user.id)
           .single();
-        if (data?.name) setPlayerName(data.name);
+        if (data?.name) {
+          setPlayerNameRaw(data.name);
+        } else {
+          try {
+            const saved = localStorage.getItem("quizap_player_name");
+            if (saved) setPlayerNameRaw(saved);
+          } catch {}
+        }
       } else {
         const {data, error} = await supabase.auth.signInAnonymously();
         if (!error && data.user) {
           setPlayerId(data.user.id);
         }
+        // Check localStorage for name from a previous session
+        try {
+          const saved = localStorage.getItem("quizap_player_name");
+          if (saved) setPlayerNameRaw(saved);
+        } catch {}
       }
       setIsAuthReady(true);
     };

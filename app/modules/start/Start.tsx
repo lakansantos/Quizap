@@ -1,24 +1,24 @@
 "use client";
 
 import {useQuizContext} from "@/app/contexts/QuizContext";
-import {supabase} from "@/app/utils/supabase";
 import React, {useState, SyntheticEvent} from "react";
 import {Play, Sparkles, HelpCircle, Lightbulb, Star} from "lucide-react";
 
-const Start = () => {
-  const {playerId, setPlayerName} = useQuizContext();
+type StartProps = {
+  onNameSubmitted: () => void;
+};
+
+const Start = ({onNameSubmitted}: StartProps) => {
+  const {setPlayerName} = useQuizContext();
   const [nameInput, setNameInput] = useState("");
 
-  const handleSubmit = async (e: SyntheticEvent) => {
+  const handleSubmit = (e: SyntheticEvent) => {
     e.preventDefault();
     const trimmed = nameInput.trim();
     if (!trimmed) return;
+    // Only store in React state — database write happens in saveQuizResult after finishing a quiz
     setPlayerName(trimmed);
-    if (playerId) {
-      await supabase.from("players").upsert({id: playerId, name: trimmed});
-    }
-    // Scroll to top so user sees the "Play Now" button on the homepage
-    window.scrollTo({top: 0, behavior: "smooth"});
+    onNameSubmitted();
   };
 
   return (

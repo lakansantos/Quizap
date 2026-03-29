@@ -5,7 +5,6 @@ import {useRouter} from "next/navigation";
 import {useQuizContext} from "@/app/contexts/QuizContext";
 import {useMusic} from "@/app/contexts/MusicContext";
 import {useTheme, ACCENT_COLORS} from "@/app/contexts/ThemeContext";
-import {supabase} from "@/app/utils/supabase";
 import {
   Gamepad2,
   Palette,
@@ -61,7 +60,6 @@ const Toggle = ({
 const Settings = () => {
   const router = useRouter();
   const {
-    playerId,
     playerName,
     setPlayerName,
     setScore,
@@ -96,16 +94,10 @@ const Settings = () => {
     setSelectedNumberItems(5);
   };
 
-  const handleSave = async () => {
+  const handleSave = () => {
     const trimmedName = displayName.trim();
     if (trimmedName) {
       setPlayerName(trimmedName);
-      // Persist name to Supabase
-      if (playerId) {
-        await supabase
-          .from("players")
-          .upsert({id: playerId, name: trimmedName});
-      }
     }
     router.push("/");
   };

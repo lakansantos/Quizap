@@ -149,18 +149,20 @@ const Home = () => {
           </div>
         </div>
 
-        {/* Scroll indicator */}
-        <div className="absolute bottom-8 animate-bounce">
-          <div className="w-6 h-10 rounded-full border-2 border-on-surface-variant/30 flex justify-center pt-2">
-            <div className="w-1.5 h-3 rounded-full bg-primary animate-pulse-glow" />
+        {/* Scroll indicator (only for new users who need to scroll to name entry) */}
+        {isAuthReady && !playerName && (
+          <div className="absolute bottom-8 animate-bounce">
+            <div className="w-6 h-10 rounded-full border-2 border-on-surface-variant/30 flex justify-center pt-2">
+              <div className="w-1.5 h-3 rounded-full bg-primary animate-pulse-glow" />
+            </div>
           </div>
-        </div>
+        )}
       </main>
 
       {/* ===== Player Entry Section (only for new users) ===== */}
       {isAuthReady && !playerName && (
         <div ref={entryRef}>
-          <Start />
+          <Start onNameSubmitted={() => router.push("/choices")} />
         </div>
       )}
 
