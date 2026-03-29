@@ -11,7 +11,7 @@ import {
   AlertTriangle,
 } from "lucide-react";
 
-import {Volume2, VolumeX} from "lucide-react";
+import {Volume2, VolumeX, Settings} from "lucide-react";
 import {ROUTE_PATH} from "../../utils/routes";
 import {useQuizContext} from "@/app/contexts/QuizContext";
 import {useMusic} from "@/app/contexts/MusicContext";
@@ -221,13 +221,20 @@ const Quizzes = (props: Props) => {
                 <VolumeX className="w-4 h-4" />
               )}
             </button>
+            <button
+              onClick={() => router.push("/settings")}
+              aria-label="Settings"
+              className="w-9 h-9 rounded-full flex items-center justify-center transition-all cursor-pointer bg-surface-container text-on-surface-variant hover:text-on-surface"
+            >
+              <Settings className="w-4 h-4" />
+            </button>
           </div>
         </div>
       </header>
 
-      <main className="max-w-[1440px] mx-auto px-6 py-8 flex flex-col items-center">
+      <main className="max-w-[1440px] mx-auto px-4 md:px-6 py-4 md:py-8 flex flex-col items-center">
         {/* Progress */}
-        <div className="w-full max-w-3xl mb-12">
+        <div className="w-full max-w-3xl mb-6 md:mb-12">
           <div className="flex justify-between items-end mb-3">
             <h2 className="text-sm font-bold text-on-surface-variant font-headline uppercase tracking-[0.2em]">
               Question {currentItem + 1} of {data.length}
@@ -256,14 +263,14 @@ const Quizzes = (props: Props) => {
         </div>
 
         {/* Question */}
-        <section className="w-full max-w-4xl text-center mb-12">
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold font-headline leading-tight tracking-tight text-on-surface mb-4">
+        <section className="w-full max-w-4xl text-center mb-6 md:mb-12">
+          <h1 className="text-xl sm:text-2xl md:text-4xl lg:text-5xl font-extrabold font-headline leading-tight tracking-tight text-on-surface mb-4">
             {currentItem + 1}. {question.text}
           </h1>
         </section>
 
         {/* Answer Options */}
-        <div className="w-full max-w-2xl flex flex-col gap-4">
+        <div className="w-full max-w-2xl flex flex-col gap-2.5 md:gap-4">
           {choices.map((choice, key) => {
             const isSelected = clickedItem === choice;
             const letter = String.fromCharCode(65 + key);
@@ -303,12 +310,12 @@ const Quizzes = (props: Props) => {
                 key={key}
                 onClick={() => handleSelectAnswer(choice)}
                 disabled={showFeedback}
-                className={`group w-full flex items-center p-5 rounded-[1rem] text-left
+                className={`group w-full flex items-center p-3 md:p-5 rounded-[1rem] text-left
                   transition-all duration-300 ${answerStyle}`}
               >
                 {/* Letter circle */}
                 <div
-                  className={`w-12 h-12 rounded-full flex items-center justify-center font-bold font-headline transition-colors
+                  className={`w-9 h-9 md:w-12 md:h-12 shrink-0 rounded-full flex items-center justify-center font-bold font-headline text-sm md:text-base transition-colors
                   ${
                     showFeedback && isSelected && isCorrect
                       ? "bg-secondary text-on-secondary"
@@ -334,7 +341,7 @@ const Quizzes = (props: Props) => {
 
                 {/* Answer text */}
                 <span
-                  className={`ml-6 text-lg md:text-xl font-bold font-headline
+                  className={`ml-3 md:ml-6 text-sm md:text-xl font-bold font-headline
                   ${
                     showFeedback && isSelected && isCorrect
                       ? "text-on-secondary-container"

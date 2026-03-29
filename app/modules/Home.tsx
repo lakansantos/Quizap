@@ -1,9 +1,17 @@
 "use client";
 
-import React, {useRef} from "react";
+import React, {useRef, useState} from "react";
 import {useQuizContext} from "@/app/contexts/QuizContext";
 import {useRouter} from "next/navigation";
-import {Zap, LayoutGrid, BarChart3, Trophy, Settings, Play} from "lucide-react";
+import {
+  Zap,
+  LayoutGrid,
+  BarChart3,
+  Trophy,
+  Settings,
+  Play,
+  AlertTriangle,
+} from "lucide-react";
 import {queryStringify} from "@/app/utils/http";
 import Start from "./start/Start";
 
@@ -12,19 +20,34 @@ const Home = () => {
     playerName,
     isAuthReady,
     quizProgress,
+    setQuizProgress,
+    setScore,
     selectedCategory,
     selectedDifficulty,
     selectedNumberItems,
   } = useQuizContext();
   const router = useRouter();
   const entryRef = useRef<HTMLDivElement>(null);
+  const [showNewGameModal, setShowNewGameModal] = useState(false);
 
   const handleGetStarted = () => {
-    if (playerName) {
-      router.push("/choices");
-    } else {
+    if (!playerName) {
       entryRef.current?.scrollIntoView({behavior: "smooth"});
+      return;
     }
+    // If there's an active quiz, confirm before starting new
+    if (quizProgress) {
+      setShowNewGameModal(true);
+    } else {
+      router.push("/choices");
+    }
+  };
+
+  const handleConfirmNewGame = () => {
+    setQuizProgress(null);
+    setScore(0);
+    setShowNewGameModal(false);
+    router.push("/choices");
   };
 
   return (
@@ -68,16 +91,16 @@ const Home = () => {
           </div>
 
           {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row items-center gap-6 mb-8">
+          <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6 mb-8 w-full max-w-md sm:w-auto sm:max-w-none">
             <button
               onClick={handleGetStarted}
-              className="btn-primary text-xl px-12 py-5"
+              className="btn-primary text-xl px-12 py-5 w-full sm:w-auto"
             >
               {playerName ? "Play Now" : "Get Started"}
             </button>
             <button
               onClick={() => router.push("/leaderboard")}
-              className="btn-secondary text-xl px-8 py-5"
+              className="btn-secondary text-xl px-8 py-5 w-full sm:w-auto"
             >
               View Leaderboard
             </button>
@@ -170,6 +193,42 @@ const Home = () => {
       <footer className="py-8 text-center text-on-surface-variant/40 text-sm font-label tracking-widest uppercase bg-surface">
         &copy; 2024 Lakan Santos
       </footer>
+
+      {/* New Game Confirmation Modal */}
+      {showNewGameModal && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm px-4">
+          <div className="glass-card rounded-[1rem] p-8 max-w-md w-full text-center space-y-6">
+            <div className="w-16 h-16 rounded-full bg-error-dim/20 flex items-center justify-center mx-auto">
+              <AlertTriangle className="w-8 h-8 text-error-dim" />
+            </div>
+            <div>
+              <h3 className="text-2xl font-bold font-headline text-on-surface mb-2">
+                Start New Game?
+              </h3>
+              <p className="text-on-surface-variant">
+                You have a quiz in progress (question{" "}
+                {(quizProgress?.currentItem ?? 0) + 1}/
+                {quizProgress?.data.length ?? 0}). Starting a new game will
+                reset your current progress.
+              </p>
+            </div>
+            <div className="flex gap-4">
+              <button
+                onClick={() => setShowNewGameModal(false)}
+                className="flex-1 px-6 py-3 rounded-[1rem] border border-outline-variant/30 text-on-surface font-bold hover:bg-surface-container transition-all cursor-pointer"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleConfirmNewGame}
+                className="flex-1 px-6 py-3 rounded-[1rem] bg-error-dim text-on-error font-bold hover:opacity-90 transition-all cursor-pointer"
+              >
+                New Game
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

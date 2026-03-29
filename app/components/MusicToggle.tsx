@@ -16,7 +16,7 @@ const MusicToggle = () => {
     <button
       onClick={toggle}
       aria-label={isPlaying ? "Mute music" : "Play music"}
-      className={`fixed bottom-6 right-6 z-50 w-12 h-12 rounded-full flex items-center justify-center transition-all cursor-pointer shadow-lg ${
+      className={`fixed top-20 right-6 z-50 w-12 h-12 rounded-full flex items-center justify-center transition-all cursor-pointer shadow-lg ${
         isPlaying
           ? "bg-primary text-on-primary-fixed neon-glow"
           : "bg-surface-container-high text-on-surface-variant border border-outline-variant/20 hover:bg-surface-bright"
