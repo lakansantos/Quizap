@@ -5,6 +5,7 @@ import {useRouter} from "next/navigation";
 import {useQuizContext} from "@/app/contexts/QuizContext";
 import {useMusic} from "@/app/contexts/MusicContext";
 import {useTheme, ACCENT_COLORS} from "@/app/contexts/ThemeContext";
+import {useGameplay} from "@/app/contexts/GameplayContext";
 import {
   Gamepad2,
   Palette,
@@ -78,12 +79,16 @@ const Settings = () => {
     setVolume: setMusicVolume,
   } = useMusic();
   const {theme, setTheme, accent, setAccent} = useTheme();
+  const {
+    timerEnabled,
+    setTimerEnabled,
+    autoAdvance,
+    setAutoAdvance,
+    showCorrectAnswer,
+    setShowCorrectAnswer,
+  } = useGameplay();
 
   const [activeSection, setActiveSection] = useState<Section>("gameplay");
-  const [timerEnabled, setTimerEnabled] = useState(true);
-  const [timerDuration, setTimerDuration] = useState(25);
-  const [autoAdvance, setAutoAdvance] = useState(false);
-  const [showCorrectAnswer, setShowCorrectAnswer] = useState(true);
   const [confetti, setConfetti] = useState(true);
   const [vibration, setVibration] = useState(false);
   const [displayName, setDisplayName] = useState(playerName || "");
@@ -193,26 +198,6 @@ const Settings = () => {
                       label="Timer toggle"
                     />
                   </div>
-                  {timerEnabled && (
-                    <div className="p-4 bg-surface-container rounded-[1rem] ghost-border">
-                      <p className="font-bold mb-3">Timer Duration</p>
-                      <div className="flex gap-2">
-                        {[15, 25, 30, 45].map((s) => (
-                          <button
-                            key={s}
-                            onClick={() => setTimerDuration(s)}
-                            className={`flex-1 py-2 rounded-[0.75rem] text-sm font-bold transition-all cursor-pointer ${
-                              timerDuration === s
-                                ? "bg-primary text-on-primary-container"
-                                : "bg-surface-bright text-on-surface-variant border border-transparent hover:border-primary/50"
-                            }`}
-                          >
-                            {s}s
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-                  )}
                   <div className="flex items-center justify-between p-4 bg-surface-container rounded-[1rem] ghost-border">
                     <p className="font-bold">Auto-advance</p>
                     <Toggle

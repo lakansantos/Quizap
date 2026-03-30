@@ -15,6 +15,12 @@ import {Volume2, VolumeX, Settings} from "lucide-react";
 import {ROUTE_PATH} from "../../utils/routes";
 import {useQuizContext} from "@/app/contexts/QuizContext";
 import {useMusic} from "@/app/contexts/MusicContext";
+import {
+  useGameplay,
+  getTimerDuration,
+  calculatePoints,
+} from "@/app/contexts/GameplayContext";
+import {Timer, Zap} from "lucide-react";
 
 type Props = {
   data?: QuestionsData[];
@@ -58,7 +64,14 @@ const Quizzes = (props: Props) => {
   const hasQuit = useRef(false);
 
   const {isPlaying, toggle: toggleMusic} = useMusic();
+  const {timerEnabled, autoAdvance} = useGameplay();
   const router = useRouter();
+  const timerDuration = getTimerDuration(selectedDifficulty);
+  const [timeLeft, setTimeLeft] = useState(timerDuration);
+  const [totalPoints, setTotalPoints] = useState(
+    () => quizProgress?.totalPoints ?? 0
+  );
+  const [lastPointsEarned, setLastPointsEarned] = useState(0);
 
   // Save progress to context whenever it changes (so it survives navigation)
   useEffect(() => {
@@ -72,6 +85,7 @@ const Quizzes = (props: Props) => {
         showFeedback,
         isCorrect,
         clickedItem,
+        totalPoints,
       });
     }
   }, [
@@ -87,7 +101,7 @@ const Quizzes = (props: Props) => {
   ]);
 
   const handleSelectAnswer = (choice: string) => {
-    if (showFeedback) return;
+    if (showFeedback || timedOut) return;
     setClickedItem(choice);
   };
 
@@ -100,13 +114,17 @@ const Quizzes = (props: Props) => {
     setShowFeedback(true);
 
     if (correct) {
+      const pts = calculatePoints(selectedDifficulty, timeLeft, timerEnabled);
+      setLastPointsEarned(pts);
+      setTotalPoints((prev) => prev + pts);
       setScore((prev) => prev + 1);
       setCorrectCount((prev) => prev + 1);
       setStreak((prev) => prev + 1);
     } else {
+      setLastPointsEarned(0);
       setStreak(0);
     }
-  }, [clickedItem, showFeedback, data, currentItem, setScore]);
+  }, [clickedItem, showFeedback, data, currentItem, setScore, selectedDifficulty, timeLeft, timerEnabled]);
 
   const handleNextQuestion = useCallback(() => {
     const nextIndex = currentItem + 1;
@@ -118,16 +136,20 @@ const Quizzes = (props: Props) => {
         category: selectedCategory,
         difficulty: selectedDifficulty,
         date: new Date().toISOString(),
+        points: totalPoints,
       };
       addQuizResult(result);
       saveQuizResult(result);
       setQuizProgress(null);
       setIsFinished(true);
     } else {
+      setTimeLeft(timerDuration);
+      setTimedOut(false);
       setCurrentItem(nextIndex);
       setClickedItem(null);
       setShowFeedback(false);
       setIsCorrect(false);
+      setLastPointsEarned(0);
     }
   }, [
     currentItem,
@@ -139,7 +161,47 @@ const Quizzes = (props: Props) => {
     correctCount,
     selectedCategory,
     selectedDifficulty,
+    totalPoints,
+    timerDuration,
   ]);
+
+  const [timedOut, setTimedOut] = useState(false);
+
+  // Countdown timer
+  useEffect(() => {
+    if (!timerEnabled || showFeedback || !data.length) return;
+
+    if (timeLeft <= 0) {
+      setTimedOut(true);
+      if (clickedItem) {
+        handleSubmit();
+      } else {
+        // No answer selected — mark as incorrect (time's up)
+        setShowFeedback(true);
+        setIsCorrect(false);
+        setLastPointsEarned(0);
+        setStreak(0);
+      }
+      return;
+    }
+
+    const interval = setInterval(() => {
+      setTimeLeft((prev) => prev - 1);
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [timerEnabled, timeLeft, showFeedback, data.length, clickedItem, handleSubmit]);
+
+  // Auto-advance after feedback when enabled
+  useEffect(() => {
+    if (!autoAdvance || !showFeedback) return;
+
+    const timeout = setTimeout(() => {
+      handleNextQuestion();
+    }, 2000);
+
+    return () => clearTimeout(timeout);
+  }, [autoAdvance, showFeedback, handleNextQuestion]);
 
   useEffect(() => {
     if (isFinished) router.push(ROUTE_PATH.FINISH.OVERVIEW);
@@ -190,6 +252,22 @@ const Quizzes = (props: Props) => {
             )}
           </div>
           <div className="flex items-center gap-4 md:gap-6">
+            {timerEnabled && !showFeedback && (
+              <div
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full border transition-all ${
+                  timeLeft <= 5
+                    ? "bg-error-container/20 border-error-dim/40 text-error-dim animate-pulse"
+                    : timeLeft <= 10
+                      ? "bg-tertiary-container/10 border-tertiary/20 text-tertiary"
+                      : "bg-surface-container border-outline-variant/20 text-on-surface-variant"
+                }`}
+              >
+                <Timer className="w-4 h-4" />
+                <span className="text-sm font-bold font-headline tabular-nums min-w-[1.5rem] text-center">
+                  {timeLeft}s
+                </span>
+              </div>
+            )}
             <div className="flex items-center gap-2">
               <Trophy className="w-5 h-5 text-primary" />
               <span className="text-sm font-bold font-headline">
@@ -199,6 +277,14 @@ const Quizzes = (props: Props) => {
                 </span>
               </span>
             </div>
+            {totalPoints > 0 && (
+              <div className="flex items-center gap-1 px-2.5 py-1 rounded-full bg-primary/10 border border-primary/20">
+                <Zap className="w-3.5 h-3.5 text-primary" fill="currentColor" />
+                <span className="text-xs font-bold font-headline text-primary tabular-nums">
+                  {totalPoints} pts
+                </span>
+              </div>
+            )}
             {streak >= 2 && (
               <div className="flex items-center gap-1.5 bg-tertiary-container/10 px-3 py-1.5 rounded-full border border-tertiary/20">
                 <Flame className="w-4 h-4 text-tertiary" fill="currentColor" />
@@ -261,6 +347,20 @@ const Quizzes = (props: Props) => {
               style={{width: `${progress}%`}}
             />
           </div>
+          {timerEnabled && !showFeedback && (
+            <div className="mt-2 h-1 w-full bg-surface-variant rounded-full overflow-hidden">
+              <div
+                className={`h-full rounded-full transition-all duration-1000 linear ${
+                  timeLeft <= 5
+                    ? "bg-error-dim"
+                    : timeLeft <= 10
+                      ? "bg-tertiary"
+                      : "bg-primary/60"
+                }`}
+                style={{width: `${(timeLeft / timerDuration) * 100}%`}}
+              />
+            </div>
+          )}
         </div>
 
         {/* Question */}
@@ -310,7 +410,7 @@ const Quizzes = (props: Props) => {
               <button
                 key={key}
                 onClick={() => handleSelectAnswer(choice)}
-                disabled={showFeedback}
+                disabled={showFeedback || timedOut}
                 className={`group w-full flex items-center p-3 md:p-5 rounded-[1rem] text-left
                   transition-all duration-300 ${answerStyle}`}
               >
@@ -423,15 +523,20 @@ const Quizzes = (props: Props) => {
                       ? streak >= 3
                         ? "You're on fire!"
                         : "Correct!"
-                      : "Almost!"}
+                      : timedOut && !clickedItem
+                        ? "Time's up!"
+                        : "Almost!"}
                   </h4>
                   <p className="text-sm text-on-surface-variant">
                     {isCorrect ? (
-                      streak >= 3 ? (
-                        `${streak} correct answers in a row!`
-                      ) : (
-                        "Great job, keep it up!"
-                      )
+                      <>
+                        {streak >= 3
+                          ? `${streak} correct answers in a row! `
+                          : "Great job! "}
+                        <span className="text-primary font-bold">
+                          +{lastPointsEarned} pts
+                        </span>
+                      </>
                     ) : (
                       <>
                         The answer was{" "}

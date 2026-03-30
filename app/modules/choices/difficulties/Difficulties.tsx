@@ -1,5 +1,6 @@
 import React from "react";
-import {Zap, Star} from "lucide-react";
+import {Zap, Star, Timer} from "lucide-react";
+import {useGameplay} from "@/app/contexts/GameplayContext";
 
 type DifficultiesProps = {
   selectedDifficulty: string | null;
@@ -12,7 +13,8 @@ const difficulties = [
     label: "Easy",
     description: "For those just starting their stellar journey.",
     bolts: 1,
-    xp: "50 XP Per Win",
+    basePoints: "100",
+    timer: "15s",
     color: "secondary",
     borderHover: "hover:border-secondary/30",
     bgIcon: "bg-secondary/10",
@@ -23,7 +25,8 @@ const difficulties = [
     label: "Medium",
     description: "A balanced challenge for true knowledge seekers.",
     bolts: 2,
-    xp: "150 XP Per Win",
+    basePoints: "200",
+    timer: "20s",
     color: "primary",
     borderHover: "hover:border-primary/30",
     bgIcon: "bg-primary/10",
@@ -34,7 +37,8 @@ const difficulties = [
     label: "Hard",
     description: "Only for the masterminds of the galaxy.",
     bolts: 3,
-    xp: "500 XP Per Win",
+    basePoints: "300",
+    timer: "30s",
     color: "error",
     borderHover: "hover:border-error/30",
     bgIcon: "bg-error/10",
@@ -44,6 +48,7 @@ const difficulties = [
 
 const Difficulties = (props: DifficultiesProps) => {
   const {selectedDifficulty, setSelectedDifficulty} = props;
+  const {timerEnabled} = useGameplay();
 
   return (
     <div>
@@ -103,14 +108,24 @@ const Difficulties = (props: DifficultiesProps) => {
               <p className="text-on-surface-variant text-sm mb-6">
                 {diff.description}
               </p>
-              <div className="mt-auto flex items-center gap-1">
-                <Star
-                  className={`w-4 h-4 ${diff.textColor}`}
-                  fill="currentColor"
-                />
-                <span className={`text-xs font-bold ${diff.textColor}`}>
-                  {diff.xp}
-                </span>
+              <div className="mt-auto flex flex-col items-center gap-1.5">
+                <div className="flex items-center gap-1">
+                  <Star
+                    className={`w-4 h-4 ${diff.textColor}`}
+                    fill="currentColor"
+                  />
+                  <span className={`text-xs font-bold ${diff.textColor}`}>
+                    {diff.basePoints} pts{timerEnabled ? " (up to 2x)" : ""} per correct
+                  </span>
+                </div>
+                {timerEnabled && (
+                  <div className="flex items-center gap-1 text-on-surface-variant">
+                    <Timer className="w-3.5 h-3.5" />
+                    <span className="text-xs font-bold">
+                      {diff.timer} per question
+                    </span>
+                  </div>
+                )}
               </div>
             </button>
           );

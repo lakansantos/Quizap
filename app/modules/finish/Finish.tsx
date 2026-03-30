@@ -25,6 +25,7 @@ const Finish = () => {
     setSelectedCategory,
     setSelectedDifficulty,
     setSelectedNumberItems,
+    quizHistory,
   } = useQuizContext();
 
   const router = useRouter();
@@ -34,13 +35,9 @@ const Finish = () => {
   const percentage = Math.round((score / total) * 100);
   const strokeDashoffset = 283 - (283 * percentage) / 100;
 
-  const POINTS_MULTIPLIER: Record<string, number> = {
-    easy: 50,
-    medium: 150,
-    hard: 500,
-  };
-  const multiplier = POINTS_MULTIPLIER[selectedDifficulty || "medium"] || 150;
-  const pointsEarned = score * multiplier;
+  // Use time-based points from the latest quiz result if available
+  const lastResult = quizHistory[quizHistory.length - 1];
+  const pointsEarned = lastResult?.points ?? score * 150;
 
   const getTitle = () => {
     if (percentage >= 90) return "Legendary!";

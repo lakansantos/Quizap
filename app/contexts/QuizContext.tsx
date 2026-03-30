@@ -17,6 +17,7 @@ export type QuizResult = {
   category: string | null;
   difficulty: string | null;
   date: string;
+  points?: number;
 };
 
 export type QuizProgress = {
@@ -28,6 +29,7 @@ export type QuizProgress = {
   showFeedback: boolean;
   isCorrect: boolean;
   clickedItem: string | null;
+  totalPoints?: number;
 };
 
 const POINTS_MULTIPLIER: Record<string, number> = {
@@ -246,7 +248,7 @@ export const ScoreProvider = (props: ScoreProps) => {
 
       const multiplier =
         POINTS_MULTIPLIER[result.difficulty || "medium"] || 150;
-      const points = result.score * multiplier;
+      const points = result.points ?? result.score * multiplier;
 
       // Upsert player name
       await supabase.from("players").upsert({

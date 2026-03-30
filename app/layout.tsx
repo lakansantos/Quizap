@@ -4,6 +4,7 @@ import "./globals.css";
 import {ScoreProvider} from "./contexts/QuizContext";
 import {MusicProvider} from "./contexts/MusicContext";
 import {ThemeProvider} from "./contexts/ThemeContext";
+import {GameplayProvider} from "./contexts/GameplayContext";
 import MusicToggle from "./components/MusicToggle";
 import Providers from "./utils/providers";
 
@@ -43,10 +44,12 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
         <Providers>
           <ThemeProvider>
             <MusicProvider>
-              <ScoreProvider>
-                {children}
-                <MusicToggle />
-              </ScoreProvider>
+              <GameplayProvider>
+                <ScoreProvider>
+                  {children}
+                  <MusicToggle />
+                </ScoreProvider>
+              </GameplayProvider>
             </MusicProvider>
           </ThemeProvider>
         </Providers>
