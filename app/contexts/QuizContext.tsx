@@ -56,6 +56,7 @@ type ScoreContextType = {
   getTotalPlayed: () => number;
   saveQuizResult: (result: QuizResult) => Promise<void>;
   updatePlayerNameInDB: (name: string) => Promise<void>;
+  hasPlayedBefore: boolean;
   isAuthReady: boolean;
   quizProgress: QuizProgress | null;
   setQuizProgress: (progress: QuizProgress | null) => void;
@@ -84,6 +85,7 @@ const QuizContext = createContext<ScoreContextType>({
   getTotalPlayed: () => 0,
   saveQuizResult: async () => {},
   updatePlayerNameInDB: async () => {},
+  hasPlayedBefore: false,
 });
 
 type ScoreProps = {
@@ -148,6 +150,7 @@ export const ScoreProvider = (props: ScoreProps) => {
   const [isFinished, setIsFinished] = useState<boolean>(false);
   const [quizHistory, setQuizHistory] = useState<QuizResult[]>([]);
   const [isAuthReady, setIsAuthReady] = useState(false);
+  const [hasPlayedBefore, setHasPlayedBefore] = useState(false);
   const [quizProgress, setQuizProgressRaw] = useState<QuizProgress | null>(
     null
   );
@@ -201,6 +204,7 @@ export const ScoreProvider = (props: ScoreProps) => {
           .single();
         if (data?.name) {
           setPlayerNameRaw(data.name);
+          setHasPlayedBefore(true);
         } else {
           try {
             const saved = localStorage.getItem("quizap_player_name");
@@ -250,6 +254,8 @@ export const ScoreProvider = (props: ScoreProps) => {
         name: playerName || "Anonymous",
       });
 
+      setHasPlayedBefore(true);
+
       // Insert quiz result
       await supabase.from("quiz_results").insert({
         player_id: playerId,
@@ -275,10 +281,7 @@ export const ScoreProvider = (props: ScoreProps) => {
         .single();
 
       if (data) {
-        await supabase
-          .from("players")
-          .update({name})
-          .eq("id", playerId);
+        await supabase.from("players").update({name}).eq("id", playerId);
       }
     },
     [playerId]
@@ -306,6 +309,7 @@ export const ScoreProvider = (props: ScoreProps) => {
         getTotalPlayed,
         saveQuizResult,
         updatePlayerNameInDB,
+        hasPlayedBefore,
         isAuthReady,
         quizProgress,
         setQuizProgress,

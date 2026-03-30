@@ -63,6 +63,7 @@ const Settings = () => {
     playerName,
     setPlayerName,
     updatePlayerNameInDB,
+    hasPlayedBefore,
     setScore,
     setIsFinished,
     setSelectedCategory,
@@ -372,17 +373,26 @@ const Settings = () => {
                   <h2 className="font-headline text-xl font-bold">Profile</h2>
                 </div>
                 <div className="grid gap-6">
-                  <div>
-                    <label className="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-2">
-                      Display Name
-                    </label>
-                    <input
-                      type="text"
-                      value={displayName}
-                      onChange={(e) => setDisplayName(e.target.value)}
-                      className="input-field"
-                    />
-                  </div>
+                  {hasPlayedBefore ? (
+                    <div>
+                      <label className="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-2">
+                        Display Name
+                      </label>
+                      <input
+                        type="text"
+                        value={displayName}
+                        onChange={(e) => setDisplayName(e.target.value)}
+                        className="input-field"
+                      />
+                    </div>
+                  ) : (
+                    <div className="p-4 bg-surface-container rounded-[1rem] ghost-border">
+                      <p className="text-sm text-on-surface-variant">
+                        Play a game first to set your display name on the
+                        leaderboard.
+                      </p>
+                    </div>
+                  )}
                   <div className="p-6 bg-error-container/10 rounded-[1rem] border border-error-container/20 flex items-center justify-between gap-4">
                     <div>
                       <p className="font-bold text-error flex items-center gap-2">
