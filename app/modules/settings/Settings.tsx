@@ -6,14 +6,7 @@ import {useQuizContext} from "@/app/contexts/QuizContext";
 import {useMusic} from "@/app/contexts/MusicContext";
 import {useTheme, ACCENT_COLORS} from "@/app/contexts/ThemeContext";
 import {useGameplay} from "@/app/contexts/GameplayContext";
-import {
-  Gamepad2,
-  Palette,
-  Volume2,
-  User,
-  ChevronLeft,
-  AlertTriangle,
-} from "lucide-react";
+import {Gamepad2, Palette, Volume2, User, ChevronLeft} from "lucide-react";
 
 type Section = "gameplay" | "appearance" | "sound" | "profile";
 
@@ -60,17 +53,8 @@ const Toggle = ({
 
 const Settings = () => {
   const router = useRouter();
-  const {
-    playerName,
-    setPlayerName,
-    updatePlayerNameInDB,
-    hasPlayedBefore,
-    setScore,
-    setIsFinished,
-    setSelectedCategory,
-    setSelectedDifficulty,
-    setSelectedNumberItems,
-  } = useQuizContext();
+  const {playerName, setPlayerName, updatePlayerNameInDB, hasPlayedBefore} =
+    useQuizContext();
 
   const {
     isPlaying: musicEnabled,
@@ -86,20 +70,14 @@ const Settings = () => {
     setAutoAdvance,
     showCorrectAnswer,
     setShowCorrectAnswer,
+    confetti,
+    setConfetti,
+    vibration,
+    setVibration,
   } = useGameplay();
 
   const [activeSection, setActiveSection] = useState<Section>("gameplay");
-  const [confetti, setConfetti] = useState(true);
-  const [vibration, setVibration] = useState(false);
   const [displayName, setDisplayName] = useState(playerName || "");
-
-  const handleResetScores = () => {
-    setScore(0);
-    setIsFinished(false);
-    setSelectedCategory(null);
-    setSelectedDifficulty(null);
-    setSelectedNumberItems(5);
-  };
 
   const handleSave = async () => {
     const trimmedName = displayName.trim();
@@ -378,23 +356,6 @@ const Settings = () => {
                       </p>
                     </div>
                   )}
-                  <div className="p-6 bg-error-container/10 rounded-[1rem] border border-error-container/20 flex items-center justify-between gap-4">
-                    <div>
-                      <p className="font-bold text-error flex items-center gap-2">
-                        <AlertTriangle className="w-4 h-4" />
-                        Danger Zone
-                      </p>
-                      <p className="text-xs text-on-surface-variant">
-                        Permanently reset all scores and progress.
-                      </p>
-                    </div>
-                    <button
-                      onClick={handleResetScores}
-                      className="px-6 py-2 rounded-[0.75rem] border border-error text-error text-sm font-bold hover:bg-error hover:text-on-error transition-all cursor-pointer whitespace-nowrap"
-                    >
-                      Reset scores
-                    </button>
-                  </div>
                 </div>
               </section>
             )}

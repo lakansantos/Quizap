@@ -99,6 +99,7 @@ const config: Config = {
         "float-medium": "float 2.5s ease-in-out infinite",
         "float-fast": "float 2s ease-in-out infinite",
         "pulse-glow": "pulse-glow 2s ease-in-out infinite",
+        confetti: "confetti-fall 2s ease-out forwards",
       },
       keyframes: {
         float: {
@@ -108,6 +109,16 @@ const config: Config = {
         "pulse-glow": {
           "0%, 100%": {opacity: "0.3"},
           "50%": {opacity: "0.6"},
+        },
+        "confetti-fall": {
+          "0%": {
+            transform: "translateY(-10vh) rotate(0deg)",
+            opacity: "1",
+          },
+          "100%": {
+            transform: "translateY(100vh) rotate(720deg)",
+            opacity: "0",
+          },
         },
       },
     },

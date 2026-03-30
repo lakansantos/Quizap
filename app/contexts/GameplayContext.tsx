@@ -44,6 +44,10 @@ type GameplayContextType = {
   setAutoAdvance: (enabled: boolean) => void;
   showCorrectAnswer: boolean;
   setShowCorrectAnswer: (enabled: boolean) => void;
+  confetti: boolean;
+  setConfetti: (enabled: boolean) => void;
+  vibration: boolean;
+  setVibration: (enabled: boolean) => void;
 };
 
 const GameplayContext = createContext<GameplayContextType>({
@@ -53,12 +57,18 @@ const GameplayContext = createContext<GameplayContextType>({
   setAutoAdvance: () => {},
   showCorrectAnswer: true,
   setShowCorrectAnswer: () => {},
+  confetti: true,
+  setConfetti: () => {},
+  vibration: false,
+  setVibration: () => {},
 });
 
 export const GameplayProvider = ({children}: {children: ReactNode}) => {
   const [timerEnabled, setTimerEnabledRaw] = useState(false);
   const [autoAdvance, setAutoAdvanceRaw] = useState(false);
   const [showCorrectAnswer, setShowCorrectAnswerRaw] = useState(true);
+  const [confetti, setConfettiRaw] = useState(true);
+  const [vibration, setVibrationRaw] = useState(false);
 
   // Restore from localStorage on mount
   useEffect(() => {
@@ -72,6 +82,10 @@ export const GameplayProvider = ({children}: {children: ReactNode}) => {
           setAutoAdvanceRaw(parsed.autoAdvance);
         if (typeof parsed.showCorrectAnswer === "boolean")
           setShowCorrectAnswerRaw(parsed.showCorrectAnswer);
+        if (typeof parsed.confetti === "boolean")
+          setConfettiRaw(parsed.confetti);
+        if (typeof parsed.vibration === "boolean")
+          setVibrationRaw(parsed.vibration);
       }
     } catch {}
   }, []);
@@ -112,6 +126,22 @@ export const GameplayProvider = ({children}: {children: ReactNode}) => {
     [persist]
   );
 
+  const setConfetti = useCallback(
+    (v: boolean) => {
+      setConfettiRaw(v);
+      persist({confetti: v});
+    },
+    [persist]
+  );
+
+  const setVibration = useCallback(
+    (v: boolean) => {
+      setVibrationRaw(v);
+      persist({vibration: v});
+    },
+    [persist]
+  );
+
   return (
     <GameplayContext.Provider
       value={{
@@ -121,6 +151,10 @@ export const GameplayProvider = ({children}: {children: ReactNode}) => {
         setAutoAdvance,
         showCorrectAnswer,
         setShowCorrectAnswer,
+        confetti,
+        setConfetti,
+        vibration,
+        setVibration,
       }}
     >
       {children}

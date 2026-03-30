@@ -64,7 +64,8 @@ const Quizzes = (props: Props) => {
   const hasQuit = useRef(false);
 
   const {isPlaying, toggle: toggleMusic} = useMusic();
-  const {timerEnabled, autoAdvance} = useGameplay();
+  const {timerEnabled, autoAdvance, showCorrectAnswer, confetti, vibration} =
+    useGameplay();
   const router = useRouter();
   const timerDuration = getTimerDuration(selectedDifficulty);
   const [timeLeft, setTimeLeft] = useState(timerDuration);
@@ -72,6 +73,7 @@ const Quizzes = (props: Props) => {
     () => quizProgress?.totalPoints ?? 0
   );
   const [lastPointsEarned, setLastPointsEarned] = useState(0);
+  const [showConfetti, setShowConfetti] = useState(false);
 
   // Save progress to context whenever it changes (so it survives navigation)
   useEffect(() => {
@@ -121,9 +123,11 @@ const Quizzes = (props: Props) => {
       setScore((prev) => prev + 1);
       setCorrectCount((prev) => prev + 1);
       setStreak((prev) => prev + 1);
+      if (confetti) setShowConfetti(true);
     } else {
       setLastPointsEarned(0);
       setStreak(0);
+      if (vibration && navigator.vibrate) navigator.vibrate(200);
     }
   }, [
     clickedItem,
@@ -134,6 +138,8 @@ const Quizzes = (props: Props) => {
     selectedDifficulty,
     timeLeft,
     timerEnabled,
+    confetti,
+    vibration,
   ]);
 
   const handleNextQuestion = useCallback(() => {
@@ -160,6 +166,7 @@ const Quizzes = (props: Props) => {
       setShowFeedback(false);
       setIsCorrect(false);
       setLastPointsEarned(0);
+      setShowConfetti(false);
     }
   }, [
     currentItem,
@@ -249,6 +256,33 @@ const Quizzes = (props: Props) => {
         className="fixed bottom-[-10%] left-[-10%] w-[30vw] h-[30vw] max-w-[500px] max-h-[500px] bg-secondary/10 blur-[120px] rounded-full pointer-events-none -z-10"
         aria-hidden="true"
       />
+
+      {/* Confetti */}
+      {showConfetti && (
+        <div
+          className="fixed inset-0 pointer-events-none z-[200]"
+          aria-hidden="true"
+        >
+          {Array.from({length: 30}).map((_, i) => (
+            <div
+              key={i}
+              className="absolute w-2.5 h-2.5 rounded-full animate-confetti"
+              style={{
+                left: `${Math.random() * 100}%`,
+                backgroundColor: [
+                  "#9A4DFF",
+                  "#5DF9EF",
+                  "#FF6B9D",
+                  "#FFD93D",
+                  "#6BCB77",
+                ][i % 5],
+                animationDelay: `${Math.random() * 0.5}s`,
+                animationDuration: `${1 + Math.random() * 1.5}s`,
+              }}
+            />
+          ))}
+        </div>
+      )}
 
       {/* Header */}
       <header className="w-full bg-surface-container-low sticky top-0 z-50">
@@ -392,7 +426,8 @@ const Quizzes = (props: Props) => {
           {choices.map((choice, key) => {
             const isSelected = clickedItem === choice;
             const letter = String.fromCharCode(65 + key);
-            const isCorrectAnswer = choice === correctAnswer;
+            const isCorrectAnswer =
+              choice === correctAnswer && showCorrectAnswer;
 
             // Determine answer state styling
             let answerStyle = "";
@@ -554,13 +589,15 @@ const Quizzes = (props: Props) => {
                           +{lastPointsEarned} pts
                         </span>
                       </>
-                    ) : (
+                    ) : showCorrectAnswer ? (
                       <>
                         The answer was{" "}
                         <span className="text-secondary font-bold">
                           {correctAnswer}
                         </span>
                       </>
+                    ) : (
+                      "Better luck next time!"
                     )}
                   </p>
                 </div>
