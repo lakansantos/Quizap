@@ -55,6 +55,7 @@ type ScoreContextType = {
   getTotalScore: () => number;
   getTotalPlayed: () => number;
   saveQuizResult: (result: QuizResult) => Promise<void>;
+  updatePlayerNameInDB: (name: string) => Promise<void>;
   isAuthReady: boolean;
   quizProgress: QuizProgress | null;
   setQuizProgress: (progress: QuizProgress | null) => void;
@@ -82,6 +83,7 @@ const QuizContext = createContext<ScoreContextType>({
   getTotalScore: () => 0,
   getTotalPlayed: () => 0,
   saveQuizResult: async () => {},
+  updatePlayerNameInDB: async () => {},
 });
 
 type ScoreProps = {
@@ -261,6 +263,27 @@ export const ScoreProvider = (props: ScoreProps) => {
     [playerId, playerName]
   );
 
+  // Update player name in DB if player already exists (has played a game)
+  const updatePlayerNameInDB = useCallback(
+    async (name: string) => {
+      if (!playerId || !name) return;
+
+      const {data} = await supabase
+        .from("players")
+        .select("id")
+        .eq("id", playerId)
+        .single();
+
+      if (data) {
+        await supabase
+          .from("players")
+          .update({name})
+          .eq("id", playerId);
+      }
+    },
+    [playerId]
+  );
+
   return (
     <QuizContext.Provider
       value={{
@@ -282,6 +305,7 @@ export const ScoreProvider = (props: ScoreProps) => {
         getTotalScore,
         getTotalPlayed,
         saveQuizResult,
+        updatePlayerNameInDB,
         isAuthReady,
         quizProgress,
         setQuizProgress,

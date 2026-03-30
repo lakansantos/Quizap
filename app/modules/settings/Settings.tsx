@@ -62,6 +62,7 @@ const Settings = () => {
   const {
     playerName,
     setPlayerName,
+    updatePlayerNameInDB,
     setScore,
     setIsFinished,
     setSelectedCategory,
@@ -94,10 +95,11 @@ const Settings = () => {
     setSelectedNumberItems(5);
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     const trimmedName = displayName.trim();
     if (trimmedName) {
       setPlayerName(trimmedName);
+      updatePlayerNameInDB(trimmedName);
     }
     router.push("/");
   };
