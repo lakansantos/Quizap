@@ -34,6 +34,12 @@ const Choices = () => {
 
   const numberItemsRef = useRef<HTMLDivElement>(null);
 
+  // Clear previous selections on mount so user must pick fresh
+  useEffect(() => {
+    setSelectedCategory(null);
+    setSelectedDifficulty(null);
+  }, [setSelectedCategory, setSelectedDifficulty]);
+
   // Redirect to home if no player name
   useEffect(() => {
     if (isAuthReady && !playerName) {
