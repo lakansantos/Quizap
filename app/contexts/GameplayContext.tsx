@@ -76,20 +76,17 @@ export const GameplayProvider = ({children}: {children: ReactNode}) => {
     } catch {}
   }, []);
 
-  const persist = useCallback(
-    (updates: Partial<Record<string, unknown>>) => {
-      try {
-        const current = JSON.parse(
-          localStorage.getItem("quizap_gameplay") || "{}"
-        );
-        localStorage.setItem(
-          "quizap_gameplay",
-          JSON.stringify({...current, ...updates})
-        );
-      } catch {}
-    },
-    []
-  );
+  const persist = useCallback((updates: Partial<Record<string, unknown>>) => {
+    try {
+      const current = JSON.parse(
+        localStorage.getItem("quizap_gameplay") || "{}"
+      );
+      localStorage.setItem(
+        "quizap_gameplay",
+        JSON.stringify({...current, ...updates})
+      );
+    } catch {}
+  }, []);
 
   const setTimerEnabled = useCallback(
     (v: boolean) => {

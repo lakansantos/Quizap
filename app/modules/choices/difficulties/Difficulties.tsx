@@ -115,7 +115,8 @@ const Difficulties = (props: DifficultiesProps) => {
                     fill="currentColor"
                   />
                   <span className={`text-xs font-bold ${diff.textColor}`}>
-                    {diff.basePoints} pts{timerEnabled ? " (up to 2x)" : ""} per correct
+                    {diff.basePoints} pts{timerEnabled ? " (up to 2x)" : ""} per
+                    correct
                   </span>
                 </div>
                 {timerEnabled && (

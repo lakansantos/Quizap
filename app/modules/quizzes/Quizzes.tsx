@@ -98,6 +98,7 @@ const Quizzes = (props: Props) => {
     showFeedback,
     isCorrect,
     clickedItem,
+    totalPoints,
   ]);
 
   const handleSelectAnswer = (choice: string) => {
@@ -124,7 +125,16 @@ const Quizzes = (props: Props) => {
       setLastPointsEarned(0);
       setStreak(0);
     }
-  }, [clickedItem, showFeedback, data, currentItem, setScore, selectedDifficulty, timeLeft, timerEnabled]);
+  }, [
+    clickedItem,
+    showFeedback,
+    data,
+    currentItem,
+    setScore,
+    selectedDifficulty,
+    timeLeft,
+    timerEnabled,
+  ]);
 
   const handleNextQuestion = useCallback(() => {
     const nextIndex = currentItem + 1;
@@ -190,7 +200,14 @@ const Quizzes = (props: Props) => {
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [timerEnabled, timeLeft, showFeedback, data.length, clickedItem, handleSubmit]);
+  }, [
+    timerEnabled,
+    timeLeft,
+    showFeedback,
+    data.length,
+    clickedItem,
+    handleSubmit,
+  ]);
 
   // Auto-advance after feedback when enabled
   useEffect(() => {
