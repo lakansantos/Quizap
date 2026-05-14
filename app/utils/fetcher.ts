@@ -1,47 +1,39 @@
-import axios, {AxiosRequestConfig, Method} from "axios";
-import {QueryKey, useQuery} from "@tanstack/react-query";
+type Method = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
 
-export const fetcher = (
+export const fetcher = async (
   method: Method,
-  url?: string,
-  params?: object,
-  options?: AxiosRequestConfig
+  url: string | undefined,
+  params?: object
 ) => {
-  const config: AxiosRequestConfig = {
-    method,
-    url,
-    ...options,
-  };
+  if (!url) {
+    throw new Error("fetcher: url is required");
+  }
+  const isGet = method.toUpperCase() === "GET";
+  let finalUrl = url;
+  let body: string | undefined;
 
-  if (method.toUpperCase() === "GET") {
-    config.params = params;
-  } else {
-    config.data = params;
+  if (params) {
+    if (isGet) {
+      const search = new URLSearchParams();
+      for (const [k, v] of Object.entries(params as Record<string, unknown>)) {
+        if (v !== undefined && v !== null) search.append(k, String(v));
+      }
+      finalUrl = `${url}?${search.toString()}`;
+    } else {
+      body = JSON.stringify(params);
+    }
   }
 
-  return axios.request(config).then((res) => res.data);
-};
+  const res = await fetch(finalUrl, {
+    method,
+    ...(body !== undefined && {
+      body,
+      headers: {"Content-Type": "application/json"},
+    }),
+  });
 
-/**
- * Use to get the returns of fetches through get method
- * @param key
- * @param url
- * @param params
- * @param options
- * @returns data, isLoading, error
- */
-
-export const useGetFetch = (
-  key: QueryKey,
-  url: string,
-  params?: object,
-  options?: AxiosRequestConfig
-) => {
-  const fetcherGet = (url: string) => fetcher("GET", url, params, options);
-
-  const res = useQuery({queryKey: key, queryFn: () => fetcherGet(url)});
-
-  const {data, isLoading, error, refetch} = res;
-
-  return {data, isLoading, error, refetch};
+  if (!res.ok) {
+    throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+  }
+  return res.json();
 };
